@@ -7,6 +7,7 @@ import langImage from "@/src/assets/images/lang2.svg";
 import logo from "@/src/assets/images/logo.svg";
 import Image from "next/image";
 export default function LoginWrapper() {
+
     const [step, setStep] = useState("login");
     const [formData, setFormData] = useState({
         phone: "",
@@ -17,7 +18,13 @@ export default function LoginWrapper() {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            setLang(localStorage.getItem('lang'));
+            if (localStorage.getItem('lang')) {
+                setLang(localStorage.getItem('lang'));
+            }
+            else {
+                localStorage.setItem('lang', 'ar');
+                setLang('ar');
+            }
         }
     }, []);
     return (
