@@ -24,6 +24,7 @@ import user from '@/src/assets/images/profileDropDown/user.svg'
 import wallet from '@/src/assets/images/profileDropDown/wallet.svg'
 import contact from '@/src/assets/images/profileDropDown/contact.svg'
 import deleteIcon from '@/src/assets/images/profileDropDown/delete.svg'
+import complaint from '@/src/assets/images/profileDropDown/complaint.svg'
 import CongatsCard from "../global/CongatsCard";
 import { useGetProfile } from "../Requests/useGetProfile";
 
@@ -69,6 +70,13 @@ const profileMenuItems = [
         href: "/wallet",
         icon: wallet,
         iconAlt: "wallet",
+        isDelete: false
+    },
+    {
+        labelKey: "my_complaints",
+        href: "/complaints",
+        icon: complaint,
+        iconAlt: "complaints",
         isDelete: false
     },
     {

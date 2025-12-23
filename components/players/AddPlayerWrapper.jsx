@@ -1,16 +1,32 @@
-"use client"
-import React, { useEffect, useState, useMemo } from "react";
+"use client";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { t } from "@/lib/i18n";
 import Image from "next/image";
 import profileIcon from "@/src/assets/images/license/profileIcon.svg";
-import nationalCardIcon from '@/src/assets/images/license/nationalCardIcon.svg'
-import uploadFile from '@/src/assets/images/license/uploadFile.svg'
-import healthy from "@/src/assets/images/license/healthy.svg"
-import calenderIcon from '@/src/assets/images/license/calender.svg';
+import nationalCardIcon from "@/src/assets/images/license/nationalCardIcon.svg";
+import uploadFile from "@/src/assets/images/license/uploadFile.svg";
+import healthy from "@/src/assets/images/license/healthy.svg";
+import calenderIcon from "@/src/assets/images/license/calender.svg";
+import pdfIcon from "@/src/assets/images/pdficon.svg";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    SelectGroup,
+} from "@/components/ui/select";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -21,13 +37,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import ContactHero from "../Contact/ContactHero";
-import pdfIcon from '@/src/assets/images/pdficon.svg'
 import CongatsCard from "../global/CongatsCard";
-import { useRouter } from "next/navigation";
 import "flag-icons/css/flag-icons.min.css";
 import { getCountries, getCountryCallingCode } from "react-phone-number-input";
 import { addNewPlayer } from "../Requests/AddNewPlayer";
 import { useGetCities } from "../Requests/useGetCities";
+import { useDropzone } from "react-dropzone";
 
 
 const makePlayerSchema = (lang) =>
@@ -49,7 +64,6 @@ const makePlayerSchema = (lang) =>
                 .length(10, { message: t(lang, "national_id_must_be_10_digits") }),
 
             nationality: z.string().min(1, { message: t(lang, "nationality_required") }),
-
             birthDate: z.string().min(1, { message: t(lang, "birth_date_required") }),
 
             phone: z
@@ -100,13 +114,11 @@ const makePlayerSchema = (lang) =>
                 .optional()
                 .refine((files) => {
                     if (!files || files.length === 0) return true;
-                    return Array.from(files).every(file => file.size <= 10 * 1024 * 1024);
+                    return Array.from(files).every((file) => file.size <= 10 * 1024 * 1024);
                 }, t(lang, "pdf_size_max_10mb")),
         })
         .superRefine(({ nationality, nationalId }, ctx) => {
-            // adjust these comparisons to match your actual stored values
             const isSaudi = nationality === "SAUDI";
-
             if (isSaudi && !nationalId.startsWith("1")) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
@@ -114,7 +126,6 @@ const makePlayerSchema = (lang) =>
                     message: t(lang, "national_id_saudi_must_start_1"),
                 });
             }
-
             if (!isSaudi && !nationalId.startsWith("2")) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
@@ -125,19 +136,87 @@ const makePlayerSchema = (lang) =>
         });
 
 
+function DropUpload({
+    lang,
+    id,
+    name,
+    accept,
+    multiple = false,
+    value,
+    hasError,
+    descKey,
+    onFiles,
+    children,
+}) {
+    const hasFile = value && value.length > 0;
+
+    const onDrop = useCallback(
+        (acceptedFiles) => {
+            onFiles(acceptedFiles);
+        },
+        [onFiles]
+    );
+
+    const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+        accept,
+        multiple,
+        noClick: true, // we control click manually (button/label)
+        onDrop,
+    });
+
+    return (
+        <div
+            {...getRootProps()}
+            className={`file-upload-wrapper 
+        ${hasError ? "error-input" : hasFile ? "success-input" : ""} 
+        ${isDragActive ? "drag-active" : ""}`}
+        >
+            <input
+                {...getInputProps({
+                    id,
+                    name,
+                })}
+            />
+
+            {/* NOTE: label is fine but button is more reliable. We'll keep the same UI. */}
+            <div className="file-upload-label">
+                <div className="upload-content">
+                    <Image src={uploadFile} alt="Upload" className="upload-icon" />
+                    <p className="upload-text">
+                        {isDragActive ? t(lang, "drop_here") : t(lang, descKey)}
+                    </p>
+                    <p className="upload-or">{t(lang, "or")}</p>
+
+                    {/* browse - opens file picker */}
+                    <button type="button" className="browse-btn" onClick={open}>
+                        {t(lang, "browse_files")}
+                    </button>
+                </div>
+
+                {children}
+            </div>
+        </div>
+    );
+}
+
+/* =========================
+   Main Component
+========================= */
 export default function AddPlayerWrapper() {
-    const [lang, setLang] = useState('ar');
+    const [lang, setLang] = useState("ar");
     const [loading, setLoading] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+
     const [nationalIdPreview, setNationalIdPreview] = useState(null);
     const [personalPhotoPreview, setPersonalPhotoPreview] = useState(null);
     const [fitnessCertificatePreview, setFitnessCertificatePreview] = useState(null);
     const [clubApprovalPreview, setClubApprovalPreview] = useState([]);
-    const { data: cities, isLoading: citiesLoading } = useGetCities(lang)
+
+    const { data: cities } = useGetCities(lang);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setLang(localStorage.getItem('lang') || 'ar');
+        if (typeof window !== "undefined") {
+            setLang(localStorage.getItem("lang") || "ar");
         }
     }, []);
 
@@ -155,80 +234,84 @@ export default function AddPlayerWrapper() {
             city: "",
             email: "",
             address: "",
-            nationalIdPhoto: null,
-            personalPhoto: null,
-            fitnessCertificate: null,
-            clubApproval: null,
+            // IMPORTANT: use arrays for dropzone
+            nationalIdPhoto: [],
+            personalPhoto: [],
+            fitnessCertificate: [],
+            clubApproval: [],
         },
     });
+
     const countries = getCountries();
     const nationalities = [
         { id: 1, name: "Saudi", value: "SAUDI" },
         { id: 2, name: "Not_Saudi", value: "NOT_SAUDI" },
     ];
-    const handleFileChange = (e, fieldName, setPreview) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            if (file.type === 'application/pdf') {
-                setPreview('pdf');
+
+    const setSinglePreviewFromFiles = (files, setPreview) => {
+        const file = files?.[0];
+        if (!file) {
+            setPreview(null);
+            return;
+        }
+        if (file.type === "application/pdf") {
+            setPreview("pdf");
+            return;
+        }
+        const reader = new FileReader();
+        reader.onloadend = () => setPreview(reader.result);
+        reader.readAsDataURL(file);
+    };
+
+    const setMultiPreviewFromFiles = (files, setPreview) => {
+        if (!files || files.length === 0) {
+            setPreview([]);
+            return;
+        }
+
+        const previews = [];
+        let done = 0;
+
+        files.forEach((file, index) => {
+            if (file.type === "application/pdf") {
+                previews.push({ type: "pdf", name: file.name, index });
+                done++;
+                if (done === files.length) setPreview([...previews]);
             } else {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                    setPreview(reader.result);
+                    previews.push({ type: "image", src: reader.result, name: file.name, index });
+                    done++;
+                    if (done === files.length) setPreview([...previews]);
                 };
                 reader.readAsDataURL(file);
             }
-        }
-    };
-
-    const handleMultipleFileChange = (e, setPreview) => {
-        const files = e.target.files;
-        if (files && files.length > 0) {
-            const previews = [];
-            Array.from(files).forEach((file, index) => {
-                if (file.type === 'application/pdf') {
-                    previews.push({ type: 'pdf', name: file.name, index });
-                } else {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        previews.push({ type: 'image', src: reader.result, name: file.name, index });
-                        if (previews.length === files.length) {
-                            setPreview([...previews]);
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-            // If all files are PDFs, set preview immediately
-            if (previews.length === files.length) {
-                setPreview([...previews]);
-            }
-        }
+        });
     };
 
     const onSubmit = (data) => {
-        console.log("Form data:", data);
-        addNewPlayer(data, setLoading, lang, form, setShowSuccess)
+        addNewPlayer(data, setLoading, lang, form, setShowSuccess);
     };
-
-
 
     return (
         <div className="player-wrapper license-content" style={{ direction: lang === "ar" ? "rtl" : "ltr" }}>
             <ContactHero lang={lang} subtitle={t(lang, "add_player")} />
+
             <div className="personal-data-form">
                 <div className="container">
                     <div className="personal-data-form-content">
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="license-form">
+                                {/* Header */}
                                 <div className="section-header">
                                     <div className="section-icon">
                                         <Image src={profileIcon} alt="Profile Icon" />
                                     </div>
                                     <h3 className="section-title">{t(lang, "player_info")}</h3>
                                 </div>
+
                                 <div className="form-grid">
-                                    {/* Full Name Field */}
+                                    {/* Full Name */}
                                     <FormField
                                         control={form.control}
                                         name="fullName"
@@ -238,8 +321,12 @@ export default function AddPlayerWrapper() {
                                                     {t(lang, "full_name")} <span className="required">*</span>
                                                 </FormLabel>
                                                 <FormControl>
-                                                    <Input {...field} type="text" placeholder={t(lang, "full_name")}
-                                                        className={`field-input ${form.formState.errors.fullName ? 'error-input' : field.value ? 'success-input' : ''}`}
+                                                    <Input
+                                                        {...field}
+                                                        type="text"
+                                                        placeholder={t(lang, "full_name")}
+                                                        className={`field-input ${form.formState.errors.fullName ? "error-input" : field.value ? "success-input" : ""
+                                                            }`}
                                                     />
                                                 </FormControl>
                                                 <FormMessage className="field-error" />
@@ -247,9 +334,7 @@ export default function AddPlayerWrapper() {
                                         )}
                                     />
 
-
-
-                                    {/* Birth Date Field */}
+                                    {/* Birth Date */}
                                     <FormField
                                         control={form.control}
                                         name="birthDate"
@@ -267,13 +352,13 @@ export default function AddPlayerWrapper() {
                                                                     className={cn(
                                                                         "field-input w-full justify-start text-left font-normal",
                                                                         !field.value && "text-muted-foreground",
-                                                                        form.formState.errors.birthDate ? 'error-input' : field.value ? 'success-input' : ''
+                                                                        form.formState.errors.birthDate ? "error-input" : field.value ? "success-input" : ""
                                                                     )}
                                                                 >
                                                                     <CalendarIcon className="date-icon-picker" size={20} />
                                                                     {field.value ? (
                                                                         format(new Date(field.value), "PPP", {
-                                                                            locale: lang === "ar" ? ar : enUS
+                                                                            locale: lang === "ar" ? ar : enUS,
                                                                         })
                                                                     ) : (
                                                                         <span>{t(lang, "birth_date_placeholder")}</span>
@@ -285,10 +370,8 @@ export default function AddPlayerWrapper() {
                                                             <Calendar
                                                                 mode="single"
                                                                 selected={field.value ? new Date(field.value) : undefined}
-                                                                onSelect={(date) => { field.onChange(date ? format(date, "yyyy-MM-dd") : "") }}
-                                                                disabled={(date) =>
-                                                                    date > new Date() || date < new Date("1900-01-01")
-                                                                }
+                                                                onSelect={(date) => field.onChange(date ? format(date, "yyyy-MM-dd") : "")}
+                                                                disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                                                                 initialFocus
                                                                 locale={lang === "ar" ? ar : enUS}
                                                                 captionLayout="dropdown"
@@ -305,7 +388,7 @@ export default function AddPlayerWrapper() {
                                         )}
                                     />
 
-                                    {/* Nationality Field */}
+                                    {/* Nationality */}
                                     <FormField
                                         control={form.control}
                                         name="nationality"
@@ -315,11 +398,12 @@ export default function AddPlayerWrapper() {
                                                     {t(lang, "nationality")} <span className="required">*</span>
                                                 </FormLabel>
                                                 <FormControl>
-                                                    <Select
-                                                        value={field.value}
-                                                        onValueChange={field.onChange}
-                                                    >
-                                                        <SelectTrigger className={`field-input select-trigger disabled:opacity-1 ${lang == "ar" ? "ar-select-trigger" : "en-select-trigger"} ${form.formState.errors.nationality ? 'error-input' : field.value ? 'success-input' : ''}`}>
+                                                    <Select value={field.value} onValueChange={field.onChange}>
+                                                        <SelectTrigger
+                                                            className={`field-input select-trigger disabled:opacity-1 ${lang == "ar" ? "ar-select-trigger" : "en-select-trigger"
+                                                                } ${form.formState.errors.nationality ? "error-input" : field.value ? "success-input" : ""
+                                                                }`}
+                                                        >
                                                             <SelectValue placeholder={t(lang, "nationality_placeholder")} />
                                                         </SelectTrigger>
                                                         <SelectContent>
@@ -335,7 +419,8 @@ export default function AddPlayerWrapper() {
                                             </FormItem>
                                         )}
                                     />
-                                    {/* National ID Field */}
+
+                                    {/* National ID */}
                                     <FormField
                                         control={form.control}
                                         name="nationalId"
@@ -349,7 +434,8 @@ export default function AddPlayerWrapper() {
                                                         {...field}
                                                         type="text"
                                                         placeholder={t(lang, "national_id_placeholder")}
-                                                        className={`field-input ${form.formState.errors.nationalId ? 'error-input' : field.value ? 'success-input' : ''}`}
+                                                        className={`field-input ${form.formState.errors.nationalId ? "error-input" : field.value ? "success-input" : ""
+                                                            }`}
                                                     />
                                                 </FormControl>
                                                 <FormMessage className="field-error" />
@@ -357,7 +443,7 @@ export default function AddPlayerWrapper() {
                                         )}
                                     />
 
-                                    {/* Phone Number Field */}
+                                    {/* Phone */}
                                     <FormField
                                         control={form.control}
                                         name="phone"
@@ -367,12 +453,17 @@ export default function AddPlayerWrapper() {
                                                     {t(lang, "Phone_Number")} <span className="required">*</span>
                                                 </FormLabel>
                                                 <FormControl>
-                                                    <div className={`input-of-mobile-num ${form.formState.errors.phone || form.formState.errors.country
-                                                        ? 'error-mob-input'
-                                                        : form.formState.isDirty && (field.value && !form.formState.errors.phone && !form.formState.errors.country)
-                                                            ? 'success-mob-input'
-                                                            : ''
-                                                        }`}>
+                                                    <div
+                                                        className={`input-of-mobile-num ${form.formState.errors.phone || form.formState.errors.country
+                                                            ? "error-mob-input"
+                                                            : form.formState.isDirty &&
+                                                                field.value &&
+                                                                !form.formState.errors.phone &&
+                                                                !form.formState.errors.country
+                                                                ? "success-mob-input"
+                                                                : ""
+                                                            }`}
+                                                    >
                                                         <div className="country-select">
                                                             <FormField
                                                                 control={form.control}
@@ -380,12 +471,7 @@ export default function AddPlayerWrapper() {
                                                                 render={({ field }) => (
                                                                     <FormItem>
                                                                         <FormControl>
-                                                                            <Select
-                                                                                value={field.value}
-                                                                                onValueChange={(value) => {
-                                                                                    field.onChange(value);
-                                                                                }}
-                                                                            >
+                                                                            <Select value={field.value} onValueChange={field.onChange}>
                                                                                 <SelectTrigger className="country-select-trigger">
                                                                                     <SelectValue placeholder={t(lang, "Country")} />
                                                                                 </SelectTrigger>
@@ -396,8 +482,7 @@ export default function AddPlayerWrapper() {
                                                                                                 <div className="code-country-slug-cont">
                                                                                                     <div className="select-country-item-cont">
                                                                                                         <span>
-                                                                                                            <span className={`fi fi-${iso2.toLowerCase()}`} />{" "}
-                                                                                                            +{getCountryCallingCode(iso2)}
+                                                                                                            <span className={`fi fi-${iso2.toLowerCase()}`} /> +{getCountryCallingCode(iso2)}
                                                                                                         </span>
                                                                                                     </div>
                                                                                                 </div>
@@ -412,27 +497,28 @@ export default function AddPlayerWrapper() {
                                                                 )}
                                                             />
                                                         </div>
+
                                                         <Input
                                                             type="tel"
                                                             className="phone-input"
-                                                            style={{ direction: lang === 'ar' ? 'rtl' : 'ltr' }}
+                                                            style={{ direction: lang === "ar" ? "rtl" : "ltr" }}
                                                             placeholder={t(lang, "Phone_Number")}
                                                             {...field}
                                                         />
                                                     </div>
                                                 </FormControl>
+
                                                 <div className="flex items-center justify-between">
                                                     <FormMessage id="phone-error" />
-                                                    {
-                                                        form.formState.errors.country && (
-                                                            <p className="country-error">{form.formState.errors.country?.message}</p>
-                                                        )
-                                                    }
+                                                    {form.formState.errors.country && (
+                                                        <p className="country-error">{form.formState.errors.country?.message}</p>
+                                                    )}
                                                 </div>
                                             </FormItem>
                                         )}
                                     />
-                                    {/* City Field */}
+
+                                    {/* City */}
                                     <FormField
                                         control={form.control}
                                         name="city"
@@ -442,9 +528,11 @@ export default function AddPlayerWrapper() {
                                                     {t(lang, "city")} <span className="required">*</span>
                                                 </FormLabel>
                                                 <FormControl>
-
                                                     <Select value={field.value} onValueChange={field.onChange}>
-                                                        <SelectTrigger className={`field-input select-trigger disabled:opacity-1 ${lang == "ar" ? "ar-select-trigger" : "en-select-trigger"} ${form.formState.errors.city ? 'error-input' : field.value ? 'success-input' : ''}`}>
+                                                        <SelectTrigger
+                                                            className={`field-input select-trigger disabled:opacity-1 ${lang == "ar" ? "ar-select-trigger" : "en-select-trigger"
+                                                                } ${form.formState.errors.city ? "error-input" : field.value ? "success-input" : ""}`}
+                                                        >
                                                             <SelectValue placeholder={t(lang, "city_placeholder")} />
                                                         </SelectTrigger>
                                                         <SelectContent>
@@ -461,7 +549,7 @@ export default function AddPlayerWrapper() {
                                         )}
                                     />
 
-                                    {/* Address Field */}
+                                    {/* Address */}
                                     <FormField
                                         control={form.control}
                                         name="address"
@@ -475,7 +563,8 @@ export default function AddPlayerWrapper() {
                                                         {...field}
                                                         type="text"
                                                         placeholder={t(lang, "address_placeholder")}
-                                                        className={`field-input ${form.formState.errors.address ? 'error-input' : field.value ? 'success-input' : ''}`}
+                                                        className={`field-input ${form.formState.errors.address ? "error-input" : field.value ? "success-input" : ""
+                                                            }`}
                                                     />
                                                 </FormControl>
                                                 <FormMessage className="field-error" />
@@ -483,7 +572,7 @@ export default function AddPlayerWrapper() {
                                         )}
                                     />
 
-                                    {/* Email Field */}
+                                    {/* Email */}
                                     <FormField
                                         control={form.control}
                                         name="email"
@@ -497,18 +586,19 @@ export default function AddPlayerWrapper() {
                                                         {...field}
                                                         type="email"
                                                         placeholder={t(lang, "email_placeholder")}
-                                                        className={`field-input ${form.formState.errors.email ? 'error-input' : field.value ? 'success-input' : ''}`}
+                                                        className={`field-input ${form.formState.errors.email ? "error-input" : field.value ? "success-input" : ""
+                                                            }`}
                                                     />
                                                 </FormControl>
                                                 <FormMessage className="field-error" />
                                             </FormItem>
                                         )}
                                     />
-
-
                                 </div>
 
-                                {/* National ID Photo Section */}
+                                {/* ========== Uploads ========== */}
+
+                                {/* National ID Photo */}
                                 <div className="section-header">
                                     <div className="section-icon">
                                         <Image src={nationalCardIcon} alt="National ID Icon" />
@@ -519,39 +609,30 @@ export default function AddPlayerWrapper() {
                                     <FormField
                                         control={form.control}
                                         name="nationalIdPhoto"
-                                        render={({ field: { onChange, value, ...field } }) => (
+                                        render={({ field }) => (
                                             <FormItem className="form-field">
                                                 <FormControl>
-                                                    <div className={`file-upload-wrapper ${form.formState.errors.nationalIdPhoto ? 'error-input' : value && value.length > 0 ? 'success-input' : ''}`}>
-                                                        <input
-                                                            type="file"
-                                                            accept="image/*"
-                                                            id="nationalIdPhoto"
-                                                            className="file-input-hidden"
-                                                            onChange={(e) => {
-                                                                onChange(e.target.files);
-                                                                handleFileChange(e, 'nationalIdPhoto', setNationalIdPreview);
-                                                            }}
-                                                            {...field}
-                                                        />
-                                                        <label htmlFor="nationalIdPhoto" className="file-upload-label">
-                                                            <div className="upload-content">
-                                                                <Image src={uploadFile} alt="Upload" className="upload-icon" />
-                                                                <p className="upload-text">
-                                                                    {t(lang, "national_id_desc")}
-                                                                </p>
-                                                                <p className="upload-or">{t(lang, "or")}</p>
-                                                                <button type="button" className="browse-btn">
-                                                                    {t(lang, "browse_files")}
-                                                                </button>
+                                                    <DropUpload
+                                                        lang={lang}
+                                                        id="nationalIdPhoto"
+                                                        name={field.name}
+                                                        accept={{ "image/*": [] }}
+                                                        multiple={false}
+                                                        value={field.value}
+                                                        hasError={!!form.formState.errors.nationalIdPhoto}
+                                                        descKey="national_id_desc"
+                                                        onFiles={(files) => {
+                                                            field.onChange(files);
+                                                            setSinglePreviewFromFiles(files, setNationalIdPreview);
+                                                            form.trigger("nationalIdPhoto");
+                                                        }}
+                                                    >
+                                                        {nationalIdPreview && (
+                                                            <div className="file-preview">
+                                                                <img src={nationalIdPreview} alt="Preview" className="preview-image" />
                                                             </div>
-                                                            {nationalIdPreview && (
-                                                                <div className="file-preview">
-                                                                    <img src={nationalIdPreview} alt="Preview" className="preview-image" />
-                                                                </div>
-                                                            )}
-                                                        </label>
-                                                    </div>
+                                                        )}
+                                                    </DropUpload>
                                                 </FormControl>
                                                 <FormMessage className="field-error" />
                                             </FormItem>
@@ -559,7 +640,7 @@ export default function AddPlayerWrapper() {
                                     />
                                 </div>
 
-                                {/* Personal Photo Section */}
+                                {/* Personal Photo */}
                                 <div className="section-header">
                                     <div className="section-icon">
                                         <Image src={nationalCardIcon} alt="Profile Icon" />
@@ -570,39 +651,30 @@ export default function AddPlayerWrapper() {
                                     <FormField
                                         control={form.control}
                                         name="personalPhoto"
-                                        render={({ field: { onChange, value, ...field } }) => (
+                                        render={({ field }) => (
                                             <FormItem className="form-field">
                                                 <FormControl>
-                                                    <div className={`file-upload-wrapper ${form.formState.errors.personalPhoto ? 'error-input' : value && value.length > 0 ? 'success-input' : ''}`}>
-                                                        <input
-                                                            type="file"
-                                                            accept="image/*"
-                                                            id="personalPhoto"
-                                                            className="file-input-hidden"
-                                                            onChange={(e) => {
-                                                                onChange(e.target.files);
-                                                                handleFileChange(e, 'personalPhoto', setPersonalPhotoPreview);
-                                                            }}
-                                                            {...field}
-                                                        />
-                                                        <label htmlFor="personalPhoto" className="file-upload-label">
-                                                            <div className="upload-content">
-                                                                <Image src={uploadFile} alt="Upload" className="upload-icon" />
-                                                                <p className="upload-text">
-                                                                    {t(lang, "personal_photo_desc")}
-                                                                </p>
-                                                                <p className="upload-or">{t(lang, "or")}</p>
-                                                                <button type="button" className="browse-btn">
-                                                                    {t(lang, "browse_files")}
-                                                                </button>
+                                                    <DropUpload
+                                                        lang={lang}
+                                                        id="personalPhoto"
+                                                        name={field.name}
+                                                        accept={{ "image/*": [] }}
+                                                        multiple={false}
+                                                        value={field.value}
+                                                        hasError={!!form.formState.errors.personalPhoto}
+                                                        descKey="personal_photo_desc"
+                                                        onFiles={(files) => {
+                                                            field.onChange(files);
+                                                            setSinglePreviewFromFiles(files, setPersonalPhotoPreview);
+                                                            form.trigger("personalPhoto");
+                                                        }}
+                                                    >
+                                                        {personalPhotoPreview && (
+                                                            <div className="file-preview">
+                                                                <img src={personalPhotoPreview} alt="Preview" className="preview-image" />
                                                             </div>
-                                                            {personalPhotoPreview && (
-                                                                <div className="file-preview">
-                                                                    <img src={personalPhotoPreview} alt="Preview" className="preview-image" />
-                                                                </div>
-                                                            )}
-                                                        </label>
-                                                    </div>
+                                                        )}
+                                                    </DropUpload>
                                                 </FormControl>
                                                 <FormMessage className="field-error" />
                                             </FormItem>
@@ -610,7 +682,7 @@ export default function AddPlayerWrapper() {
                                     />
                                 </div>
 
-                                {/* Fitness Certificate Section - Optional */}
+                                {/* Fitness Certificate */}
                                 <div className="section-header">
                                     <div className="section-icon">
                                         <Image src={healthy} alt="Document Icon" />
@@ -621,49 +693,36 @@ export default function AddPlayerWrapper() {
                                     <FormField
                                         control={form.control}
                                         name="fitnessCertificate"
-                                        render={({ field: { onChange, value, ...field } }) => (
+                                        render={({ field }) => (
                                             <FormItem className="form-field">
                                                 <FormControl>
-                                                    <div className={`file-upload-wrapper ${form.formState.errors.fitnessCertificate ? 'error-input' : value && value.length > 0 ? 'success-input' : ''}`}>
-                                                        <input
-                                                            type="file"
-                                                            accept=".pdf"
-                                                            id="fitnessCertificate"
-                                                            className="file-input-hidden"
-                                                            onChange={(e) => {
-                                                                onChange(e.target.files);
-                                                                handleFileChange(e, 'fitnessCertificate', setFitnessCertificatePreview);
-                                                            }}
-                                                            {...field}
-                                                        />
-                                                        <label htmlFor="fitnessCertificate" className="file-upload-label">
-                                                            <div className="upload-content">
-                                                                <Image src={uploadFile} alt="Upload" className="upload-icon" />
-                                                                <p className="upload-text">
-                                                                    {t(lang, "fitness_certificate_desc")}
-                                                                </p>
-                                                                <p className="upload-or">{t(lang, "or")}</p>
-                                                                <button type="button" className="browse-btn">
-                                                                    {t(lang, "browse_files")}
-                                                                </button>
+                                                    <DropUpload
+                                                        lang={lang}
+                                                        id="fitnessCertificate"
+                                                        name={field.name}
+                                                        accept={{ "application/pdf": [] }}
+                                                        multiple={false}
+                                                        value={field.value}
+                                                        hasError={!!form.formState.errors.fitnessCertificate}
+                                                        descKey="fitness_certificate_desc"
+                                                        onFiles={(files) => {
+                                                            field.onChange(files);
+                                                            setSinglePreviewFromFiles(files, setFitnessCertificatePreview);
+                                                            form.trigger("fitnessCertificate");
+                                                        }}
+                                                    >
+                                                        {fitnessCertificatePreview && (
+                                                            <div className="file-preview">
+                                                                {fitnessCertificatePreview === "pdf" ? (
+                                                                    <div className="pdf-indicator">
+                                                                        <p className="pdf-text">PDF {t(lang, "file_selected")}</p>
+                                                                    </div>
+                                                                ) : (
+                                                                    <img src={fitnessCertificatePreview} alt="Preview" className="preview-image" />
+                                                                )}
                                                             </div>
-                                                            {fitnessCertificatePreview && (
-                                                                <div className="file-preview">
-                                                                    {fitnessCertificatePreview === 'pdf' ? (
-                                                                        <div className="pdf-indicator">
-                                                                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                                                                <path d="M14 2V8H20" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                                                            </svg>
-                                                                            <p className="pdf-text">PDF {t(lang, "file_selected")}</p>
-                                                                        </div>
-                                                                    ) : (
-                                                                        <img src={fitnessCertificatePreview} alt="Preview" className="preview-image" />
-                                                                    )}
-                                                                </div>
-                                                            )}
-                                                        </label>
-                                                    </div>
+                                                        )}
+                                                    </DropUpload>
                                                 </FormControl>
                                                 <FormMessage className="field-error" />
                                             </FormItem>
@@ -671,7 +730,7 @@ export default function AddPlayerWrapper() {
                                     />
                                 </div>
 
-                                {/* Club Approval Section - Required */}
+                                {/* Club Approval */}
                                 <div className="section-header">
                                     <div className="section-icon">
                                         <Image src={pdfIcon} alt="Document Icon" />
@@ -682,57 +741,53 @@ export default function AddPlayerWrapper() {
                                     <FormField
                                         control={form.control}
                                         name="clubApproval"
-                                        render={({ field: { onChange, value, ...field } }) => (
+                                        render={({ field }) => (
                                             <FormItem className="form-field">
                                                 <FormControl>
-                                                    <div className={`file-upload-wrapper ${form.formState.errors.clubApproval ? 'error-input' : value && value.length > 0 ? 'success-input' : ''}`}>
-                                                        <input
-                                                            type="file"
-                                                            accept=".pdf,"
-                                                            id="clubApproval"
-                                                            className="file-input-hidden"
-                                                            multiple
-                                                            onChange={(e) => {
-                                                                onChange(e.target.files);
-                                                                handleMultipleFileChange(e, setClubApprovalPreview);
-                                                            }}
-                                                            {...field}
-                                                        />
-                                                        <label htmlFor="clubApproval" className="file-upload-label">
-                                                            <div className="upload-content">
-                                                                <Image src={uploadFile} alt="Upload" className="upload-icon" />
-                                                                <p className="upload-text">
-                                                                    {t(lang, "club_approval_desc")}
-                                                                </p>
-                                                                <p className="upload-or">{t(lang, "or")}</p>
-                                                                <button type="button" className="browse-btn">
-                                                                    {t(lang, "browse_files")}
-                                                                </button>
+                                                    <DropUpload
+                                                        lang={lang}
+                                                        id="clubApproval"
+                                                        name={field.name}
+                                                        accept={{ "application/pdf": [] }}
+                                                        multiple={true}
+                                                        value={field.value}
+                                                        hasError={!!form.formState.errors.clubApproval}
+                                                        descKey="club_approval_desc"
+                                                        onFiles={(files) => {
+                                                            field.onChange(files);
+                                                            setMultiPreviewFromFiles(files, setClubApprovalPreview);
+                                                            form.trigger("clubApproval");
+                                                        }}
+                                                    >
+                                                        {clubApprovalPreview && clubApprovalPreview.length > 0 && (
+                                                            <div
+                                                                className="file-preview"
+                                                                style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 10 }}
+                                                            >
+                                                                {clubApprovalPreview.map((preview, idx) => (
+                                                                    <div key={idx} style={{ flex: "0 0 auto" }}>
+                                                                        {preview.type === "pdf" ? (
+                                                                            <div className="pdf-indicator">
+                                                                                <p className="pdf-text" style={{ fontSize: 12, marginTop: 5 }}>
+                                                                                    {preview.name}
+                                                                                </p>
+                                                                            </div>
+                                                                        ) : (
+                                                                            <div>
+                                                                                <img
+                                                                                    src={preview.src}
+                                                                                    alt="Preview"
+                                                                                    className="preview-image"
+                                                                                    style={{ maxWidth: 100, maxHeight: 100 }}
+                                                                                />
+                                                                                <p style={{ fontSize: 12, marginTop: 5 }}>{preview.name}</p>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                ))}
                                                             </div>
-                                                            {clubApprovalPreview && clubApprovalPreview.length > 0 && (
-                                                                <div className="file-preview" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '10px' }}>
-                                                                    {clubApprovalPreview.map((preview, idx) => (
-                                                                        <div key={idx} style={{ flex: '0 0 auto' }}>
-                                                                            {preview.type === 'pdf' ? (
-                                                                                <div className="pdf-indicator">
-                                                                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                                                                        <path d="M14 2V8H20" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                                                                    </svg>
-                                                                                    <p className="pdf-text" style={{ fontSize: '12px', marginTop: '5px' }}>{preview.name}</p>
-                                                                                </div>
-                                                                            ) : (
-                                                                                <div>
-                                                                                    <img src={preview.src} alt="Preview" className="preview-image" style={{ maxWidth: '100px', maxHeight: '100px' }} />
-                                                                                    <p style={{ fontSize: '12px', marginTop: '5px' }}>{preview.name}</p>
-                                                                                </div>
-                                                                            )}
-                                                                        </div>
-                                                                    ))}
-                                                                </div>
-                                                            )}
-                                                        </label>
-                                                    </div>
+                                                        )}
+                                                    </DropUpload>
                                                 </FormControl>
                                                 <FormMessage className="field-error" />
                                             </FormItem>
@@ -740,18 +795,10 @@ export default function AddPlayerWrapper() {
                                     />
                                 </div>
 
-                                {/* Submit Button */}
+                                {/* Submit */}
                                 <div className="form-actions">
-                                    <Button
-                                        type="submit"
-                                        className="submit-license-btn"
-                                        disabled={loading}
-                                    >
-                                        {loading ? (
-                                            <span className="loader-btn"></span>
-                                        ) : (
-                                            <span>{t(lang, "add_player")}</span>
-                                        )}
+                                    <Button type="submit" className="submit-license-btn" disabled={loading}>
+                                        {loading ? <span className="loader-btn"></span> : <span>{t(lang, "add_player")}</span>}
                                     </Button>
                                 </div>
                             </form>
@@ -760,13 +807,7 @@ export default function AddPlayerWrapper() {
                 </div>
             </div>
 
-            {/* Success Card */}
-            {showSuccess && (
-                <CongatsCard
-                    title="تهانينا"
-                    description="تم اضافه اللاعب بنجاح"
-                />
-            )}
+            {showSuccess && <CongatsCard title="تهانينا" description="تم اضافه اللاعب بنجاح" />}
         </div>
-    )
+    );
 }
