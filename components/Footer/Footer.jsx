@@ -43,6 +43,7 @@ export default function Footer() {
                         <div className="dashboard-links">
                             <Link href="/terms-and-conditions">{t(lang, "terms_and_conditions")}</Link>
                             <Link href="/privacy-policy">{t(lang, "privacy-policy")}</Link>
+                            <Link href="/complaints">{t(lang, "my_complaints")}</Link>
                         </div>
                     </div>
                     <div className="footer-logos">
