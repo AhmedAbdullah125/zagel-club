@@ -1,0 +1,370 @@
+@font-face {
+  font-family: 'IBMPlexSansArabic';
+  src: url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Regular.woff2') format('woff2'),
+    url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBMPlexSansArabic';
+  src: url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Bold.woff2') format('woff2'),
+    url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBMPlexSansArabic';
+  src: url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-SemiBold.woff2') format('woff2'),
+    url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBMPlexSansArabic';
+  src: url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Thin.woff2') format('woff2'),
+    url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Thin.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBMPlexSansArabic';
+  src: url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-ExtraLight.woff2') format('woff2'),
+    url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-ExtraLight.woff') format('woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBMPlexSansArabic';
+  src: url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Medium.woff2') format('woff2'),
+    url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBMPlexSansArabic';
+  src: url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Light.woff2') format('woff2'),
+    url('../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: "IBMPlexSansArabic";
+  box-sizing: border-box;
+  font-style: normal;
+  font-weight: 400;
+  background-color: $white;
+}
+::selection {
+  background-color: $main; /* Sets the background color to yellow-orange */
+  color: $white; /* Sets the text color to black */
+}
+
+/* For older versions of Firefox (version 61 and earlier) */
+::-moz-selection {
+  background-color: $main;
+  color: $white;
+}
+.overflow {
+  overflow: hidden;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+figure {
+  margin: 0;
+}
+
+img {
+  image-rendering: -webkit-optimize-contrast !important;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+@include max-767 {
+
+  .container,
+  .container-fluid,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+}
+
+@include min-1200 {
+
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    max-width: 1170px;
+  }
+}
+
+@include min-1440 {
+
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    max-width: 1320px;
+  }
+}
+
+/*                                 arrow-top                           */
+.arrow-top {
+  position: fixed;
+  bottom: 20px;
+  inset-inline-start: 20px;
+  display: none;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: $main;
+  font-size: 18px;
+  border: none;
+  outline: none !important;
+  color: $white;
+  text-decoration: none !important;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  @include tr;
+
+  &:hover,
+  &:focus {
+    background-color: $hover;
+    color: $white;
+  }
+}
+
+@include max-767 {
+  .arrow-top {
+    bottom: 15px;
+    inset-inline-start: 15px;
+  }
+}
+
+.custom-pagention {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 50px;
+  padding: 0;
+  list-style-type: none;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.custom-pagention a,
+.custom-pagention span {
+  @include flexCenter;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  color: $hover;
+  width: 50px;
+  height: 50px;
+  line-height: 40px;
+  background-color: #d9d9d9;
+  border: none;
+  text-decoration: none !important;
+  outline: none !important;
+  border-radius: 50%;
+  max-width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-pagention a.active {
+  color: $white;
+  background-color: $main;
+}
+
+.custom-pagention a:hover {
+  color: $white;
+  background-color: $main;
+}
+
+.breadcrumb-sec {
+  position: relative;
+  @include flexCenter;
+  padding: 20px 0;
+}
+
+ul.breadcrumb {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+ul.breadcrumb li a,
+ul.breadcrumb li span,
+ul.breadcrumb li {
+  @include tr;
+  text-transform: capitalize;
+  font-size: 16px;
+  color: $hover;
+  font-weight: 500;
+  text-decoration: none !important;
+}
+
+ul.breadcrumb li span {
+  color: $hover;
+
+  &::after {
+    display: none;
+  }
+}
+
+ul.breadcrumb li a:hover {
+  color: $main;
+}
+
+.breadcrumb li~li::before {
+  content: "/";
+  padding: 0 5px;
+  font-size: 16px;
+}
+
+@media (max-width: 991px) {
+  .breadcrumb-sec {
+    padding: 30px 0;
+  }
+}
+
+.help-center {
+  font-weight: 400;
+  font-size: 20px;
+  color: $hover;
+  text-align: justify;
+
+  @include max-991 {
+    font-size: 16px;
+  }
+}
+
+/*style scroll bar*/
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: $main;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $hover;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $hover;
+}
+
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: $main #fff;
+  scroll-behavior: smooth !important;
+}
+
+/*style scroll bar*/
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 1px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: $white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $main;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $hover;
+}
+
+
+
+/* Hide scrollbar for .disabled-scroll */
+.disabled-scroll {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  overflow: hidden; /* Prevent scrolling */
+}
+
+/* Hide scrollbar for Chrome, Safari, and Edge */
+.disabled-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure .sub-ticket-cont-container inside .disabled-scroll has a scrollbar */
+.sub-ticket-cont-container {
+  overflow: auto; /* Ensure it can scroll */
+  scrollbar-width: thin; /* Firefox - makes scrollbar visible */
+  ::-webkit-scrollbar-track {
+      background: $main;
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: $hover;
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: $hover;
+    }
+}
+
+/* Visible scrollbar for Chrome, Safari, and Edge */
+.sub-ticket-cont-container::-webkit-scrollbar {
+  width: 4px; /* Adjust scrollbar width */
+  background-color: $main;
+}

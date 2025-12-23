@@ -1,0 +1,73 @@
+.racing-schedule-grid {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+
+    @media screen and (min-width: 768px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media screen and (min-width: 992px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media screen and (min-width: 1280px) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+.racing-schedule-card {
+    background-color: rgba($color: #f9fdf8, $alpha: .95);
+    border-radius: 24px;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid #EEEEEE;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+}
+
+.racing-schedule-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.racing-schedule-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: #141218B2;
+    text-align: start;
+    flex: 1;
+}
+
+.racing-schedule-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    background-color: $main;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(27, 131, 84, 0.2);
+
+    img {
+        width: 12px;
+        height: 12px;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+    }
+}

@@ -1,0 +1,501 @@
+.auctions-section {
+    padding-bottom: 80px;
+
+    .swiper {
+        padding: 20px 0;
+    }
+}
+
+.auctions-swiper-container {
+    position: relative;
+}
+
+.auctions-swiper {
+    padding-bottom: 50px;
+
+    .swiper-pagination {
+        bottom: 0;
+    }
+
+    .swiper-pagination-bullet {
+        background-color: $main;
+        opacity: 0.3;
+        width: 10px;
+        height: 10px;
+    }
+
+    .swiper-pagination-bullet-active {
+        opacity: 1;
+    }
+}
+
+.auction-slide {
+    height: auto;
+}
+
+.auction-card {
+    background: #FFFFFF;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid #EEEEEE;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 16px;
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+    }
+}
+
+.auction-image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 433/245;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 24px;
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.65) 69.71%);
+        z-index: 2;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+
+        &:hover {
+            opacity: 0;
+        }
+    }
+
+    .auction-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    &:hover .auction-image {
+        transform: scale(1.05);
+    }
+
+    .share-btn {
+        position: absolute;
+        top: 16px;
+        inset-inline-end: 16px;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background-color: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        z-index: 10;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .auction-hint {
+        position: absolute;
+        top: 16px;
+        inset-inline-start: 16px;
+        width: fit-content;
+        height: 32px;
+        border-radius: 5px;
+        background-color: #EE9510;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 15px;
+        transition: background-color 0.3s ease;
+        z-index: 10;
+        color: $white;
+        font-size: 16px;
+        font-weight: 400;
+
+        &:hover {
+            background-color: darken(#EE9510, 5%);
+        }
+    }
+
+    .countdown-timer {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 10;
+
+        .time-unit {
+            background-color: $main;
+            border-radius: 4px;
+            width: 29px;
+            height: 29px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .time-value {
+                font-size: 14px;
+                font-weight: 400;
+                color: #FFFFFF;
+                line-height: 1;
+            }
+
+        }
+
+        .time-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .time-separator {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+    }
+}
+
+.auction-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+
+    .pricing-cont {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-direction: column;
+
+    }
+
+    .auction-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+
+        .auction-price {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 20px;
+            font-weight: 500;
+            color: #1C1C1C;
+
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        .auction-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1C1C1C;
+            margin: 0;
+        }
+    }
+
+    .auction-subtitle {
+        font-size: 14px;
+        font-weight: 500;
+        color: #0E3930;
+        margin: 0;
+    }
+
+    .bids-cont {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        .text {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            color: #1C1C1C;
+            font-weight: 500;
+
+            .title {
+                font-size: 20px;
+            }
+
+            .time {
+                font-size: 16px;
+            }
+        }
+
+        .progress-cont {
+            width: 100%;
+            height: 14px;
+            border-radius: 7px;
+            background-color: #EEEEEE;
+            overflow: hidden;
+            margin-bottom: 14px;
+
+            .progress {
+                height: 100%;
+                background-color: $main;
+                border-radius: 7px;
+            }
+        }
+    }
+
+    .auction-description {
+        font-size: 14px;
+        font-weight: 400;
+        color: #726E6E;
+        line-height: 1.6;
+        margin: 0;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+
+    .auction-btn {
+        width: 100%;
+        text-align: center;
+        border-radius: 9px;
+        padding: 14px 20px;
+        background-color: $main;
+        color: #FFFFFF;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: block;
+        margin-top: auto;
+
+        &:hover {
+            background-color: darken(#1B8354, 5%);
+            color: #FFFFFF;
+        }
+    }
+}
+
+// Responsive adjustments
+@media screen and (max-width: 768px) {
+    .auction-image-container {
+        .countdown-timer {
+            gap: 6px;
+
+            .time-unit {
+                padding: 10px 12px;
+                min-width: 50px;
+
+                .time-value {
+                    font-size: 20px;
+                }
+
+                .time-label {
+                    font-size: 10px;
+                }
+            }
+
+            .time-separator {
+                font-size: 20px;
+            }
+        }
+    }
+
+    .auction-content {
+        padding: 20px;
+
+        .auction-header {
+            .auction-price {
+                font-size: 20px;
+            }
+
+            .auction-title {
+                font-size: 18px;
+            }
+        }
+    }
+
+}
+
+.auctions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+    @media screen and (max-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (max-width: 768px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.no-orders {
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    color: $main;
+    background-color: rgb(213, 244, 230);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.switch-toggle-container {
+    margin: 80px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: $black;
+    padding: 6px;
+    height: 80px;
+    border-radius: 40px;
+    width: fit-content;
+
+    button {
+        border: 1px solid $white;
+        color: $white;
+        min-width: 275px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        border-radius: 32px;
+        font-size: 20px;
+        overflow: hidden;
+        font-weight: 500;
+        transition: all 0.3s ease;
+
+        &.active {
+            color: $white;
+            padding: 4px;
+            border-color: $main;
+
+            span {
+                background-color: $main;
+            }
+
+        }
+
+        span {
+            width: 100%;
+            height: 100%;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+    }
+}
+
+
+.btns-cont {
+    display: flex;
+    gap: 8px;
+}
+
+.auction-filter-btn {
+    height: 60px;
+    min-width: 180px;
+    border-radius: 8px;
+    padding: 0 8px;
+    border: none;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    @media screen and (max-width: 768px) {
+        height: 48px;
+        width: fit-content;
+        padding: 0 10px;
+    }
+}
+
+.auction-filter-btn.active {
+    background-color: $main;
+    color: white;
+}
+
+.auction-filter-btn:not(.active) {
+    background-color: #1B835426;
+    color: $main;
+}
+
+
+
+.btns-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.sub-btns-cont {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.sub-filter-btn {
+    height: 60px;
+    min-width: 180px;
+    padding: 0 20px;
+    border-radius: 8px;
+    border: 1px solid #E5E5E5;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: white;
+    color: #666;
+
+    &.active {
+        background-color: $main;
+        color: white;
+        border-color: $main;
+    }
+
+    &:hover:not(.active) {
+        border-color: $main;
+        color: $main;
+    }
+
+    @media screen and (max-width: 768px) {
+        height: 48px;
+        width: fit-content;
+        padding: 0 10px;
+        min-width: 100px;
+        font-size: 14px;
+    }
+}

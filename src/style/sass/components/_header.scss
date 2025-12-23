@@ -1,0 +1,228 @@
+.container {
+    margin: 0 auto;
+}
+
+.header {
+    border-bottom: 1px solid #D2D6DB;
+
+    .topBar {
+        background-color: #F3F4F6;
+        padding: 6px 0;
+
+        .topBarInner {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .govFlag {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .govText {
+            color: #161616;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 20px;
+        }
+
+    }
+
+    .navInner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+
+        .logo {
+            height: 48px;
+            object-fit: contain;
+            width: auto;
+        }
+    }
+
+    .navMenu {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+
+        @media screen and (max-width:1200px) {
+            display: none;
+        }
+
+        .navItem {
+            font-size: 16px;
+            font-weight: 500;
+            color: #161616;
+        }
+
+        .navItem:hover {
+            color: #161616;
+        }
+
+        .navItem.active {
+            color: #161616;
+            width: 122px;
+            height: 72px;
+            background-color: $main;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $white;
+            border-radius: 4px;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            font-weight: 600;
+
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: calc(100% - 16px);
+                transform: translateX(8px);
+                height: 6px;
+                background-color: #54C08A;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    .navActions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-shrink: 0;
+
+        @media screen and (max-width:767px) {
+            padding: 10px 0;
+        }
+
+        img {
+            width: 21px;
+            height: auto;
+            object-fit: contain;
+
+            @media screen and (max-width:767px) {
+                width: 30px;
+                height: 30px;
+                object-fit: contain;
+            }
+        }
+
+
+        .langBtn,
+        .loginBtn,
+        .profileBtn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #161616;
+        }
+
+        .profileBtn {
+            padding: 10px 15px;
+            border: 1px solid $main;
+            border-radius: 9px;
+
+            @media screen and (max-width:767px) {
+                padding: 0;
+                border: none;
+            }
+
+            .profileIcon {
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+
+            .cheveronIcon {
+                width: 17px;
+                height: auto;
+
+                @media screen and (max-width:767px) {
+                    display: none;
+                }
+            }
+        }
+
+        .username,
+        .langText {
+            @media screen and (max-width:767px) {
+                display: none;
+            }
+        }
+
+        .notification-cont {
+            width: 65px;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(27, 131, 84, 0.05);
+            position: relative;
+
+            
+
+            @media screen and (max-width:767px) {
+                width: 40px;
+                height: 40px;
+            }
+
+            img {
+                width: 28px;
+                height: 28px;
+                object-fit: contain;
+                @media screen and (max-width:767px) {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+        .has-notification{
+            &::after {
+                content: "";
+                position: absolute;
+                top: 4px;
+                inset-inline-start: 4px;
+                width: 13px;
+                height: 13px;
+                border-radius: 50%;
+                background-color: rgba(236, 45, 48, 1);
+            }
+        }
+    }
+
+    .barsIcon {
+        width: 25px;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .mob-menue {
+        display: none;
+
+        @media screen and (max-width:1200px) {
+            display: block;
+        }
+    }
+
+    .user-dropdown {
+        a {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+    }
+}

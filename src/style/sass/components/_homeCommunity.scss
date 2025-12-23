@@ -1,0 +1,232 @@
+.home-community {
+    padding: 0px 0 80px;
+}
+
+.community-content {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+
+    @media screen and (max-width: 1024px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media screen and (max-width: 768px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media screen and (max-width: 480px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.community-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: 1px solid #eeeeee;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+
+    &:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        transform: translateY(-4px);
+    }
+}
+
+.community-card-img {
+    position: relative;
+    aspect-ratio: 375/220;
+    overflow: hidden;
+    width: 100%;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
+.community-card-name {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #212529;
+    text-align: center;
+}
+
+
+
+
+
+
+.club-content {
+    padding: 40px 0 80px 0;
+
+    @media screen and (max-width: 992px) {
+        padding: 60px 0;
+    }
+
+    @media screen and (max-width: 576px) {
+        padding: 40px 0;
+    }
+}
+
+.club-content-wrapper {
+    display: grid;
+    grid-template-columns:  1fr 400px;
+    gap: 60px;
+    align-items: center;
+
+
+    @media screen and (max-width: 1200px) {
+        gap: 40px;
+        grid-template-columns: 1fr 350px ;
+    }
+
+    @media screen and (max-width: 992px) {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+.club-logo-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media screen and (max-width: 992px) {
+        justify-content: center;
+    }
+}
+
+.club-logo-container {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+    border-radius: 50%;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+    @media screen and (max-width: 576px) {
+        max-width: 280px;
+    }
+}
+
+.club-logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.club-logo-container-profile{
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    @include flexCenter;
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+.club-info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    border: 1px solid #eee;
+    padding: 32px 24px ;
+    border-radius: 9px;
+}
+
+.club-name {
+    font-size: 40px;
+    font-weight: 700;
+    color: #1C1C1C;
+    margin-bottom: 0;
+
+    @media screen and (max-width: 992px) {
+        text-align: center;
+        font-size: 32px;
+    }
+
+    @media screen and (max-width: 576px) {
+        font-size: 28px;
+    }
+}
+
+.club-about,
+.club-goals {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1C1C1C;
+    margin-bottom: 0;
+
+    @media screen and (max-width: 992px) {
+        font-size: 24px;
+    }
+
+    @media screen and (max-width: 576px) {
+        font-size: 20px;
+    }
+}
+
+.club-description {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #666666;
+    margin-bottom: 0;
+
+    @media screen and (max-width: 576px) {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+}
+
+.goals-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.goal-item {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #666666;
+    padding-right: 24px;
+    position: relative;
+
+    &::before {
+        content: "•";
+        position: absolute;
+        right: 0;
+        color: var(--main-color);
+        font-size: 24px;
+        font-weight: bold;
+        line-height: 1.2;
+    }
+
+    @media screen and (max-width: 576px) {
+        font-size: 14px;
+        line-height: 1.7;
+        padding-right: 20px;
+    }
+}

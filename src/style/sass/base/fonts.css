@@ -1,0 +1,49 @@
+@font-face {
+  font-family: "IBMPlexSansArabic";
+  src: url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Regular.woff2") format("woff2"), url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexSansArabic";
+  src: url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Bold.woff2") format("woff2"), url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexSansArabic";
+  src: url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-SemiBold.woff2") format("woff2"), url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexSansArabic";
+  src: url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Thin.woff2") format("woff2"), url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Thin.woff") format("woff");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexSansArabic";
+  src: url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-ExtraLight.woff2") format("woff2"), url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-ExtraLight.woff") format("woff");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexSansArabic";
+  src: url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Medium.woff2") format("woff2"), url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBMPlexSansArabic";
+  src: url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Light.woff2") format("woff2"), url("../webfonts/IBMPlexSansArabic/IBMPlexSansArabic-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}/*# sourceMappingURL=fonts.css.map */

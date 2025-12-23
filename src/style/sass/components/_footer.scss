@@ -1,0 +1,163 @@
+.footer {
+  background-color: #0b5a38; // نفس الأخضر في التصميم
+  color: #f9fafb;
+  padding: 40px 0 24px;
+  font-size: 14px;
+  font-weight: 400;
+
+  .footer-columns {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    padding-bottom: 32px;
+
+    @media screen and (max-width: 992px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 32px;
+    }
+
+    @media screen and (max-width: 640px) {
+      grid-template-columns: 1fr;
+      align-items: center;
+    }
+  }
+
+  .footer-col {
+    .links-cont {
+
+      margin: 8px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      @media screen and (max-width: 640px) {
+        align-items: center;
+      }
+    }
+
+    a {
+      color: #e5e7eb;
+      cursor: pointer;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: #ffffff;
+      }
+    }
+  }
+
+  .footer-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.30);
+
+    @media screen and (max-width :640px) {
+      text-align: center;
+    }
+  }
+
+  .footer-social {
+
+    .footer-social-icons {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+
+      @media screen and (max-width: 640px) {
+        align-items: center;
+        justify-content: center;
+      }
+
+      button {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: transparent;
+        color: #ffffff;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s ease, color 0.2s ease;
+
+        &:hover {
+          background-color: #ffffff;
+          color: #0b5a38;
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 20px;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      justify-content: center;
+    }
+  }
+
+  .footer-logos {
+    display: flex;
+    gap: 12px;
+
+    @media screen and (max-width: 640px) {
+      text-align: center;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .footer-logo-box {
+      background-color: #f9fafb;
+      color: #111827;
+      border-radius: 4px;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+
+      img {
+        width: 40px;
+        height: auto;
+      }
+    }
+  }
+
+  .footer-copy {
+    font-size: 14px;
+    font-weight: 400;
+
+    @media screen and (max-width: 640px) {
+      text-align: center;
+      width: 100%;
+    }
+
+    h5 {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  .dashboard-links{
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+
+    a{
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  }
+}
