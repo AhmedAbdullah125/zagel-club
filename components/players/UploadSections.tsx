@@ -6,6 +6,7 @@ import { t } from "@/lib/i18n";
 import nationalCardIcon from "@/src/assets/images/license/nationalCardIcon.svg";
 import healthy from "@/src/assets/images/license/healthy.svg";
 import pdfIcon from "@/src/assets/images/pdficon.svg";
+import pdf from "@/src/assets/images/pdf.svg";
 
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { DropUpload } from "./DropUpload";
@@ -86,7 +87,7 @@ function UploadSectionsBase({ lang, form }: Props) {
                                 >
                                     {nationalIdPreview && (
                                         <div className="file-preview">
-                                            <img src={nationalIdPreview} alt="Preview" className="preview-image" />
+                                            <Image src={nationalIdPreview} alt="Preview" className="preview-image" />
                                         </div>
                                     )}
                                 </DropUpload>
@@ -129,7 +130,7 @@ function UploadSectionsBase({ lang, form }: Props) {
                                 >
                                     {personalPhotoPreview && (
                                         <div className="file-preview">
-                                            <img src={personalPhotoPreview} alt="Preview" className="preview-image" />
+                                            <Image src={personalPhotoPreview} alt="Preview" className="preview-image" />
                                         </div>
                                     )}
                                 </DropUpload>
@@ -174,10 +175,11 @@ function UploadSectionsBase({ lang, form }: Props) {
                                         <div className="file-preview">
                                             {fitnessCertificatePreview === "pdf" ? (
                                                 <div className="pdf-indicator">
+                                                    <Image src={pdf} alt="Document Icon" />
                                                     <p className="pdf-text">PDF {t(lang, "file_selected")}</p>
                                                 </div>
                                             ) : (
-                                                <img src={fitnessCertificatePreview} alt="Preview" className="preview-image" />
+                                                <Image src={fitnessCertificatePreview} alt="Preview" className="preview-image" />
                                             )}
                                         </div>
                                     )}
@@ -225,13 +227,14 @@ function UploadSectionsBase({ lang, form }: Props) {
                                                 <div key={idx} style={{ flex: "0 0 auto" }}>
                                                     {preview.type === "pdf" ? (
                                                         <div className="pdf-indicator">
+                                                            <Image src={pdf} alt="Document Icon" />
                                                             <p className="pdf-text" style={{ fontSize: 12, marginTop: 5 }}>
                                                                 {preview.name}
                                                             </p>
                                                         </div>
                                                     ) : (
                                                         <div>
-                                                            <img src={preview.src} alt="Preview" className="preview-image" style={{ maxWidth: 100, maxHeight: 100 }} />
+                                                            <Image src={preview.src} alt="Preview" className="preview-image" style={{ maxWidth: 100, maxHeight: 100 }} />
                                                             <p style={{ fontSize: 12, marginTop: 5 }}>{preview.name}</p>
                                                         </div>
                                                     )}
