@@ -6,8 +6,6 @@ import nationalCardIcon from '@/src/assets/images/license/nationalCardIcon.svg'
 
 export default function OrderCard({ order, lang }) {
     // Status colors based on order status
-    console.log(order);
-
     const statusColors = {
         pending: "#2D9CDB",
         accepted: "#1B8354",

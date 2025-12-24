@@ -4,8 +4,6 @@ import { API_BASE_URL } from "../../lib/apiConfig";
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 const fetchCities = async (lang) => {
-  console.log(lang);
-
   const token = Cookies.get("token");
   const headers = {
     'lang': lang,

@@ -24,8 +24,6 @@ export async function register(data, setLoading, lang, setStep, router, setShowS
     try {
         const response = await axios.post(url, formData, { headers });
         const message = response?.data?.message;
-        console.log(response);
-
         if (response.data.key === "success") {
 
             setLoading(false)

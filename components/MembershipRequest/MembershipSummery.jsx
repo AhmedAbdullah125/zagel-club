@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Add this import
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
@@ -13,26 +13,12 @@ export default function MembershipSummery({ lang, selectedPlayer, setStep, type 
     const [loading, setLoading] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const router = useRouter(); // Add this line
-
-
     // Cost calculation
     const licenseFee = 25500;
     const vatRate = 0.15; // 15% VAT
     const vatAmount = licenseFee * vatRate;
     const totalAmount = licenseFee + vatAmount;
     const handleSubmit = () => {
-        // setLoading(true);
-        // console.log("Submitting license request:", id);
-
-        // setTimeout(() => {
-        //     setLoading(false);
-        //     setShowSuccessModal(true); // Show success modal
-
-        //     // Redirect after 2 seconds
-        //     setTimeout(() => {
-        //         router.push("/"); // Redirect to home page
-        //     }, 2000);
-        // }, 2000);
 
         createNewRequest("membership", { id: selectedPlayer }, setLoading, lang, setShowSuccessModal, router)
     };

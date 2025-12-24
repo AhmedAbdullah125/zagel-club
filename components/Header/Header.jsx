@@ -110,8 +110,6 @@ export default function Header() {
     const pathname = usePathname();
     const [lang, setLang] = useState('ar');
     const { data: profile, isLoading } = useGetProfile(lang);
-    console.log(profile);
-
     useEffect(() => {
         if (typeof window !== 'undefined') {
             if (localStorage.getItem('lang')) {
@@ -200,7 +198,10 @@ export default function Header() {
                                     <>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger className={"profileBtn"}>
-                                                <Image src={profile.logo} alt="user" className={"profileIcon"} width={120} height={120} />
+                                                {
+                                                    profile?.logo &&
+                                                    <Image src={profile.logo} alt="user" className={"profileIcon"} width={120} height={120} />
+                                                }
                                                 <span className="username">{profile.name}</span>
                                                 <Image src={cheveron} alt="cheveron" className={"cheveronIcon"} />
                                             </DropdownMenuTrigger>

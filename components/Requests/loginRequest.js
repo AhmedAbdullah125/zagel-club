@@ -4,8 +4,6 @@ import { API_BASE_URL } from '@/lib/apiConfig';
 import { toast } from 'sonner';
 export async function loginRequest(data, setLoading, lang, setStep, router) {
     setLoading(true)
-    console.log(data);
-
     const generateDeviceId = () => {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let deviceId = '';

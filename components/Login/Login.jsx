@@ -106,8 +106,6 @@ export default function Login({ formData, setFormData, step, setStep, lang }) {
                                                                                 onValueChange={(value) => {
                                                                                     setCountry(value);
                                                                                     field.onChange(value);
-                                                                                    console.log(value);
-
                                                                                 }}
                                                                             >
                                                                                 <SelectTrigger className="country-select-trigger ">

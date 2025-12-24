@@ -23,8 +23,6 @@ export default function WalletWrapper() {
     const [showSuccess, setShowSuccess] = useState(false);
     const [trigger, setTrigger] = useState(1);
     const { data: wallet, isLoading: walletLoading } = useGetWallet(lang, trigger);
-    console.log(wallet);
-
     useEffect(() => {
         if (typeof window !== 'undefined') {
             setLang(localStorage.getItem('lang'));

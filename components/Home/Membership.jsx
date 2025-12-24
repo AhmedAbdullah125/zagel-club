@@ -10,8 +10,6 @@ import Loading from "@/src/app/loading";
 
 export default function Membership({ lang }) {
     const { data: avilableServives, isLoading } = useGetAvilableServices(lang)
-    console.log(avilableServives);
-
     return (
         <div className="membership-section has-bg" style={{ backgroundImage: `url(${birdsBg.src})`, backgroundSize: "cover", backgroundPosition: "fixed", backgroundRepeat: "no-repeat" }}>
             {

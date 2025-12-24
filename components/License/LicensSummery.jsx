@@ -13,7 +13,6 @@ export default function LicensSummery({ lang, formData, setStep, type }) {
     const [loading, setLoading] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const router = useRouter(); // Add this line
-    console.log(formData);
 
 
     // Cost calculation
@@ -22,18 +21,6 @@ export default function LicensSummery({ lang, formData, setStep, type }) {
     const vatAmount = licenseFee * vatRate;
     const totalAmount = licenseFee + vatAmount;
     const handleSubmit = () => {
-        // setLoading(true);
-        // console.log("Submitting license request:", formData);
-
-        // setTimeout(() => {
-        //     setLoading(false);
-        //     setShowSuccessModal(true); // Show success modal
-
-        //     // Redirect after 2 seconds
-        //     setTimeout(() => {
-        //         router.push("/"); // Redirect to home page
-        //     }, 2000);
-        // }, 2000);
         createNewRequest(type, formData, setLoading, lang, setShowSuccessModal, router)
     };
     const formatCurrency = (amount) => {

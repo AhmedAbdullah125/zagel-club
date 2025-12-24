@@ -7,7 +7,7 @@ import searchIcon from "@/src/assets/images/magnifier.svg";
 import { useGetPlayers } from "../Requests/useGetPlaters";
 import Loading from "@/src/app/loading";
 
-export default function SelectPlayer({ lang, formData, title, description, setFormData, setStep, setSelectedPlayer, progress, setProgress, setMaxProgress }) {
+export default function SelectPlayer({ lang, formData, title, description, setFormData, setStep, setProgress, setMaxProgress }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [page, setPage] = useState(1);
     const [keyWord, setKeyWord] = useState("");

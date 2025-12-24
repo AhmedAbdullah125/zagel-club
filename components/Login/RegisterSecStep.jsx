@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { Select, SelectGroup, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Image from "next/image"
 import mailIcon from '@/src/assets/images/registeration/mailIcon.svg'
 import loginImage from "@/src/assets/images/registeration/login.jpg"
@@ -17,13 +17,7 @@ import { getCountries, getCountryCallingCode } from "react-phone-number-input";
 
 export default function RegisterSecStep({ step, formData, setFormData, lang, setStep }) {
     const [country, setCountry] = useState("")
-    const [loading, setLoading] = useState(false)
-    const countries = getCountries(); // ["US","SA","EG",...]
-
-
-
-
-    2    // Zod validation schema with translated messages
+    const countries = getCountries();
     const registerSchema = z.object({
         phone: z.string().min(1, { message: t(lang, "phone_required") }).regex(/^[0-9]+$/, { message: t(lang, "phone_numbers_only") })
             .min(9, { message: t(lang, "phone_min_length") }),
@@ -44,10 +38,8 @@ export default function RegisterSecStep({ step, formData, setFormData, lang, set
     })
 
     const onSubmit = (data) => {
-        console.log(data)
         setStep(3)
         setFormData({ ...formData, ...data })
-
     }
 
     return (
@@ -140,8 +132,6 @@ export default function RegisterSecStep({ step, formData, setFormData, lang, set
                                                                                 onValueChange={(value) => {
                                                                                     setCountry(value);
                                                                                     field.onChange(value);
-                                                                                    console.log(value);
-
                                                                                 }}
                                                                             >
                                                                                 <SelectTrigger className="country-select-trigger ">
@@ -189,16 +179,11 @@ export default function RegisterSecStep({ step, formData, setFormData, lang, set
                                         )}
                                     />
                                     <Button type="submit" className="submit-btn" disabled={!form.formState.isValid && !form.formState.isDirty}>
-                                        {loading ? (
-                                            <span className="loader-btn"></span>
-                                        ) : (
-                                            <span>{t(lang, "next")}</span>
-                                        )}
+                                        <span>{t(lang, "next")}</span>
                                     </Button>
                                 </form>
                             </Form>
                         </div>
-
                         <div className="login-image-section">
                             <Image src={loginImage} alt="login" fill className="login-image" priority />
                         </div>

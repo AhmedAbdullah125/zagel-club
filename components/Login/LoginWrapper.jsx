@@ -14,8 +14,6 @@ export default function LoginWrapper() {
         code: "",
     })
     const [lang, setLang] = useState('ar');
-    console.log(formData);
-
     useEffect(() => {
         if (typeof window !== 'undefined') {
             if (localStorage.getItem('lang')) {

@@ -85,7 +85,7 @@ export default function PersonalDataForm({ lang, formData, setFormData, setStep,
     useEffect(() => {
         const subscription = form.watch((value) => {
             let filledInputs = 0;
-            const totalInputs = 10; 
+            const totalInputs = 10;
 
             if (value.fullName && value.fullName.trim() !== "") filledInputs++;
             if (value.nationalId && value.nationalId.trim() !== "") filledInputs++;
@@ -107,8 +107,6 @@ export default function PersonalDataForm({ lang, formData, setFormData, setStep,
 
     const onSubmit = (data) => {
         setLoading(true);
-        console.log(data);
-
         setTimeout(() => {
             setLoading(false);
             setFormData({ ...formData, ...data });

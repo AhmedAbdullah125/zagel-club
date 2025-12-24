@@ -69,15 +69,6 @@ export default function ContactWrapper() {
     })
 
     const onSubmit = (data) => {
-        // console.log(data);
-        // setLoading(true)
-        // setTimeout(() => {
-        //     setLoading(false)
-        //     setShowCongrats(true)
-        //     setTimeout(() => {
-        //         setShowCongrats(false)
-        //     }, 3000);
-        // }, 2000)
         contactUs(data, setLoading, lang, form, setShowCongrats)
     }
 

@@ -15,8 +15,6 @@ import Loading from "@/src/app/loading";
 import FancyboxWrapper from "../ui/FancyboxWrapper";
 
 export default function PlayerWrapper({ id }) {
-    console.log(id);
-
     const [lang, setLang] = useState('ar');
     useEffect(() => {
         if (typeof window !== 'undefined') {

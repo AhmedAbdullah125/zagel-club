@@ -4830,6 +4830,11 @@ select:focus-visible {
     padding: 24px 16px;
   }
 }
+.personal-data-form .drag-active {
+  border-color: var(--main-color);
+  background-color: #F5FFF9;
+  animation: dragActive 0.3s ease-in-out infinite;
+}
 .personal-data-form .file-input-hidden {
   display: none;
 }
@@ -4911,6 +4916,20 @@ select:focus-visible {
   }
 }
 
+@keyframes dragActive {
+  0% {
+    transform: scale(1);
+    background-color: #F5FFF9;
+  }
+  50% {
+    transform: scale(1.02);
+    background-color: #fafafa;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #F5FFF9;
+  }
+}
 .license-summery-container {
   padding: 40px 0;
 }

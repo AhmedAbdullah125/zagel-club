@@ -123,14 +123,14 @@ export default function EditProfileWrapper() {
     useEffect(() => {
         setSelectedCity(profile?.city.id);
         if (profile && cities && regions) {
-            form.setValue('clubName', profile.name);
-            form.setValue('nationalAddress', profile.address);
-            form.setValue('city', profile.city.id);
-            form.setValue('administrativeRegion', profile.area.id);
-            form.setValue('licenseNumber', profile.licenseNumber);
-            form.setValue('officialEmail', profile.email);
-            setLogoPreview(profile.logo);
-            setSelectedCity(profile.city.id);
+            form.setValue('clubName', profile?.name);
+            form.setValue('nationalAddress', profile?.address);
+            form.setValue('city', profile?.city.id);
+            form.setValue('administrativeRegion', profile?.area.id);
+            form.setValue('licenseNumber', profile?.licenseNumber);
+            form.setValue('officialEmail', profile?.email);
+            setLogoPreview(profile?.logo);
+            setSelectedCity(profile?.city.id);
         }
     }, [profile, cities, regions]);
     const router = useRouter();

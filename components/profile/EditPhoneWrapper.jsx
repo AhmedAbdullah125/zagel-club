@@ -20,7 +20,6 @@ export default function EditPhoneWrapper() {
             setLang(localStorage.getItem('lang'));
         }
     }, []);
-    console.log(step);
     useEffect(() => {
         if (step === 'success') {
             setTimeout(() => {

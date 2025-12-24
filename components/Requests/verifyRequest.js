@@ -5,8 +5,6 @@ import { toast } from 'sonner';
 import Cookies from 'js-cookie';
 export async function verifyRequest(data, setLoading, lang, setStep, link, router) {
     setLoading(true)
-    console.log(data);
-
     const generateDeviceId = () => {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let deviceId = '';

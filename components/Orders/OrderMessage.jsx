@@ -41,7 +41,7 @@ export default function OrderMessage({ orderInfo, lang }) {
         });
     }
     if (orderInfo.isServiceReceivedBtn) {
-        actions.push({ text: t(lang, "service_received"), type: "primary", onClick: () => console.log("Service received") });
+        actions.push({ text: t(lang, "service_received"), type: "primary" });
     }
     if (orderInfo.showComplaintBtn) {
         actions.push({ text: t(lang, "submit_complaint_btn"), type: "danger", onClick: handleComplaintClick });

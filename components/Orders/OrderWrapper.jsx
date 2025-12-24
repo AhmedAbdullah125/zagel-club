@@ -18,8 +18,6 @@ export default function OrderWrapper({ id }) {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showSuccessCard, setShowSuccessCard] = useState(false);
   const { data: order, isLoading } = useGetOrder(lang, id);
-  console.log(order);
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setLang(localStorage.getItem('lang'));

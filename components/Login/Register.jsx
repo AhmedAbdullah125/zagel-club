@@ -18,8 +18,6 @@ export default function Register({ step, formData, setFormData, lang, setStep })
     const [selectedCity, setSelectedCity] = useState(formData.city || null)
     const { data: cities, isLoading: citiesLoading } = useGetCities(lang)
     const { data: regions, isLoading: regionsLoading } = useGetRegions(lang, selectedCity, toast)
-    console.log(selectedCity);
-
     const [loading, setLoading] = useState(false)
     const [nationalIdPreview, setNationalIdPreview] = useState(null)
     const registerSchema = z.object({

@@ -519,6 +519,12 @@
         }
     }
 
+    .drag-active {
+        border-color: $main;
+        background-color: #F5FFF9;
+        animation: dragActive 0.3s ease-in-out infinite;
+    }
+
     .file-input-hidden {
         display: none;
     }
@@ -611,6 +617,23 @@
         }
     }
 
+}
+
+@keyframes dragActive {
+    0% {
+        transform: scale(1);
+        background-color: #F5FFF9;
+    }
+
+    50% {
+        transform: scale(1.02);
+        background-color: #fafafa;
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: #F5FFF9;
+    }
 }
 
 // License Summary Styles

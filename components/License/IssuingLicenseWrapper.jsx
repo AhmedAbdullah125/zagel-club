@@ -18,10 +18,6 @@ export default function IssuingLicenseWrapper() {
   const [progress, setProgress] = useState(0);
   const [maxProgress, setMaxProgress] = useState(6);
   const [formData, setFormData] = useState({})
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
-  console.log(formData);
-  console.log(progress);
-  console.log(maxProgress);
 
   return (
     <div className="license-content" style={{ direction: lang == "ar" ? "rtl" : "ltr" }}>
@@ -29,7 +25,7 @@ export default function IssuingLicenseWrapper() {
       <LicenseSteps lang={lang} step={step} progress={progress} maxProgress={maxProgress} />
       {
         step == 1 ?
-          <SelectPlayer lang={lang} formData={formData} title={t(lang, 'license_request_data')} description={t(lang, 'select_player_description')} setFormData={setFormData} setStep={setStep} setSelectedPlayer={setSelectedPlayer} progress={progress} setProgress={setProgress} setMaxProgress={setMaxProgress} />
+          <SelectPlayer lang={lang} formData={formData} title={t(lang, 'license_request_data')} description={t(lang, 'select_player_description')} setFormData={setFormData} setStep={setStep} setProgress={setProgress} setMaxProgress={setMaxProgress} />
           : step == 2 ?
             <DocumentsForm lang={lang} formData={formData} setFormData={setFormData} setStep={setStep} progress={progress} setProgress={setProgress} setMaxProgress={setMaxProgress} />
             : step == 3 ?

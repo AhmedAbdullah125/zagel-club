@@ -16,11 +16,7 @@ const fetchRegions = async (lang, cityId, toast) => {
     `${API_BASE_URL}/regions?cityId=${cityId}`,
     { headers }
   );
-  console.log(response.data.data.length);
-
   if (response.data.data.length == 0) {
-    console.log("hereeee");
-
     toast(t(lang, "no_regions_found"), {
       style: {
         background: "#dc3545",
@@ -35,8 +31,6 @@ const fetchRegions = async (lang, cityId, toast) => {
 }
 
 export const useGetRegions = (lang, cityId, toast) => {
-  console.log(cityId);
-
   const query = useQuery({
     queryKey: ["regions", lang, cityId],
     enabled: !!cityId, // only fetch if cityId is provided
