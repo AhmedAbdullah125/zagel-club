@@ -199,9 +199,6 @@ function DropUpload({
     );
 }
 
-/* =========================
-   Main Component
-========================= */
 export default function AddPlayerWrapper() {
     const [lang, setLang] = useState("ar");
     const [loading, setLoading] = useState(false);

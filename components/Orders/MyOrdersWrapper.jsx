@@ -43,7 +43,7 @@ export default function MyOrdersWrapper() {
         return pages;
     };
     return (
-        <div className="news-wrapper-cont" style={{ direction: lang == "ar" ? "rtl" : "ltr" }}>
+        <div className="news-wrapper-cont my-orders-wrapper" style={{ direction: lang == "ar" ? "rtl" : "ltr" }}>
 
             <div className="container">
                 <div className="btns-wrapper">
