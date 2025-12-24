@@ -34,6 +34,7 @@
     "date-fns": "^2.30.0",
     "dom-to-image": "^2.6.0",
     "embla-carousel-react": "^8.6.0",
+    "file-saver": "^2.0.5",
     "flag-icons": "^7.5.0",
     "html-react-parser": "^5.2.11",
     "input-otp": "^1.4.2",
@@ -56,6 +57,7 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "world-countries": "^5.1.0",
+    "xlsx": "^0.18.5",
     "zod": "^3.25.76"
   },
   "devDependencies": {

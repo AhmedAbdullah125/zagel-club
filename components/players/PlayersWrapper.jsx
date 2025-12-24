@@ -11,6 +11,9 @@ import Link from "next/link";
 import CongatsCard from "../global/CongatsCard";
 import { useGetPlayers } from "../Requests/useGetPlaters";
 import Loading from "@/src/app/loading";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
 
 export default function PlayersWrapper() {
     const [lang, setLang] = useState('ar');
@@ -38,19 +41,50 @@ export default function PlayersWrapper() {
         return () => clearTimeout(timeoutId);
     }, [searchQuery]);
 
-    const handleExport = () => {
-        console.log("Exporting data to Excel");
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
+    const handleExport = async () => {
+        try {
+            setLoading(true);
+
+            const rows = (players || []).map((p, idx) => ({
+                "#": idx + 1,
+                [t(lang, "player_full_name")]: p.fullName ?? "",
+                [t(lang, "national_id_number")]: p.nationalId ?? "",
+                [t(lang, "birth_date")]: p.dateOfBirth ?? "",
+                [t(lang, "nationality")]: p.nationality ?? "",
+                [t(lang, "city")]: p.city ?? "",
+            }));
+
+            const ws = XLSX.utils.json_to_sheet(rows);
+
+            ws["!cols"] = [
+                { wch: 6 },  // #
+                { wch: 30 }, // name
+                { wch: 18 }, // national id
+                { wch: 16 }, // birth date
+                { wch: 14 }, // nationality
+                { wch: 18 }, // city
+            ];
+
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Players");
+
+            const arrayBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+            const blob = new Blob([arrayBuffer], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            });
+
+            const fileName = `players_${new Date().toISOString().slice(0, 10)}.xlsx`;
+            saveAs(blob, fileName);
+
             setSuccess(true);
-            setTimeout(() => {
-                setSuccess(false);
-            }, 2000);
-        }, 2000);
+            setTimeout(() => setSuccess(false), 2000);
+        } catch (e) {
+            console.error("Export failed:", e);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    // Extract data from API response
     const players = playersResponse?.data || [];
     const paginate = playersResponse?.paginate || {};
     const totalPages = paginate.lastPage || 1;
