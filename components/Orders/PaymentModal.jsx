@@ -89,9 +89,10 @@ export default function PaymentModal({ isOpen, onClose, lang, orderInfo, cost })
                                 <Input
                                     type="text"
                                     placeholder={t(lang, "amount_to_transfer")}
-                                    value={amount}
+                                    value={cost.split(" ")[0]}
                                     onChange={(e) => setAmount(e.target.value)}
                                     className="payment-input"
+                                    disabled
                                 />
                                 <div className="input-icon">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
