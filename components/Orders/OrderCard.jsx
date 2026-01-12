@@ -47,6 +47,7 @@ export default function OrderCard({ order, lang }) {
 
                     <div className="order-type-info">
                         <span className="order-type">{order.typeText}</span>
+                        <span className="complain-description">{order.playerName}</span>
                     </div>
                 </div>
 

@@ -79,7 +79,7 @@ export default function EditPasswordWrapper() {
                                 <div className="img-cont">
                                     <Image src={lockIcon} alt="user-icon" />
                                 </div>
-                                <span>{t(lang, "user_info")}</span>
+                                <span>{t(lang, "edit_password")}</span>
                             </div>
 
                             <Form {...form}>

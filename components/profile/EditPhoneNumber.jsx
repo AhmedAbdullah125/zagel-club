@@ -10,6 +10,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getCountries, getCountryCallingCode } from "react-phone-number-input";
 import "flag-icons/css/flag-icons.min.css";
+import phoneimag from '@/src/assets/images/profileDropDown/phone.svg';
+import Image from "next/image";
 import { changePhone } from "../Requests/changePhone";
 export default function EditPhoneNumber({ lang, nextStep, setNewPhone, setNewCountyCode }) {
     const [loading, setLoading] = useState(false);
@@ -39,7 +41,12 @@ export default function EditPhoneNumber({ lang, nextStep, setNewPhone, setNewCou
     return (
         <div className="settings-form-container my-16">
             <div className="container">
-                <h2 className="settings-section-title">{t(lang, "edit_phone_number")}</h2>
+                <div className="order-section-header">
+                    <div className="img-cont">
+                        <Image src={phoneimag} alt="user-icon" />
+                    </div>
+                    <span>{t(lang, "edit_phone_number2")}</span>
+                </div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="settings-form">
                         {/* Phone Number */}

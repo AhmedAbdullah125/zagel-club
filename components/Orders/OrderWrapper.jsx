@@ -18,6 +18,7 @@ export default function OrderWrapper({ id }) {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showSuccessCard, setShowSuccessCard] = useState(false);
   const { data: order, isLoading } = useGetOrder(lang, id);
+  console.log(order);
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setLang(localStorage.getItem('lang'));
@@ -135,7 +136,7 @@ export default function OrderWrapper({ id }) {
           <div className="container">
             {
               order.status == "pending" ? null :
-                <OrderMessage orderInfo={orderInfo} lang={lang} />
+                <OrderMessage orderInfo={orderInfo} cost={order?.cost} lang={lang} />
             }
             {
               orderInfo.status === "pending" ? null :

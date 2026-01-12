@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import { t } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -9,8 +9,8 @@ import calenderIcon from "@/src/assets/images/license/calender.svg";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup } from "@/components/ui/select";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, } from "@/components/ui/select";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -18,15 +18,23 @@ import { format } from "date-fns";
 import { ar, enUS } from "date-fns/locale";
 import { getCountries, getCountryCallingCode } from "react-phone-number-input";
 
-type Props = {
-    lang: string;
-    form: any;
-    cities: any[];
-    nationalities: { id: number; name: string; value: string }[];
-};
+// ✅ Needed for flags in dropdown (if not already in globals.css)
+import "flag-icons/css/flag-icons.min.css";
 
-function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
+function PlayerInfoFieldsBase({ lang, form, cities, nationalities }) {
     const countries = getCountries();
+    const [countrySearch, setCountrySearch] = useState("");
+
+    // ✅ Filter countries by search (ISO2 or calling code)
+    const filteredCountries = useMemo(() => {
+        if (!countrySearch.trim()) return countries;
+        const searchLower = countrySearch.toLowerCase();
+
+        return countries.filter((iso2) => {
+            const code = String(getCountryCallingCode(iso2));
+            return code.includes(searchLower) || iso2.toLowerCase().includes(searchLower);
+        });
+    }, [countrySearch, countries]);
 
     return (
         <>
@@ -42,7 +50,7 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                 <FormField
                     control={form.control}
                     name="fullName"
-                    render={({ field }: any) => (
+                    render={({ field }) => (
                         <FormItem className="form-field">
                             <FormLabel className="field-label">
                                 {t(lang, "full_name")} <span className="required">*</span>
@@ -52,7 +60,12 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                                     {...field}
                                     type="text"
                                     placeholder={t(lang, "full_name")}
-                                    className={`field-input ${form.formState.errors.fullName ? "error-input" : field.value ? "success-input" : ""}`}
+                                    className={`field-input ${form.formState.errors.fullName
+                                        ? "error-input"
+                                        : field.value
+                                            ? "success-input"
+                                            : ""
+                                        }`}
                                 />
                             </FormControl>
                             <FormMessage className="field-error" />
@@ -64,7 +77,7 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                 <FormField
                     control={form.control}
                     name="birthDate"
-                    render={({ field }: any) => (
+                    render={({ field }) => (
                         <FormItem className="form-field">
                             <FormLabel className="field-label">
                                 {t(lang, "birth_date")} <span className="required">*</span>
@@ -79,24 +92,35 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                                                 className={cn(
                                                     "field-input w-full justify-start text-left font-normal",
                                                     !field.value && "text-muted-foreground",
-                                                    form.formState.errors.birthDate ? "error-input" : field.value ? "success-input" : ""
+                                                    form.formState.errors.birthDate
+                                                        ? "error-input"
+                                                        : field.value
+                                                            ? "success-input"
+                                                            : ""
                                                 )}
                                             >
                                                 <CalendarIcon className="date-icon-picker" size={20} />
                                                 {field.value ? (
-                                                    format(new Date(field.value), "PPP", { locale: lang === "ar" ? ar : enUS })
+                                                    format(new Date(field.value), "PPP", {
+                                                        locale: lang === "ar" ? ar : enUS,
+                                                    })
                                                 ) : (
                                                     <span>{t(lang, "birth_date_placeholder")}</span>
                                                 )}
                                             </Button>
                                         </FormControl>
                                     </PopoverTrigger>
+
                                     <PopoverContent className="w-auto p-0" align="start">
                                         <Calendar
                                             mode="single"
                                             selected={field.value ? new Date(field.value) : undefined}
-                                            onSelect={(date) => field.onChange(date ? format(date, "yyyy-MM-dd") : "")}
-                                            disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                                            onSelect={(date) =>
+                                                field.onChange(date ? format(date, "yyyy-MM-dd") : "")
+                                            }
+                                            disabled={(date) =>
+                                                date > new Date() || date < new Date("1900-01-01")
+                                            }
                                             initialFocus
                                             locale={lang === "ar" ? ar : enUS}
                                             captionLayout="dropdown"
@@ -118,7 +142,7 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                 <FormField
                     control={form.control}
                     name="nationality"
-                    render={({ field }: any) => (
+                    render={({ field }) => (
                         <FormItem className="form-field">
                             <FormLabel className="field-label">
                                 {t(lang, "nationality")} <span className="required">*</span>
@@ -127,12 +151,17 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                                 <Select value={field.value} onValueChange={field.onChange}>
                                     <SelectTrigger
                                         className={`field-input select-trigger disabled:opacity-1 ${lang === "ar" ? "ar-select-trigger" : "en-select-trigger"
-                                            } ${form.formState.errors.nationality ? "error-input" : field.value ? "success-input" : ""}`}
+                                            } ${form.formState.errors.nationality
+                                                ? "error-input"
+                                                : field.value
+                                                    ? "success-input"
+                                                    : ""
+                                            }`}
                                     >
                                         <SelectValue placeholder={t(lang, "nationality_placeholder")} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {nationalities.map((item) => (
+                                        {nationalities?.map((item) => (
                                             <SelectItem key={item.id} value={item.value}>
                                                 {t(lang, item.name)}
                                             </SelectItem>
@@ -149,7 +178,7 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                 <FormField
                     control={form.control}
                     name="nationalId"
-                    render={({ field }: any) => (
+                    render={({ field }) => (
                         <FormItem className="form-field">
                             <FormLabel className="field-label">
                                 {t(lang, "national_id_number")} <span className="required">*</span>
@@ -159,7 +188,12 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                                     {...field}
                                     type="text"
                                     placeholder={t(lang, "national_id_placeholder")}
-                                    className={`field-input ${form.formState.errors.nationalId ? "error-input" : field.value ? "success-input" : ""}`}
+                                    className={`field-input ${form.formState.errors.nationalId
+                                        ? "error-input"
+                                        : field.value
+                                            ? "success-input"
+                                            : ""
+                                        }`}
                                 />
                             </FormControl>
                             <FormMessage className="field-error" />
@@ -171,48 +205,90 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                 <FormField
                     control={form.control}
                     name="phone"
-                    render={({ field }: any) => (
+                    render={({ field }) => (
                         <FormItem className="from-input-wrapper-mobile">
                             <FormLabel className="field-label">
                                 {t(lang, "Phone_Number")} <span className="required">*</span>
                             </FormLabel>
+
                             <FormControl>
                                 <div
                                     className={`input-of-mobile-num ${form.formState.errors.phone || form.formState.errors.country
-                                            ? "error-mob-input"
-                                            : form.formState.isDirty && field.value && !form.formState.errors.phone && !form.formState.errors.country
-                                                ? "success-mob-input"
-                                                : ""
+                                        ? "error-mob-input"
+                                        : form.formState.isDirty &&
+                                            field.value &&
+                                            !form.formState.errors.phone &&
+                                            !form.formState.errors.country
+                                            ? "success-mob-input"
+                                            : ""
                                         }`}
                                 >
                                     <div className="country-select">
                                         <FormField
                                             control={form.control}
                                             name="country"
-                                            render={({ field: cField }: any) => (
+                                            render={({ field: cField }) => (
                                                 <FormItem>
                                                     <FormControl>
-                                                        <Select value={cField.value} onValueChange={cField.onChange}>
+                                                        <Select
+                                                            value={cField.value}
+                                                            onValueChange={cField.onChange}
+                                                            onOpenChange={(open) => {
+                                                                if (!open) setCountrySearch("");
+                                                            }}
+                                                        >
                                                             <SelectTrigger className="country-select-trigger">
                                                                 <SelectValue placeholder={t(lang, "Country")} />
                                                             </SelectTrigger>
-                                                            <SelectContent>
+
+                                                            <SelectContent
+                                                                dir={lang === "ar" ? "rtl" : "ltr"}
+                                                                className="min-w-[250px]"
+                                                            >
+                                                                {/* Search box */}
+                                                                <div className="px-2 py-1.5 sticky top-0 bg-white dark:bg-gray-950 z-10">
+                                                                    <Input
+                                                                        placeholder={
+                                                                            t(lang, "search_country") +
+                                                                            " " +
+                                                                            t(lang, "example") +
+                                                                            " SA"
+                                                                        }
+                                                                        value={countrySearch}
+                                                                        onChange={(e) => setCountrySearch(e.target.value)}
+                                                                        className="h-8"
+                                                                        onClick={(e) => e.stopPropagation()}
+                                                                        dir={lang === "ar" ? "rtl" : "ltr"}
+                                                                    />
+                                                                </div>
+
                                                                 <SelectGroup>
-                                                                    {countries?.map((iso2, index) => (
-                                                                        <SelectItem value={`+${getCountryCallingCode(iso2)} ${iso2}`} key={index}>
+                                                                    {filteredCountries?.map((iso2, index) => (
+                                                                        <SelectItem
+                                                                            value={`+${getCountryCallingCode(iso2)} ${iso2}`}
+                                                                            key={index}
+                                                                        >
                                                                             <div className="code-country-slug-cont">
                                                                                 <div className="select-country-item-cont">
                                                                                     <span>
-                                                                                        <span className={`fi fi-${iso2.toLowerCase()}`} /> +{getCountryCallingCode(iso2)}
+                                                                                        <span className={`fi fi-${iso2.toLowerCase()}`} />{" "}
+                                                                                        +{getCountryCallingCode(iso2)}
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
                                                                         </SelectItem>
                                                                     ))}
                                                                 </SelectGroup>
+
+                                                                {filteredCountries?.length === 0 && (
+                                                                    <div className="px-2 py-6 text-center text-sm text-gray-500">
+                                                                        {t(lang, "no_countries_found")}
+                                                                    </div>
+                                                                )}
                                                             </SelectContent>
                                                         </Select>
                                                     </FormControl>
+
                                                     <FormMessage className="hidden" id="country-error" />
                                                 </FormItem>
                                             )}
@@ -231,7 +307,9 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
 
                             <div className="flex items-center justify-between">
                                 <FormMessage id="phone-error" />
-                                {form.formState.errors.country && <p className="country-error">{form.formState.errors.country?.message}</p>}
+                                {form.formState.errors.country && (
+                                    <p className="country-error">{form.formState.errors.country?.message}</p>
+                                )}
                             </div>
                         </FormItem>
                     )}
@@ -241,7 +319,7 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                 <FormField
                     control={form.control}
                     name="city"
-                    render={({ field }: any) => (
+                    render={({ field }) => (
                         <FormItem className="form-field">
                             <FormLabel className="field-label">
                                 {t(lang, "city")} <span className="required">*</span>
@@ -250,12 +328,17 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                                 <Select value={field.value} onValueChange={field.onChange}>
                                     <SelectTrigger
                                         className={`field-input select-trigger disabled:opacity-1 ${lang === "ar" ? "ar-select-trigger" : "en-select-trigger"
-                                            } ${form.formState.errors.city ? "error-input" : field.value ? "success-input" : ""}`}
+                                            } ${form.formState.errors.city
+                                                ? "error-input"
+                                                : field.value
+                                                    ? "success-input"
+                                                    : ""
+                                            }`}
                                     >
                                         <SelectValue placeholder={t(lang, "city_placeholder")} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {cities?.map((city: any) => (
+                                        {cities?.map((city) => (
                                             <SelectItem key={city.id} value={city.id}>
                                                 {city.name}
                                             </SelectItem>
@@ -272,7 +355,7 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                 <FormField
                     control={form.control}
                     name="address"
-                    render={({ field }: any) => (
+                    render={({ field }) => (
                         <FormItem className="form-field">
                             <FormLabel className="field-label">
                                 {t(lang, "detailed_address")} <span className="required">*</span>
@@ -282,7 +365,12 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                                     {...field}
                                     type="text"
                                     placeholder={t(lang, "address_placeholder")}
-                                    className={`field-input ${form.formState.errors.address ? "error-input" : field.value ? "success-input" : ""}`}
+                                    className={`field-input ${form.formState.errors.address
+                                        ? "error-input"
+                                        : field.value
+                                            ? "success-input"
+                                            : ""
+                                        }`}
                                 />
                             </FormControl>
                             <FormMessage className="field-error" />
@@ -294,7 +382,7 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                 <FormField
                     control={form.control}
                     name="email"
-                    render={({ field }: any) => (
+                    render={({ field }) => (
                         <FormItem className="form-field">
                             <FormLabel className="field-label">
                                 {t(lang, "email")} <span className="required">*</span>
@@ -304,7 +392,12 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }: Props) {
                                     {...field}
                                     type="email"
                                     placeholder={t(lang, "email_placeholder")}
-                                    className={`field-input ${form.formState.errors.email ? "error-input" : field.value ? "success-input" : ""}`}
+                                    className={`field-input ${form.formState.errors.email
+                                        ? "error-input"
+                                        : field.value
+                                            ? "success-input"
+                                            : ""
+                                        }`}
                                 />
                             </FormControl>
                             <FormMessage className="field-error" />

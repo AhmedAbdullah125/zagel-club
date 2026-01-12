@@ -6,7 +6,7 @@ import CongatsCard from "../global/CongatsCard";
 import { t } from "@/lib/i18n";
 import Rating from "./Rating";
 
-export default function OrderMessage({ orderInfo, lang }) {
+export default function OrderMessage({ orderInfo, cost, lang }) {
     const [isComplaintModalOpen, setIsComplaintModalOpen] = useState(false);
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [showComplaintSuccess, setShowComplaintSuccess] = useState(false);
@@ -110,6 +110,7 @@ export default function OrderMessage({ orderInfo, lang }) {
                 onClose={() => setIsPaymentModalOpen(false)}
                 lang={lang}
                 orderInfo={orderInfo}
+                cost={cost?.totalAmount}
 
             />
 

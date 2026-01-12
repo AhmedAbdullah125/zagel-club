@@ -45,10 +45,9 @@ export default function ForgetPassword({ formData, setFormData, step, setStep, l
     })
 
     const onSubmit = (data) => {
-        //loading for 2 seconds
         sendCode(data, setLoading, lang).then(() => {
             setFormData({ ...formData, ...data })
-            setStep("verify")
+            setStep(2)
         })
     }
 

@@ -56,7 +56,18 @@ export default function Login({ formData, setFormData, step, setStep, lang }) {
             country: "+966",
         },
     })
+    const [countrySearch, setCountrySearch] = useState("");
 
+    const filteredCountries = useMemo(() => {
+        if (!countrySearch.trim()) return countries;
+
+        const searchLower = countrySearch.toLowerCase();
+
+        return countries.filter((iso2) => {
+            const code = String(getCountryCallingCode(iso2));
+            return code.includes(searchLower) || iso2.toLowerCase().includes(searchLower);
+        });
+    }, [countrySearch, countries]);
     const onSubmit = (data) => {
         setFormData(data)
         loginRequest(data, setLoading, lang, setStep, router)
@@ -107,23 +118,45 @@ export default function Login({ formData, setFormData, step, setStep, lang }) {
                                                                                     setCountry(value);
                                                                                     field.onChange(value);
                                                                                 }}
+                                                                                onOpenChange={(open) => {
+                                                                                    if (!open) setCountrySearch("");
+                                                                                }}
                                                                             >
                                                                                 <SelectTrigger className="country-select-trigger ">
                                                                                     <SelectValue placeholder={t(lang, "Country")} />
                                                                                 </SelectTrigger>
-                                                                                <SelectContent>
-                                                                                    {countries?.map((iso2, index) => (
-                                                                                        <SelectItem value={`+${getCountryCallingCode(iso2)}`} key={index}>
-                                                                                            <div className="code-country-slug-cont">
-                                                                                                <div className="select-country-item-cont">
-                                                                                                    <span>
-                                                                                                        <span className={`fi fi-${iso2.toLowerCase()}`} />{" "}
-                                                                                                        +{getCountryCallingCode(iso2)}
-                                                                                                    </span>
+                                                                                <SelectContent dir={lang === "ar" ? "rtl" : "ltr"} className="min-w-[250px]">
+                                                                                    <div className="px-2 py-1.5 sticky top-0 bg-white dark:bg-gray-950 z-10">
+                                                                                        <Input
+                                                                                            placeholder={t(lang, "search_country") + " " + t(lang, "example") + " SA"}
+                                                                                            value={countrySearch}
+                                                                                            onChange={(e) => setCountrySearch(e.target.value)}
+                                                                                            className="h-8"
+                                                                                            onClick={(e) => e.stopPropagation()}
+                                                                                            dir={lang === "ar" ? "rtl" : "ltr"}
+                                                                                        />
+                                                                                    </div>
+
+                                                                                    <SelectGroup>
+                                                                                        {filteredCountries?.map((iso2, index) => (
+                                                                                            <SelectItem value={`+${getCountryCallingCode(iso2)}`} key={index}>
+                                                                                                <div className="code-country-slug-cont">
+                                                                                                    <div className="select-country-item-cont">
+                                                                                                        <span>
+                                                                                                            <span className={`fi fi-${iso2.toLowerCase()}`} />{" "}
+                                                                                                            +{getCountryCallingCode(iso2)}
+                                                                                                        </span>
+                                                                                                    </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                        </SelectItem>
-                                                                                    ))}
+                                                                                            </SelectItem>
+                                                                                        ))}
+                                                                                    </SelectGroup>
+
+                                                                                    {filteredCountries?.length === 0 && (
+                                                                                        <div className="px-2 py-6 text-center text-sm text-gray-500">
+                                                                                            {t(lang, "no_countries_found")}
+                                                                                        </div>
+                                                                                    )}
                                                                                 </SelectContent>
                                                                             </Select>
                                                                         </FormControl>

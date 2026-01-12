@@ -87,7 +87,7 @@ function UploadSectionsBase({ lang, form }: Props) {
                                 >
                                     {nationalIdPreview && (
                                         <div className="file-preview">
-                                            <Image src={nationalIdPreview} alt="Preview" className="preview-image" />
+                                            <Image src={nationalIdPreview} alt="Preview" className="preview-image" width={300} height={300} />
                                         </div>
                                     )}
                                 </DropUpload>
@@ -101,7 +101,7 @@ function UploadSectionsBase({ lang, form }: Props) {
             {/* Personal Photo */}
             <div className="section-header">
                 <div className="section-icon">
-                    <Image src={nationalCardIcon} alt="Profile Icon" />
+                    <Image src={nationalCardIcon} alt="Profile Icon" width={300} height={300} />
                 </div>
                 <h3 className="section-title">{t(lang, "personal_photo")}</h3>
             </div>
@@ -130,7 +130,7 @@ function UploadSectionsBase({ lang, form }: Props) {
                                 >
                                     {personalPhotoPreview && (
                                         <div className="file-preview">
-                                            <Image src={personalPhotoPreview} alt="Preview" className="preview-image" />
+                                            <Image src={personalPhotoPreview} alt="Preview" className="preview-image" width={300} height={300} />
                                         </div>
                                     )}
                                 </DropUpload>
@@ -144,7 +144,7 @@ function UploadSectionsBase({ lang, form }: Props) {
             {/* Fitness Certificate */}
             <div className="section-header">
                 <div className="section-icon">
-                    <Image src={healthy} alt="Document Icon" />
+                    <Image src={healthy} alt="Document Icon" width={300} height={300} />
                 </div>
                 <h3 className="section-title">{t(lang, "fitness_certificate")}</h3>
             </div>
@@ -179,7 +179,7 @@ function UploadSectionsBase({ lang, form }: Props) {
                                                     <p className="pdf-text">PDF {t(lang, "file_selected")}</p>
                                                 </div>
                                             ) : (
-                                                <Image src={fitnessCertificatePreview} alt="Preview" className="preview-image" />
+                                                <Image src={fitnessCertificatePreview} alt="Preview" className="preview-image" width={300} height={300} />
                                             )}
                                         </div>
                                     )}
@@ -194,7 +194,7 @@ function UploadSectionsBase({ lang, form }: Props) {
             {/* Club Approval */}
             <div className="section-header">
                 <div className="section-icon">
-                    <Image src={pdfIcon} alt="Document Icon" />
+                    <Image src={pdfIcon} alt="Document Icon" width={300} height={300} />
                 </div>
                 <h3 className="section-title">{t(lang, "club_approval")}</h3>
             </div>
@@ -234,7 +234,7 @@ function UploadSectionsBase({ lang, form }: Props) {
                                                         </div>
                                                     ) : (
                                                         <div>
-                                                            <Image src={preview.src} alt="Preview" className="preview-image" style={{ maxWidth: 100, maxHeight: 100 }} />
+                                                            <Image src={preview.src} alt="Preview" className="preview-image" style={{ maxWidth: 100, maxHeight: 100 }} width={300} height={300} />
                                                             <p style={{ fontSize: 12, marginTop: 5 }}>{preview.name}</p>
                                                         </div>
                                                     )}

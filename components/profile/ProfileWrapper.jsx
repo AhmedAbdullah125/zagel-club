@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { t } from "@/lib/i18n";
 import ContactHero from "../Contact/ContactHero";
 import Image from "next/image";
-import usersIcon from '@/src/assets/images/usersIcon.svg';
+import usersIcon from '@/src/assets/images/profileIcon.svg';
 import flagIcon from '@/src/assets/images/flag.svg';
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -34,7 +34,7 @@ export default function ProfileWrapper() {
                                         <div className="img-cont">
                                             <Image src={usersIcon} alt="user-icon" />
                                         </div>
-                                        <span>{t(lang, "user_info")}</span>
+                                        <span>{t(lang, "profile")}</span>
                                     </div>
 
                                     <div className="form-grid">
@@ -43,7 +43,7 @@ export default function ProfileWrapper() {
                                             <label className="field-label">{t(lang, "club_logo")}</label>
                                             <div className="club-logo-container-profile">
                                                 <Image
-                                                    src={profileData.logo}
+                                                    src={profileData?.logo}
                                                     alt="Club Logo"
                                                     width={120}
                                                     height={120}
@@ -57,9 +57,9 @@ export default function ProfileWrapper() {
                                             <label className="field-label">{t(lang, "club_name")}</label>
                                             <Input
                                                 type="text"
-                                                value={profileData.name}
+                                                value={profileData?.name}
                                                 readOnly
-                                                className="field-input"
+                                                className="field-input success-mob-input"
                                             />
                                         </div>
 
@@ -69,7 +69,7 @@ export default function ProfileWrapper() {
                                                 type="text"
                                                 value={profileData?.address || ''}
                                                 readOnly
-                                                className="field-input"
+                                                className="field-input success-mob-input"
                                             />
                                         </div>
 
@@ -80,7 +80,7 @@ export default function ProfileWrapper() {
                                                 type="text"
                                                 value={profileData?.city?.name || ''}
                                                 readOnly
-                                                className="field-input"
+                                                className="field-input success-mob-input"
                                             />
                                         </div>
 
@@ -90,7 +90,7 @@ export default function ProfileWrapper() {
                                                 type="text"
                                                 value={profileData?.area?.name || ''}
                                                 readOnly
-                                                className="field-input"
+                                                className="field-input success-mob-input"
                                             />
                                         </div>
 
@@ -101,7 +101,7 @@ export default function ProfileWrapper() {
                                                 type="text"
                                                 value={profileData?.licenseNumber || ''}
                                                 readOnly
-                                                className="field-input"
+                                                className="field-input success-mob-input"
                                             />
                                         </div>
 
@@ -111,32 +111,24 @@ export default function ProfileWrapper() {
                                                 type="email"
                                                 value={profileData?.email || ''}
                                                 readOnly
-                                                className="field-input"
+                                                className="field-input success-mob-input"
                                             />
                                         </div>
 
                                         {/* Mobile Number - Full Width */}
-                                        <div className="form-field full-width">
+                                        <div className="form-field full-width ">
                                             <label className="field-label">{t(lang, "mobile_number")}</label>
-                                            <div className="input-of-mobile-num">
+                                            <div className="input-of-mobile-num success-mob-input">
                                                 <div className="country-select">
-                                                    <Select value={profileData?.countryCode || '+966'} disabled>
+                                                    <Select value={profileData?.countryCode} disabled>
                                                         <SelectTrigger className="country-select-trigger">
                                                             <SelectValue />
                                                         </SelectTrigger>
                                                         <SelectContent>
-                                                            <SelectItem value={profileData?.countryCode || '+966'}>
+                                                            <SelectItem value={profileData?.countryCode}>
                                                                 <div className="code-country-slug-cont">
-                                                                    <div className="select-country-item-cont">
-                                                                        <Image
-                                                                            src={flagIcon}
-                                                                            alt="flag"
-                                                                            width={20}
-                                                                            height={20}
-                                                                            className="country-flag"
-                                                                        />
-                                                                    </div>
-                                                                    <p>({profileData?.countryCode || '+966'})</p>
+
+                                                                    <p>({profileData?.countryCode})</p>
                                                                 </div>
                                                             </SelectItem>
                                                         </SelectContent>
@@ -144,7 +136,7 @@ export default function ProfileWrapper() {
                                                 </div>
                                                 <Input
                                                     type="tel"
-                                                    className="phone-input"
+                                                    className="phone-input success-mob-input"
                                                     style={{ direction: lang === 'ar' ? 'rtl' : 'ltr' }}
                                                     value={profileData?.phone || ''}
                                                     readOnly

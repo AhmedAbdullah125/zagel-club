@@ -185,7 +185,7 @@ export default function PlayersWrapper() {
                             {totalPages > 1 && (
                                 <div className="players-pagination">
                                     <div className="pagination-info">
-                                        {t(lang, "showing")} {perPage} {t(lang, "of")} {totalPages} {t(lang, "pages")}
+                                        {t(lang, "showing")} {players.length} {t(lang, "of")} {totalPages} {t(lang, "pages")}
                                     </div>
                                     <div className="pagination-controls">
                                         <button

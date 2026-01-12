@@ -21,12 +21,12 @@ export default function ChargeWalletModal({ isOpen, onClose, onConfirm, amount, 
                     <Image src={gif} alt="add to wallet" width={120} height={120} />
                 </div>
 
-                <h3 className="wallet-modal-title">{t(lang, type == "charge" ? "wallet_charge_message" : "withdraw_amount_label")}</h3>
+                <h3 className="wallet-modal-title">{t(lang, type == "charge" ? "charge_amount_label" : "withdraw_amount_label")}</h3>
 
                 <div className="wallet-modal-input-wrapper">
                     <input
                         type="number"
-                        placeholder={t(lang, type == "charge" ? "wallet_charge_message" : "withdraw_amount_label")}
+                        placeholder={t(lang, type == "charge" ? "charge_amount_label" : "withdraw_amount_label")}
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
                         className="wallet-modal-input"

@@ -315,9 +315,9 @@ export default function DocumentsForm({ lang, formData, setFormData, setStep, pr
 
                             {/* Form Actions */}
                             <div className="form-actions">
-                                <Button type="button" onClick={() => setStep(1)} className="previous-license-btn">
+                                {/* <Button type="button" onClick={() => setStep(1)} className="previous-license-btn">
                                     {t(lang, "previous")}
-                                </Button>
+                                </Button> */}
 
                                 <Button type="submit" className="submit-license-btn" disabled={loading}>
                                     {loading ? <span className="loader-btn"></span> : <span>{t(lang, "next")}</span>}

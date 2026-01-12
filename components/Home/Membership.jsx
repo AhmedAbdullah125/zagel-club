@@ -11,9 +11,9 @@ import Loading from "@/src/app/loading";
 export default function Membership({ lang }) {
     const { data: avilableServives, isLoading } = useGetAvilableServices(lang)
     return (
-        <div className="membership-section has-bg" style={{ backgroundImage: `url(${birdsBg.src})`, backgroundSize: "cover", backgroundPosition: "fixed", backgroundRepeat: "no-repeat" }}>
+        <div className="membership-section has-bg" style={{ backgroundImage: `url(${birdsBg.src})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
             {
-                isLoading ? <Loading /> :
+                isLoading || !avilableServives ? <Loading /> :
                     <div className="white-bg">
                         <div className="container">
                             <div className="membership-content">

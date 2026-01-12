@@ -10,10 +10,7 @@ import Loading from "@/src/app/loading";
 export default function SelectPlayerForMembership({ lang, selectedPlayer, setSelectedPlayer, setStep }) {
     const [page, setPage] = useState(1);
     const [keyWord, setKeyWord] = useState("");
-
     const { data: playersResponse, isLoading } = useGetPlayers(lang, page, keyWord);
-
-
     // Extract data from API response
     const players = playersResponse?.data || [];
     const paginate = playersResponse?.paginate || {};
@@ -55,35 +52,36 @@ export default function SelectPlayerForMembership({ lang, selectedPlayer, setSel
 
     return (
         <div className="select-player">
-            {
-                isLoading ? <Loading /> :
-                    <div className="container">
-                        <h2 className="select-player-title">{t(lang, "membership_title_2")}</h2>
-                        <p className="select-player-description">{t(lang, "select_player_description")}</p>
-                        <div className="select-player-content">
-                            {/* Header Section */}
-                            <div className="players-header">
-                                <h2 className="players-title">{t(lang, "registered_players_list")}</h2>
 
-                                {/* Search Input */}
-                                <div className="search-wrapper">
-                                    <input
-                                        type="text"
-                                        placeholder={t(lang, "quick_search")}
-                                        value={keyWord}
-                                        onChange={(e) => setKeyWord(e.target.value)}
-                                        className="search-input"
-                                    />
-                                    <Image src={searchIcon} alt="Search" className="search-icon" />
-                                </div>
-                            </div>
+            <div className="container">
+                <h2 className="select-player-title">{t(lang, "membership_title_2")}</h2>
+                <p className="select-player-description">{t(lang, "select_player_description")}</p>
+                <div className="select-player-content">
+                    {/* Header Section */}
+                    <div className="players-header">
+                        <h2 className="players-title">{t(lang, "registered_players_list")}</h2>
 
-                            {/* Players Table */}
+                        {/* Search Input */}
+                        <div className="search-wrapper">
+                            <input
+                                type="text"
+                                placeholder={t(lang, "quick_search")}
+                                value={keyWord}
+                                onChange={(e) => setKeyWord(e.target.value)}
+                                className="search-input"
+                            />
+                            <Image src={searchIcon} alt="Search" className="search-icon" />
+                        </div>
+                    </div>
+
+                    {/* Players Table */}
+                    {
+                        isLoading ? <p className="no-orders"><span className="loader-btn"></span></p> :
                             <div className="players-table-wrapper">
                                 <table className="players-table">
                                     <thead>
                                         <tr>
-                                            <th></th>
+
                                             <th>{t(lang, "full_player_name")}</th>
                                             <th>{t(lang, "national_id_number")}</th>
                                             <th>{t(lang, "birth_date")}</th>
@@ -95,16 +93,19 @@ export default function SelectPlayerForMembership({ lang, selectedPlayer, setSel
                                         {players.length > 0 ? (
                                             players.map((player) => (
                                                 <tr key={player.id}>
-                                                    <td>
-                                                        <input
-                                                            type="radio"
-                                                            name="selectedPlayer"
-                                                            checked={selectedPlayer === player.id}
-                                                            onChange={() => handlePlayerSelect(player.id)}
-                                                            className="player-radio"
-                                                        />
-                                                    </td>
-                                                    <td>{player.fullName}</td>
+
+                                                    <td className="flex items-center gap-2">
+                                                        <div className="input-cont">
+                                                            <input
+                                                                type="radio"
+                                                                name="selectedPlayer"
+                                                                checked={selectedPlayer === player.id}
+                                                                onChange={() => handlePlayerSelect(player.id)}
+                                                                className="player-radio"
+                                                            />
+                                                        </div>
+
+                                                        {player.fullName}</td>
                                                     <td>{player.nationalId}</td>
                                                     <td>{player.dateOfBirth}</td>
                                                     <td>{player.nationality}</td>
@@ -121,68 +122,69 @@ export default function SelectPlayerForMembership({ lang, selectedPlayer, setSel
                                     </tbody>
                                 </table>
                             </div>
+                    }
 
-                            {/* Pagination Section */}
-                            {totalPages > 0 && (
-                                <div className="players-pagination">
-                                    <div className="pagination-info">
-                                        {t(lang, "showing")} {perPage} {t(lang, "of")} {totalPages} {t(lang, "pages")}
-                                    </div>
+                    {/* Pagination Section */}
+                    {totalPages > 0 && (
+                        <div className="players-pagination">
+                            <div className="pagination-info">
+                                {t(lang, "showing")} {players.length} {t(lang, "of")} {totalPages} {t(lang, "pages")}
+                            </div>
 
-                                    <div className="pagination-controls">
+                            <div className="pagination-controls">
+                                <button
+                                    className="pagination-arrow"
+                                    onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    {lang === "ar" ? "‹" : "›"}
+                                </button>
+
+                                {getPageNumbers().map(pageNum => (
+                                    <button
+                                        key={pageNum}
+                                        className={`pagination-number ${currentPage === pageNum ? 'active' : ''}`}
+                                        onClick={() => setPage(pageNum)}
+                                    >
+                                        {pageNum}
+                                    </button>
+                                ))}
+
+                                {totalPages > 3 && currentPage < totalPages - 1 && (
+                                    <>
+                                        <span className="pagination-dots">...</span>
                                         <button
-                                            className="pagination-arrow"
-                                            onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
-                                            disabled={currentPage === totalPages}
+                                            className="pagination-number"
+                                            onClick={() => setPage(totalPages)}
                                         >
-                                            {lang === "ar" ? "‹" : "›"}
+                                            {totalPages}
                                         </button>
+                                    </>
+                                )}
 
-                                        {getPageNumbers().map(pageNum => (
-                                            <button
-                                                key={pageNum}
-                                                className={`pagination-number ${currentPage === pageNum ? 'active' : ''}`}
-                                                onClick={() => setPage(pageNum)}
-                                            >
-                                                {pageNum}
-                                            </button>
-                                        ))}
-
-                                        {totalPages > 3 && currentPage < totalPages - 1 && (
-                                            <>
-                                                <span className="pagination-dots">...</span>
-                                                <button
-                                                    className="pagination-number"
-                                                    onClick={() => setPage(totalPages)}
-                                                >
-                                                    {totalPages}
-                                                </button>
-                                            </>
-                                        )}
-
-                                        <button
-                                            className="pagination-arrow"
-                                            onClick={() => setPage(prev => Math.max(prev - 1, 1))}
-                                            disabled={currentPage === 1}
-                                        >
-                                            {lang === "ar" ? "›" : "‹"}
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Action Buttons */}
-                            <Button
-                                type="button"
-                                onClick={handleNext}
-                                className="submit-license-btn"
-                                disabled={!selectedPlayer}
-                            >
-                                {t(lang, "next")}
-                            </Button>
+                                <button
+                                    className="pagination-arrow"
+                                    onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                                    disabled={currentPage === 1}
+                                >
+                                    {lang === "ar" ? "›" : "‹"}
+                                </button>
+                            </div>
                         </div>
-                    </div>
-            }
+                    )}
+
+                </div>
+                {/* Action Buttons */}
+                <Button
+                    type="button"
+                    onClick={handleNext}
+                    className="submit-license-btn"
+                    disabled={!selectedPlayer}
+                >
+                    {t(lang, "next")}
+                </Button>
+            </div>
+
         </div>
     );
 }

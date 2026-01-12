@@ -10,7 +10,7 @@ import gif from "@/src/assets/images/walletGit.gif";
 import CongatsCard from "../global/CongatsCard";
 import ChargeWalletModal from "./ChargeWalletModal";
 import { useGetWallet } from "../Requests/useGetWallet";
-import parse from "html-react-parser";
+import rial from "@/src/assets/images/whiteriall.svg";
 import { walletTransactions } from "../Requests/walletTransactions";
 
 export default function WalletWrapper() {
@@ -77,7 +77,7 @@ export default function WalletWrapper() {
                     <p>{t(lang, "wallet_description")}</p>
                     <div className="wallet-det-cont">
                         <div className="r-side">
-                            <h2>{t(lang, "wallet_charge_message")} 💰</h2>
+                            <h2>{t(lang, "wallet_charge_message")}</h2>
                             <Image src={addToWallet} alt="add to wallet" />
 
                             {/* Charge Wallet Button */}
@@ -100,11 +100,11 @@ export default function WalletWrapper() {
                         </div>
                         <div className="l-side">
                             <div className="vid-container">
-                                <Image src={gif} alt="wallet vid" />
+                                <Image src={gif} alt="wallet vid" className="wallet-icon" />
                                 <span>{t(lang, "wallet_balance")}</span>
                                 {
                                     walletLoading ? <span className="loader-btn"></span> :
-                                        <div className="wallet-balance">{parse(wallet)}</div>
+                                        <div className="wallet-balance">{wallet}<Image src={rial} className="wallet-sar-icon" alt="coin" /></div>
                                 }
                             </div>
                         </div>

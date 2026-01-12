@@ -153,7 +153,7 @@ export default function EditProfileWrapper() {
 
     return (
         <div className="home-page-content" style={{ direction: lang == "ar" ? "rtl" : "ltr" }}>
-            <ContactHero lang={lang} subtitle={t(lang, "edit_profile_data")} />
+            <ContactHero lang={lang} subtitle={t(lang, "profile_update_success_title")} />
 
             {
                 isLoading || !profile || citiesLoading ? <Loading /> :
@@ -167,7 +167,7 @@ export default function EditProfileWrapper() {
                                         <div className="img-cont">
                                             <Image src={usersIcon} alt="user-icon" />
                                         </div>
-                                        <span>{t(lang, "user_info")}</span>
+                                        <span>{t(lang, "profile_update_success_title")}</span>
                                     </div>
 
                                     <Form {...form}>
@@ -199,7 +199,7 @@ export default function EditProfileWrapper() {
                                                             <Input
                                                                 {...field}
                                                                 type="text"
-                                                                className="field-input"
+                                                                className={`field-input ${form.formState.errors.clubName ? 'error' : 'success-mob-input'}`}
                                                                 style={{ direction: lang === 'ar' ? 'rtl' : 'ltr' }}
                                                             />
                                                         </FormControl>
@@ -221,7 +221,7 @@ export default function EditProfileWrapper() {
                                                             <Input
                                                                 {...field}
                                                                 type="text"
-                                                                className="field-input"
+                                                                className={`field-input ${form.formState.errors.clubName ? 'error' : 'success-mob-input'}`}
                                                                 style={{ direction: lang === 'ar' ? 'rtl' : 'ltr' }}
                                                             />
                                                         </FormControl>
@@ -249,7 +249,7 @@ export default function EditProfileWrapper() {
                                                             disabled={cities?.length === 0 || citiesLoading}
                                                         >
                                                             <FormControl>
-                                                                <SelectTrigger className={`field-input select-trigger disabled:opacity-1 ${lang == "ar" ? "ar-select-trigger" : "en-select-trigger"}`}>
+                                                                <SelectTrigger className={`field-input select-trigger disabled:opacity-1 ${lang == "ar" ? "ar-select-trigger" : "en-select-trigger"} ${form.formState.errors.city ? 'error' : 'success-mob-input'}`}>
                                                                     <SelectValue placeholder={t(lang, "city_placeholder")} />
                                                                 </SelectTrigger>
                                                             </FormControl>
@@ -281,7 +281,7 @@ export default function EditProfileWrapper() {
                                                             disabled={regions?.length === 0 || cities?.length === 0 || regionsLoading || citiesLoading || !selectedCity}
                                                         >
                                                             <FormControl>
-                                                                <SelectTrigger className={`field-input select-trigger disabled:opacity-1 ${lang == "ar" ? "ar-select-trigger" : "en-select-trigger"}`}>
+                                                                <SelectTrigger className={`field-input select-trigger disabled:opacity-1 ${lang == "ar" ? "ar-select-trigger" : "en-select-trigger"} ${form.formState.errors.administrativeRegion ? 'error' : 'success-mob-input'}`}>
                                                                     <SelectValue placeholder={t(lang, "administrative_region")} />
                                                                 </SelectTrigger>
                                                             </FormControl>
@@ -311,7 +311,7 @@ export default function EditProfileWrapper() {
                                                             <Input
                                                                 {...field}
                                                                 type="text"
-                                                                className="field-input"
+                                                                className={`field-input ${form.formState.errors.licenseNumber ? 'error' : 'success-mob-input'}`}
                                                                 style={{ direction: 'ltr' }}
                                                             />
                                                         </FormControl>
@@ -333,7 +333,7 @@ export default function EditProfileWrapper() {
                                                             <Input
                                                                 {...field}
                                                                 type="email"
-                                                                className="field-input"
+                                                                className={`field-input ${form.formState.errors.officialEmail ? 'error' : 'success-mob-input'}`}
                                                                 style={{ direction: 'ltr' }}
                                                             />
                                                         </FormControl>

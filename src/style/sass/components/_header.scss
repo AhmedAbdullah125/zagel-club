@@ -1,3 +1,21 @@
+.logoutBtn-in-drop-header {
+    width: 100%;
+    background-color: #EC2D30E5;
+    color: $white;
+    border-radius: 9px;
+    padding: 0 5px;
+    height: 56px;
+    @include flexCenter;
+    font-size: 16px;
+    font-weight: 400;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.logoutBtn-in-drop-header:hover {
+    background-color: #b91c1c;
+    /* red-700 */
+}
+
 .container {
     margin: 0 auto;
 }
@@ -30,6 +48,7 @@
         }
 
     }
+
 
     .navInner {
         display: flex;
@@ -171,7 +190,7 @@
             background-color: rgba(27, 131, 84, 0.05);
             position: relative;
 
-            
+
 
             @media screen and (max-width:767px) {
                 width: 40px;
@@ -182,13 +201,15 @@
                 width: 28px;
                 height: 28px;
                 object-fit: contain;
+
                 @media screen and (max-width:767px) {
                     width: 20px;
                     height: 20px;
                 }
             }
         }
-        .has-notification{
+
+        .has-notification {
             &::after {
                 content: "";
                 position: absolute;

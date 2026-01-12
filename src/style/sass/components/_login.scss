@@ -40,6 +40,12 @@ select {
     margin-top: 55px;
     height: 58px;
 
+    .lang-back-btn {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
     img {
         height: 58px;
         width: auto;
@@ -147,8 +153,22 @@ select {
     border: 1.5px solid $main;
 }
 
+.error-message {
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    color: rgb(229, 37, 42);
+    background-color: rgb(253, 234, 234);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 70px auto;
+    @include flexCenter;
+    min-height: calc(100vh - 656px);
+}
+
 .success-mob-input {
-    border: 1.5px solid $main;
+    border: 1.5px solid $main !important;
 }
 
 .error-mob-input {
@@ -635,6 +655,12 @@ select {
 
     @media screen and (max-width: 768px) {
         font-size: 32px;
+    }
+}
+
+.terms-modal-title-fixed {
+    &::after {
+        display: none;
     }
 }
 

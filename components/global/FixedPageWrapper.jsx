@@ -33,7 +33,7 @@ export default function FixedPageWrapper({ type, title }) {
                             <div className="terms-modal-icon">
                                 <Image src={termsIcon} alt="terms-icon" />
                             </div>
-                            <h2 className="terms-modal-title">{t(lang, title)}</h2>
+                            <h2 className="terms-modal-title terms-modal-title-fixed">{t(lang, title)}</h2>
                         </div>
                         <div className="container">
                             <div className="news-article">

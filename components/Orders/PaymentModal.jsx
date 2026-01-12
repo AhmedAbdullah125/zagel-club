@@ -5,11 +5,12 @@ import { Input } from "../ui/input";
 import { t } from "@/lib/i18n";
 import { payRequest } from "../Requests/payRequest";
 
-export default function PaymentModal({ isOpen, onClose, lang, orderInfo }) {
+export default function PaymentModal({ isOpen, onClose, lang, orderInfo, cost }) {
     const [activeTab, setActiveTab] = useState('wallet'); // 'wallet' or 'bank'
     const [accountNumber, setAccountNumber] = useState('');
     const [amount, setAmount] = useState('');
     const [loading, setLoading] = useState(false);
+    console.log(cost);
 
     if (!isOpen) return null;
 

@@ -9,8 +9,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { cn } from "@/lib/utils";
 import { sendCode } from "../Requests/sendCode";
-import { verifyRequest } from "../Requests/verifyRequest";
 import { verifyRequestCustom } from "../Requests/verifyRequestCustom";
+import Image from "next/image";
+import phoneimag from '@/src/assets/images/profileDropDown/phone.svg';
 
 export default function EditPhoneNumberOTP({ lang, countryCode, phone, nextStep }) {
     const [loading, setLoading] = useState(false);
@@ -60,65 +61,72 @@ export default function EditPhoneNumberOTP({ lang, countryCode, phone, nextStep 
 
     return (
         <div className="settings-form-container my-16" >
-            <h2 className="settings-section-title">{t(lang, "verification_code")}</h2>
-
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="otp-form">
-                    <p className="otp-description">
-                        {t(lang, "verification_sent")} <span className="phone-highlight">{countryCode + phone}</span>
-                    </p>
-
-                    {/* OTP Field */}
-                    <FormField
-                        control={form.control}
-                        name="code"
-                        render={({ field }) => (
-                            <FormItem className="from-input-wrapper-mobile w-full max-w-[500px]">
-                                <FormControl>
-                                    <InputOTP
-                                        maxLength={4}
-                                        {...field}
-                                        className="input-of-otp"
-                                    >
-                                        <InputOTPGroup className="gap-4 w-full justify-between" style={{ direction: "ltr" }}>
-                                            {[0, 1, 2, 3].map((index) => (
-                                                <InputOTPSlot
-                                                    key={index}
-                                                    index={index}
-                                                    className={cn(
-                                                        "h-[70px] w-full text-2xl rounded-lg border-2",
-                                                        form.formState.errors.code ? 'error-mob-input' : field.value?.[index] ? 'success-mob-input' : ''
-                                                    )}
-                                                />
-                                            ))}
-                                        </InputOTPGroup>
-                                    </InputOTP>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <Button type="submit" className="settings-submit-btn w-full max-w-[500px]" disabled={loading}>
-                        {loading ? <span className="loader-btn"></span> : <span>{t(lang, "next")}</span>}
-                    </Button>
-
-                    <div className="otp-footer">
-                        <div className="timer">{formatTime(timer)}</div>
-                        <div className="resend-section">
-                            <span className="resend-text">{t(lang, "verification_not_received")}</span>
-                            <button
-                                type="button"
-                                className="resend-button"
-                                onClick={handleResend}
-                                disabled={timer > 0}
-                            >
-                                {t(lang, "resend_code")}
-                            </button>
-                        </div>
+            <div className="container">
+                <div className="order-section-header">
+                    <div className="img-cont">
+                        <Image src={phoneimag} alt="user-icon" />
                     </div>
-                </form>
-            </Form>
+                    <span>{t(lang, "edit_phone_number2")}</span>
+                </div>
+                <h2 className="settings-section-title">{t(lang, "verification_code")}</h2>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="otp-form">
+                        <p className="otp-description">
+                            {t(lang, "verification_sent")} <span className="phone-highlight">{countryCode + phone}</span>
+                        </p>
+
+                        {/* OTP Field */}
+                        <FormField
+                            control={form.control}
+                            name="code"
+                            render={({ field }) => (
+                                <FormItem className="from-input-wrapper-mobile w-full max-w-[500px]">
+                                    <FormControl>
+                                        <InputOTP
+                                            maxLength={4}
+                                            {...field}
+                                            className="input-of-otp"
+                                        >
+                                            <InputOTPGroup className="gap-4 w-full justify-between" style={{ direction: "ltr" }}>
+                                                {[0, 1, 2, 3].map((index) => (
+                                                    <InputOTPSlot
+                                                        key={index}
+                                                        index={index}
+                                                        className={cn(
+                                                            "h-[70px] w-full text-2xl rounded-2xl border-2 ",
+                                                            form.formState.errors.code ? 'error-mob-input' : field.value?.[index] ? `success-mob-input bg-white` : `bg-[#EEEEEE]`
+                                                        )}
+                                                    />
+                                                ))}
+                                            </InputOTPGroup>
+                                        </InputOTP>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <Button type="submit" className="settings-submit-btn w-full max-w-[500px]" disabled={loading}>
+                            {loading ? <span className="loader-btn"></span> : <span>{t(lang, "next")}</span>}
+                        </Button>
+
+                        <div className="otp-footer">
+                            <div className="resend-section">
+                                <span className="resend-text">{t(lang, "verification_not_received")}</span>
+                                <button
+                                    type="button"
+                                    className="resend-button"
+                                    onClick={handleResend}
+                                    disabled={timer > 0}
+                                >
+                                    {t(lang, "resend_code")}
+                                </button>
+                            </div>
+                            <div className="timer">{formatTime(timer)}</div>
+                        </div>
+                    </form>
+                </Form>
+            </div>
         </div>
     );
 }

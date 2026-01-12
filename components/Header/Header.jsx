@@ -2,10 +2,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import flag from "@/src/assets/images/flag.svg";
-import logo from "@/src/assets/images/logo.svg";
+import logo from "@/src/assets/images/logo.png";
 import langImage from "@/src/assets/images/lang.svg";
 import userImage from '@/src/assets/images/userIcon.svg'
 import cheveron from '@/src/assets/images/cheveron.svg'
@@ -27,6 +27,7 @@ import deleteIcon from '@/src/assets/images/profileDropDown/delete.svg'
 import complaint from '@/src/assets/images/profileDropDown/complaint.svg'
 import CongatsCard from "../global/CongatsCard";
 import { useGetProfile } from "../Requests/useGetProfile";
+import Cookies from "js-cookie";
 
 const navItems = [
     { label: "الرئيسية", href: "/", lable_en: "Home" },
@@ -121,6 +122,21 @@ export default function Header() {
             }
         }
     }, []);
+    const router = useRouter();
+    useEffect(() => {
+        if (profile === undefined && !isLoading) {
+            const token = Cookies.get("token");
+            if (token) {
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId");
+                localStorage.removeItem("device_id");
+                localStorage.removeItem("fcm_token");
+                Cookies.remove("token");
+                router.push("/login");
+            }
+        }
+    }, [profile, isLoading, router]);
 
     useEffect(() => {
         if (showSuccessCard) {
@@ -155,18 +171,21 @@ export default function Header() {
                 <div className="container">
                     <div className={"navInner"}>
                         {/* Right: logo */}
-                        <Link href="/">
-                            <Image src={logo} alt="logo" className={"logo"} />
-                        </Link>
-                        {/* Center: nav links */}
-                        <nav className={"navMenu"} aria-label="Main navigation">
-                            {navItems.map((item, index) => {
-                                const isActive = item.href === "/" ? pathname === "/" : pathname?.startsWith(item.href)
-                                return (
-                                    <Link href={item.href} key={index} className={`navItem ${isActive ? "active" : ""}`}> {lang == "ar" ? item.label : item.lable_en} </Link>
-                                );
-                            })}
-                        </nav>
+                        <div className="flex items-center gap-7">
+
+                            <Link href="/">
+                                <Image src={logo} alt="logo" className={"logo"} />
+                            </Link>
+                            {/* Center: nav links */}
+                            <nav className={"navMenu"} aria-label="Main navigation">
+                                {navItems.map((item, index) => {
+                                    const isActive = item.href === "/" ? pathname === "/" : pathname?.startsWith(item.href)
+                                    return (
+                                        <Link href={item.href} key={index} className={`navItem ${isActive ? "active" : ""}`}> {lang == "ar" ? item.label : item.lable_en} </Link>
+                                    );
+                                })}
+                            </nav>
+                        </div>
 
                         {/* Left: language + login */}
                         <div className={"navActions"}>
@@ -241,7 +260,7 @@ export default function Header() {
                                                     <DropdownMenuItem className="p-0">
                                                         <Button
                                                             onClick={handleLogoutClick}
-                                                            className="w-full bg-red-600 hover:bg-red-700 text-white rounded-lg py-4 text-base font-semibold"
+                                                            className="logoutBtn-in-drop-header"
                                                         >
                                                             {t(lang, "logout")}
                                                         </Button>

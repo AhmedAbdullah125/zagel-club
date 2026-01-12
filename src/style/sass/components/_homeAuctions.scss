@@ -365,7 +365,11 @@
     background-color: rgb(213, 244, 230);
     border-radius: 8px;
     padding: 20px;
+    margin: 70px auto;
+    @include flexCenter;
+    min-height: calc(100vh - 656px);
 }
+
 
 .switch-toggle-container {
     margin: 80px auto;
@@ -469,16 +473,16 @@
 
 .sub-filter-btn {
     height: 60px;
-    min-width: 180px;
+    min-width: 160px;
     padding: 0 20px;
     border-radius: 8px;
-    border: 1px solid #E5E5E5;
+    border: 1px solid $main;
     font-size: 20px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     background-color: white;
-    color: #666;
+    color: $main;
 
     &.active {
         background-color: $main;

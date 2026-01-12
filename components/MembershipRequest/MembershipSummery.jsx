@@ -8,6 +8,7 @@ import serviceIcon from "@/src/assets/images/calculatoe.svg";
 import rialIcon from "@/src/assets/images/SAR.svg";
 import CongatsCard from "../global/CongatsCard";
 import { createNewRequest } from "../Requests/createNewRequest";
+import { useGetServiceCost } from "../Requests/useGetServiceCost";
 
 export default function MembershipSummery({ lang, selectedPlayer, setStep, type }) {
     const [loading, setLoading] = useState(false);
@@ -25,6 +26,10 @@ export default function MembershipSummery({ lang, selectedPlayer, setStep, type 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat(lang === 'ar' ? 'ar-SA' : 'en-US').format(amount);
     };
+
+    const { data: serviceCost, isLoading, isError, error } = useGetServiceCost(lang, "membership");
+    if (isLoading) return <div className="container"><p className="no-orders"><span className="loader-btn"></span></p></div>
+    if (isError) return <div className="container"><p className="error-message"><span >{error.message}</span></p></div>
 
     return (
         <div className="license-summery-container">
@@ -49,7 +54,7 @@ export default function MembershipSummery({ lang, selectedPlayer, setStep, type 
                                 <div className="cost-item">
                                     <span className="cost-label">{t(lang, "license_fee")}</span>
                                     <span className="cost-value">
-                                        {formatCurrency(licenseFee)} <Image src={rialIcon} alt="SAR" />
+                                        {serviceCost?.serviceValue.split(" ")[0]} <Image src={rialIcon} alt="SAR" />
                                     </span>
                                 </div>
 
@@ -57,7 +62,7 @@ export default function MembershipSummery({ lang, selectedPlayer, setStep, type 
                                 <div className="cost-item">
                                     <span className="cost-label">{t(lang, "vat")}</span>
                                     <span className="cost-value">
-                                        {formatCurrency(vatAmount)} <Image src={rialIcon} alt="SAR" />
+                                        {serviceCost?.taxValue.split(" ")[0]} <Image src={rialIcon} alt="SAR" />
                                     </span>
                                 </div>
 
@@ -65,7 +70,7 @@ export default function MembershipSummery({ lang, selectedPlayer, setStep, type 
                                 <div className="cost-item total-item">
                                     <span className="cost-label-total">{t(lang, "total")}</span>
                                     <span className="cost-value-total">
-                                        {formatCurrency(totalAmount)} <Image src={rialIcon} alt="SAR" />
+                                        {serviceCost?.totalAmount.split(" ")[0]} <Image src={rialIcon} alt="SAR" />
                                     </span>
                                 </div>
                             </div>
@@ -73,13 +78,13 @@ export default function MembershipSummery({ lang, selectedPlayer, setStep, type 
 
                         {/* Submit Button */}
                         <div className="summery-actions">
-                            <Button
+                            {/* <Button
                                 type="button"
                                 onClick={() => setStep(1)}
                                 className="previous-license-btn"
                             >
                                 {t(lang, "previous")}
-                            </Button>
+                            </Button> */}
                             <Button
                                 type="button"
                                 onClick={handleSubmit}

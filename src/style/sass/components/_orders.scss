@@ -2,10 +2,10 @@
     background: white;
     border-radius: 12px;
     border: 1px solid #EEEEEE;
-    padding: 20px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 12px;
     transition: all 0.3s ease;
 
     &:hover {
@@ -195,7 +195,6 @@
 
 // Personal and Club Data Form Styles
 .personal-club-content {
-    padding: 40px 0;
 
     .order-section {
         margin-bottom: 40px;
@@ -212,7 +211,6 @@
                 display: flex;
                 align-items: center;
                 gap: 8px;
-                padding: 5px;
 
                 img {
                     flex-shrink: 0;
@@ -221,36 +219,7 @@
             }
         }
 
-        .order-section-header {
-            border-radius: 8px;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 24px;
 
-            .img-cont {
-                width: 54px;
-                height: 54px;
-                border-radius: 8px;
-                overflow: hidden;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: $main;
-
-                img {
-                    width: 22px;
-                    height: auto;
-                }
-            }
-
-            span {
-                color: #1C1C1C;
-                font-size: 30px;
-                font-weight: 600;
-            }
-        }
 
         .form-grid {
             display: grid;
@@ -486,7 +455,7 @@
             margin-bottom: 32px;
 
             .order-section-header {
-                padding: 10px 16px;
+                padding: 10px 0;
 
                 svg {
                     width: 20px;
@@ -508,6 +477,36 @@
     }
 }
 
+.order-section-header {
+    border-radius: 8px;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+
+    .img-cont {
+        width: 54px;
+        height: 54px;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: $main;
+
+        img {
+            width: 22px;
+            height: auto;
+        }
+    }
+
+    span {
+        color: #1C1C1C;
+        font-size: 30px;
+        font-weight: 600;
+    }
+}
 
 
 //order header
@@ -941,7 +940,7 @@
 }
 
 .profile-content-wrapper {
-    margin: 80px 0;
+    margin: 40px 0;
 
     @media screen and (max-width: 768px) {
         margin: 40px 0;

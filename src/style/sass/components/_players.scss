@@ -128,7 +128,8 @@
         font-size: 14px;
 
         thead {
-            background: #f9fafb;
+            background: #F3F4F6;
+            border: 1px solid #D2D6DB;
 
             tr {
                 border-bottom: 1px solid #e5e7eb;
@@ -149,6 +150,8 @@
         }
 
         tbody {
+
+
             tr {
                 border-bottom: 1px solid #e5e7eb;
                 transition: background 0.2s;
@@ -288,6 +291,9 @@
         background: #fff;
         border-radius: 12px;
         padding: 30px;
+        box-shadow: 0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+        box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1);
+        margin-bottom: 32px;
 
         @media (max-width: 768px) {
             padding: 20px;
@@ -382,13 +388,27 @@
                     font-weight: 500;
                     color: #6b7280;
                     white-space: nowrap;
+                    border-inline-end: 1px solid #D2D6DB;
 
+                }
 
+                //last th no border
+                th:last-child {
+                    border-inline-end: none;
                 }
             }
         }
 
         tbody {
+            .input-cont {
+                width: 52px;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-inline-end: 1px solid #D2D6DB;
+            }
+
             tr {
                 border-bottom: 1px solid #e5e7eb;
                 transition: background 0.2s;
@@ -403,11 +423,15 @@
                 }
 
                 td {
-                    padding: 20px 16px;
+                    height: 48px;
+                    padding: 0px;
                     color: #1f2937;
                     white-space: nowrap;
+                }
 
-
+                //odd $white ,even :#F9FAFB
+                &:nth-child(even) {
+                    background: #f9fafb;
                 }
             }
         }
@@ -427,7 +451,6 @@
     .pagination-info {
         font-size: 14px;
         color: #6b7280;
-        margin-bottom: 20px;
         text-align: center;
 
         @media (max-width: 768px) {
@@ -440,7 +463,6 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        margin-bottom: 30px;
         flex-wrap: wrap;
     }
 

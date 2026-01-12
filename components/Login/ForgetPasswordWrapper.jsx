@@ -6,13 +6,16 @@ import ResetPassword from "./ResetPassword";
 import Image from "next/image";
 import langImage from "@/src/assets/images/lang2.svg";
 import logo from "@/src/assets/images/logo.svg";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 export default function ForgetPasswordWrapper() {
-    const [step, setStep] = useState("forget-password");
+    const [step, setStep] = useState(1);
     const [fromData, setFormData] = useState({
         phone: "",
         code: "",
     })
     const [lang, setLang] = useState('ar');
+    const router = useRouter();
     useEffect(() => {
         if (typeof window !== 'undefined') {
             setLang(localStorage.getItem('lang'));
@@ -22,29 +25,51 @@ export default function ForgetPasswordWrapper() {
         <div className="login-wrapper" style={{ direction: lang == "ar" ? "rtl" : "ltr" }}>
             <div className="container">
                 <div className="login-header-action">
-                    <button className={"langBtn"} type="button"
-                        onClick={() => {
-                            if (lang === 'ar') {
-                                localStorage.setItem('lang', 'en');
-                                setLang('en');
-                                window.location.reload();
+                    <div className="lang-back-btn">
+                        <Button className="langBtn" type="button"
+                            onClick={() => {
+                                if (step == 1) {
+                                    router.back()
+                                }
+                                else {
+                                    setStep(step - 1)
+                                }
                             }
-                            else {
-                                localStorage.setItem('lang', 'ar');
-                                setLang('ar');
-                                window.location.reload();
                             }
-                        }}
-                    >
-                        <Image src={langImage} alt="lang" className={"langImage"} />
-                        <span className={"langText"}>{lang === 'ar' ? 'English' : 'العربية'}</span>
-                    </button>
+                        >
+                            {
+                                lang == 'ar' ? (
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right-icon lucide-move-right"><path d="M18 8L22 12L18 16" /><path d="M2 12H22" /></svg>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-left-icon lucide-move-left"><path d="M6 8L2 12L6 16" /><path d="M22 12H2" /></svg>
+                                )
+                            }
+                        </Button>
+                        <button className={"langBtn"} type="button"
+                            onClick={() => {
+                                if (lang === 'ar') {
+                                    localStorage.setItem('lang', 'en');
+                                    setLang('en');
+                                    window.location.reload();
+                                }
+                                else {
+                                    localStorage.setItem('lang', 'ar');
+                                    setLang('ar');
+                                    window.location.reload();
+                                }
+                            }}
+                        >
+                            <Image src={langImage} alt="lang" className={"langImage"} />
+                            <span className={"langText"}>{lang === 'ar' ? 'English' : 'العربية'}</span>
+                        </button>
+
+                    </div>
                     <Image src={logo} alt="login" width={100} height={100} />
                 </div>
                 {
-                    step === "forget-password" ? <ForgetPassword formData={fromData} setFormData={setFormData} step={step} setStep={setStep} lang={lang} /> :
-                        step === "verify" ? <Verify formData={fromData} setFormData={setFormData} step={step} setStep={setStep} lang={lang} link="/reset-password" /> :
-                            <ResetPassword formData={fromData} setFormData={setFormData} step={step} setStep={setStep} lang={lang} />
+                    step === 1 ? <ForgetPassword formData={fromData} setFormData={setFormData} step={step} setStep={setStep} lang={lang} /> :
+                        step === 2 ? <Verify formData={fromData} setFormData={setFormData} step={step} setStep={setStep} lang={lang} link="/reset-password" /> :
+                            step === 3 ? <ResetPassword formData={fromData} setFormData={setFormData} step={step} setStep={setStep} lang={lang} /> : null
                 }
             </div>
         </div>

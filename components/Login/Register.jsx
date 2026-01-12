@@ -12,24 +12,58 @@ import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { t } from "@/lib/i18n"
 import { useGetCities } from "../Requests/useGetCities"
+import { useCallback } from "react"
+import { useDropzone } from "react-dropzone"
 import { useGetRegions } from "../Requests/useGetRegions"
 import { toast } from "sonner"
+import { DropUpload } from "../players/DropUpload"
 export default function Register({ step, formData, setFormData, lang, setStep }) {
     const [selectedCity, setSelectedCity] = useState(formData.city || null)
     const { data: cities, isLoading: citiesLoading } = useGetCities(lang)
     const { data: regions, isLoading: regionsLoading } = useGetRegions(lang, selectedCity, toast)
     const [loading, setLoading] = useState(false)
     const [nationalIdPreview, setNationalIdPreview] = useState(null)
+    const [clubLogoPreview, setClubLogoPreview] = useState(null)
     const registerSchema = z.object({
         name: z.string().min(1, { message: t(lang, "club_name_required") }).min(2, { message: t(lang, "club_name_min_length") }),
         city: z.string().min(1, { message: t(lang, "city_required") }),
         administrativeRegion: z.string().min(1, { message: t(lang, "administrative_region_required") }),
         nationalAddress: z.string().min(1, { message: t(lang, "national_address_required") }).min(3, { message: t(lang, "national_address_min_length") }),
-        clubLogo: z.any().refine((files) => files?.length > 0, {
-            message: t(lang, "club_logo_required")
-        }),
+        clubLogo: z.any()
+            .refine((files) => files && files.length > 0, {
+                message: t(lang, "club_logo_required")
+            })
+            .refine(
+                (files) => {
+                    if (!files || files.length === 0) return true;
+                    return files[0]?.size <= 5 * 1024 * 1024; // 5MB
+                },
+                { message: t(lang, "file_too_large") }
+            )
+            .refine(
+                (files) => {
+                    if (!files || files.length === 0) return true;
+                    return ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(files[0]?.type);
+                },
+                { message: t(lang, "invalid_file_type") }
+            ),
     })
+    const setSinglePreviewFromFiles = (files) => {
+        const file = files?.[0]
+        if (!file) {
+            setClubLogoPreview(null)
+            return
+        }
 
+        if (file.type === "application/pdf") {
+            setClubLogoPreview("pdf")
+            return
+        }
+
+        const reader = new FileReader()
+        reader.onloadend = () => setClubLogoPreview(reader.result)
+        reader.readAsDataURL(file)
+    }
     const handleFileChange = (e, setPreview) => {
         const file = e.target.files?.[0]
         if (file) {
@@ -50,9 +84,9 @@ export default function Register({ step, formData, setFormData, lang, setStep })
         defaultValues: {
             name: formData?.name || "",
             city: formData?.city || "",
+            clubLogo: formData?.clubLogo || [],
             administrativeRegion: formData?.administrativeRegion || "",
             nationalAddress: formData?.nationalAddress || "",
-            clubLogo: null,
 
         },
     })
@@ -61,6 +95,8 @@ export default function Register({ step, formData, setFormData, lang, setStep })
         setFormData({ ...formData, ...data })
         setStep(2)
     }
+    console.log(cities);
+
 
     return (
         <>
@@ -116,7 +152,7 @@ export default function Register({ step, formData, setFormData, lang, setStep })
                                                         >
                                                             <SelectValue placeholder={t(lang, "city_label")} />
                                                         </SelectTrigger>
-                                                        <SelectContent>
+                                                        <SelectContent dir={lang === 'ar' ? 'rtl' : 'ltr'}>
                                                             {cities?.map((city) => (
                                                                 <SelectItem key={city.id} value={city.id}>
                                                                     {city.name}
@@ -144,7 +180,7 @@ export default function Register({ step, formData, setFormData, lang, setStep })
                                                         >
                                                             <SelectValue placeholder={t(lang, "administrative_region")} />
                                                         </SelectTrigger>
-                                                        <SelectContent>
+                                                        <SelectContent dir={lang === 'ar' ? 'rtl' : 'ltr'}>
                                                             {regions?.map((region) => (
                                                                 <SelectItem key={region.id} value={region.id}>
                                                                     {region.name}
@@ -185,38 +221,39 @@ export default function Register({ step, formData, setFormData, lang, setStep })
                                     <FormField
                                         control={form.control}
                                         name="clubLogo"
-                                        render={({ field: { onChange, value, ...field } }) => (
+                                        render={({ field }) => (
                                             <FormItem className="personal-data-form personal-data-form-nop">
                                                 <FormLabel className="password-label">
                                                     {t(lang, "logo")}
                                                 </FormLabel>
                                                 <FormControl>
-                                                    <div className={`file-upload-wrapper ${form.formState.errors.clubLogo ? 'error-input' : value && value.length > 0 ? 'success-input' : ''}`}>
-                                                        <input
-                                                            type="file"
-                                                            accept="image/*"
-                                                            id="clubLogo"
-                                                            className="file-input-hidden"
-                                                            onChange={(e) => {
-                                                                onChange(e.target.files)
-                                                                handleFileChange(e, setNationalIdPreview)
-                                                            }}
-                                                            {...field}
-                                                        />
-                                                        <label htmlFor="clubLogo" className="file-upload-label">
-                                                            <div className="upload-content">
-                                                                <Image src={uploadFile} alt="Upload" className="upload-icon" />
-                                                                <p className="upload-text">
-                                                                    {t(lang, "national_id_desc")}
-                                                                </p>
+                                                    <DropUpload lang={lang} id="clubLogo" name={field.name}
+                                                        accept={{
+                                                            "image/jpeg": [],
+                                                            "image/jpg": [],
+                                                            "image/png": [],
+                                                            "image/webp": [],
+                                                        }}
+                                                        multiple={false}
+                                                        value={field.value}
+                                                        hasError={!!form.formState.errors.clubLogo}
+                                                        descKey="national_id_desc"
+                                                        onFiles={(files) => {
+                                                            field.onChange(files);
+                                                            setSinglePreviewFromFiles(files);
+                                                            form.trigger("clubLogo");
+                                                        }}
+                                                    >
+                                                        {clubLogoPreview && clubLogoPreview !== 'pdf' && (
+                                                            <div className="file-preview">
+                                                                <img
+                                                                    src={clubLogoPreview}
+                                                                    alt="Preview"
+                                                                    className="preview-image"
+                                                                />
                                                             </div>
-                                                            {nationalIdPreview && nationalIdPreview !== 'pdf' && (
-                                                                <div className="file-preview">
-                                                                    <img src={nationalIdPreview} alt="Preview" className="preview-image" />
-                                                                </div>
-                                                            )}
-                                                        </label>
-                                                    </div>
+                                                        )}
+                                                    </DropUpload>
                                                 </FormControl>
                                                 <FormMessage className="field-error" />
                                             </FormItem>
