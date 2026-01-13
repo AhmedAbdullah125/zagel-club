@@ -16,12 +16,13 @@ import { useGetCities } from "../Requests/useGetCities";
 import { makePlayerSchema, defaultPlayerValues } from "./AddPlayer.schema";
 import { PlayerInfoFields } from "./PlayerInfoFields";
 import { UploadSections } from "./UploadSections";
+import { useRouter } from "next/navigation";
 
 export default function AddPlayerWrapper() {
     const [lang, setLang] = useState("ar");
     const [loading, setLoading] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
-
+    const router = useRouter();
     useEffect(() => {
         if (typeof window !== "undefined") setLang(localStorage.getItem("lang") || "ar");
     }, []);
@@ -45,7 +46,7 @@ export default function AddPlayerWrapper() {
 
     const onSubmit = useCallback(
         (data: any) => {
-            addNewPlayer(data, setLoading, lang, form, setShowSuccess);
+            addNewPlayer(data, setLoading, lang, router, setShowSuccess);
         },
         [lang, form]
     );

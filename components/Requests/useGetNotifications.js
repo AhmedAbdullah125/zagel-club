@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { API_BASE_URL } from "../../lib/apiConfig";
 import { useQuery } from "@tanstack/react-query";
 
-const fetchNotifications = async (lang) => {
+const fetchNotifications = async (lang, page) => {
   const token = Cookies.get("token");
   const headers = {
     lang,
@@ -13,14 +13,14 @@ const fetchNotifications = async (lang) => {
 
   if (token) headers.Authorization = `Bearer ${token}`;
 
-  const response = await axios.get(`${API_BASE_URL}/notifications`, { headers });
-  return response.data.data;
+  const response = await axios.get(`${API_BASE_URL}/notifications?page=${page}`, { headers });
+  return response.data;
 };
 
-export const useGetNotifications = (lang) =>
+export const useGetNotifications = (lang, page = 1) =>
   useQuery({
-    queryKey: ["notifications", lang],
-    queryFn: () => fetchNotifications(lang),
+    queryKey: ["notifications", lang, page],
+    queryFn: () => fetchNotifications(lang, page),
     staleTime: 1000 * 30,
     gcTime: 1000 * 60,
   });

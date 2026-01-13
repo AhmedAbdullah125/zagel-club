@@ -1,3 +1,23 @@
+.notif-toast {
+    background: #1B8354 !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.notif-toast [data-button] {
+    background: #ffffff !important;
+    color: #1B8354 !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    border-radius: 2px !important;
+    padding: 8px 12px !important;
+    font-weight: 700 !important;
+}
+
+.notif-toast [data-button]:hover {
+    background: rgba(255, 255, 255, 0.9) !important;
+}
+
 .home-report {
     padding-bottom: 84px;
 

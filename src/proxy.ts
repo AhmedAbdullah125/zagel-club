@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const AUTH_PATHS = ["/login", "/register", "/forget-password"]; // pages that should be blocked when logged in
-const DEFAULT_AFTER_LOGIN = "/"; // change to "/dashboard" if you want
+const AUTH_PATHS = ["/login", "/register", "/forget-password"];
+const DEFAULT_AFTER_LOGIN = "/";
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
     const { pathname } = req.nextUrl;
 
     // Allow Next internals / assets

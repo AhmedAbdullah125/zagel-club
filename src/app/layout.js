@@ -1,9 +1,7 @@
 import '@/src/app/globals.css';
 import '@/src/style/main.css';
-import Header from '@/components/Header/Header';
 import ClientProviders from '@/src/utils/providers/ClientProviders';
-import Footer from '@/components/Footer/Footer';
-// import logo from '@/src/assets/images/blue-logo.svg';
+import NotificationListener from '@/components/Notifications/NotificationListener';
 
 
 export async function generateMetadata() {
@@ -35,6 +33,7 @@ export default function RootLayout({ children }) {
     <html lang="ar" dir="rtl">
       <body suppressHydrationWarning={true}>
         <ClientProviders>
+          <NotificationListener />
           {children}
         </ClientProviders>
       </body>

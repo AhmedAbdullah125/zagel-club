@@ -8,18 +8,14 @@ import { payRequest } from "../Requests/payRequest";
 export default function PaymentModal({ isOpen, onClose, lang, orderInfo, cost }) {
     const [activeTab, setActiveTab] = useState('wallet'); // 'wallet' or 'bank'
     const [accountNumber, setAccountNumber] = useState('');
-    const [amount, setAmount] = useState('');
+    const [amount, setAmount] = useState(cost.split(" ")[0]);
     const [loading, setLoading] = useState(false);
-    console.log(cost);
-
     if (!isOpen) return null;
-
     const handleSubmit = () => {
         payRequest({ requestId: orderInfo.id, paymentMethod: activeTab }, setLoading, lang).then(() => {
             onClose();
         });
     };
-
     return (
         <div className="complaint-modal-overlay" onClick={onClose} style={{ direction: lang == "ar" ? "rtl" : "ltr" }}>
             <div className="complaint-modal-content payment-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -28,7 +24,6 @@ export default function PaymentModal({ isOpen, onClose, lang, orderInfo, cost })
                         <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </button>
-
                 <div className="payment-modal-form">
                     <h2 className="payment-modal-title">{t(lang, "select_payment_method")}</h2>
 
@@ -63,26 +58,29 @@ export default function PaymentModal({ isOpen, onClose, lang, orderInfo, cost })
                     </div>
 
                     <div className="payment-form-groups">
-                        <div className="payment-form-group">
-                            <div className="input-with-icon">
-                                <Input
-                                    type="text"
-                                    placeholder={t(lang, "bank_account_number")}
-                                    value={accountNumber}
-                                    onChange={(e) => setAccountNumber(e.target.value)}
-                                    className="payment-input"
-                                />
-                                <div className="input-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                        <path d="M3 21H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                        <path d="M3 10H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                        <path d="M5 6L12 3L19 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                        <path d="M4 10V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                        <path d="M20 10V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
+                        {
+                            activeTab === 'bank' &&
+                            <div className="payment-form-group">
+                                <div className="input-with-icon">
+                                    <Input
+                                        type="text"
+                                        placeholder={t(lang, "bank_account_number")}
+                                        value={accountNumber}
+                                        onChange={(e) => setAccountNumber(e.target.value)}
+                                        className="payment-input"
+                                    />
+                                    <div className="input-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M3 21H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                            <path d="M3 10H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                            <path d="M5 6L12 3L19 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                            <path d="M4 10V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                            <path d="M20 10V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
 
                         <div className="payment-form-group">
                             <div className="input-with-icon">
@@ -106,12 +104,7 @@ export default function PaymentModal({ isOpen, onClose, lang, orderInfo, cost })
                             </div>
                         </div>
                     </div>
-
-                    <Button
-                        className="payment-submit-btn"
-                        onClick={handleSubmit}
-                        disabled={!accountNumber || !amount}
-                    >
+                    <Button className="payment-submit-btn" onClick={handleSubmit} disabled={activeTab === 'bank' ? (!accountNumber || !amount) : !amount}>
                         {t(lang, "complete_payment")}
                     </Button>
                 </div>

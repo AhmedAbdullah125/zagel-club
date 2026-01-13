@@ -11,7 +11,7 @@ const fetchCities = async (lang) => {
   }
   if (token) headers.Authorization = `Bearer ${token}`;
   const response = await axios.get(
-    `${API_BASE_URL}/cities`,
+    `${API_BASE_URL}/cities-with-regions`,
     { headers }
   );
   return response.data.data;

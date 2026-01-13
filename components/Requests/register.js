@@ -13,7 +13,7 @@ export async function register(data, setLoading, lang, setStep, router, setShowS
     formData.append('logo', data.clubLogo[0]);
     formData.append('licenseNumber', data.licenseNumber);
     formData.append('email', data.email);
-    formData.append('countryCode', data.country);
+    formData.append('countryCode', data.country.split(" ")[0]);
     formData.append('phone', data.phone);
     formData.append('password', data.password);
     formData.append('passwordConfirm', data.repassword);

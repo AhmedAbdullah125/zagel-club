@@ -31,7 +31,7 @@ export default function RegisterSecStep({ step, formData, setFormData, lang, set
         resolver: zodResolver(registerSchema),
         defaultValues: {
             phone: formData?.phone || "",
-            country: "+966" || formData?.country || "",
+            country: "+966 SA" || formData?.country || "",
             email: formData?.email || "",
             licenseNumber: formData?.licenseNumber || "",
         },
@@ -139,7 +139,7 @@ export default function RegisterSecStep({ step, formData, setFormData, lang, set
                                                                                 </SelectTrigger>
                                                                                 <SelectContent>
                                                                                     {countries?.map((iso2, index) => (
-                                                                                        <SelectItem value={`+${getCountryCallingCode(iso2)}`} key={index}>
+                                                                                        <SelectItem value={`+${getCountryCallingCode(iso2)} ${iso2}`} key={index}>
                                                                                             <div className="code-country-slug-cont">
                                                                                                 <div className="select-country-item-cont">
                                                                                                     <span>

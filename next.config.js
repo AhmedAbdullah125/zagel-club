@@ -1,8 +1,25 @@
 // next.config.js
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    domains: ['TheCarrierPigeon.com', 'dashboard.scrp-sa.com'], // Add your external domain here
-  }, eslint: {
-    ignoreDuringBuilds: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "dashboard.scrp-sa.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "thecarrierpigeon.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.thecarrierpigeon.com",
+        pathname: "/**",
+      },
+    ],
   },
 };
+
+module.exports = nextConfig;

@@ -53,7 +53,7 @@ export default function Login({ formData, setFormData, step, setStep, lang }) {
         defaultValues: {
             phone: formData?.phone || "",
             password: "",
-            country: "+966",
+            country: "+966 SA",
         },
     })
     const [countrySearch, setCountrySearch] = useState("");
@@ -139,7 +139,7 @@ export default function Login({ formData, setFormData, step, setStep, lang }) {
 
                                                                                     <SelectGroup>
                                                                                         {filteredCountries?.map((iso2, index) => (
-                                                                                            <SelectItem value={`+${getCountryCallingCode(iso2)}`} key={index}>
+                                                                                            <SelectItem value={`+${getCountryCallingCode(iso2)} ${iso2}`} key={index}>
                                                                                                 <div className="code-country-slug-cont">
                                                                                                     <div className="select-country-item-cont">
                                                                                                         <span>

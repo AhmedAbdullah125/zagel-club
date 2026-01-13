@@ -4,7 +4,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '@/lib/apiConfig';
 import { toast } from 'sonner';
 import Cookies from 'js-cookie';
-export async function addNewPlayer(data, setLoading, lang, form, setShowCongrats) {
+export async function addNewPlayer(data, setLoading, lang, router, setShowCongrats) {
     setLoading(true)
     const url = `${API_BASE_URL}/club/players`;
     const formData = new FormData();
@@ -40,8 +40,8 @@ export async function addNewPlayer(data, setLoading, lang, form, setShowCongrats
         const message = response?.data?.message;
 
         if (response.data.key === "success") {
-            form.reset();
             setLoading(false)
+            router.push("players")
             toast(message, {
                 style: {
                     background: "#1B8354",

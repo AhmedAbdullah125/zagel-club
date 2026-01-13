@@ -18,6 +18,8 @@ export default function OrderWrapper({ id }) {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showSuccessCard, setShowSuccessCard] = useState(false);
   const { data: order, isLoading } = useGetOrder(lang, id);
+  const heroTitle = order?.status == "finished" ? t(lang, "finished_orders") : order?.status == "pending" ? t(lang, "pending_orders") : order?.status == "accepted" ? t(lang, "accepted_orders") : order?.status == "current" ? t(lang, "current_orders") : order?.status == "cancelled" ? t(lang, "cancelled_orders") : t(lang, "my_orders");
+
   console.log(order);
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -130,17 +132,13 @@ export default function OrderWrapper({ id }) {
 
   return (
     <div className="order-page" style={{ direction: lang == "ar" ? "rtl" : "ltr" }}>
-      <ContactHero lang={lang} title={t(lang, "my_orders")} subtitle={orderInfo.name} />
+      <ContactHero lang={lang} title={heroTitle} subtitle={t(lang, "order_details")} />
       {
         isLoading ? <Loading /> :
           <div className="container">
             {
               order.status == "pending" ? null :
                 <OrderMessage orderInfo={orderInfo} cost={order?.cost} lang={lang} />
-            }
-            {
-              orderInfo.status === "pending" ? null :
-                <OrderPricing orderInfo={orderInfo} lang={lang} cost={userInfo?.cost} />
             }
             <div className="order-header">
               <h2>{orderInfo.name}</h2>
@@ -154,6 +152,10 @@ export default function OrderWrapper({ id }) {
                 </div>
               </div>
             </div>
+            {
+              orderInfo.status === "pending" ? null :
+                <OrderPricing orderInfo={orderInfo} lang={lang} cost={userInfo?.cost} />
+            }
 
             <PersonalAndClubData lang={lang} userInfo={userInfo} />
             {

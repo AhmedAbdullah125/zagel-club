@@ -33,7 +33,7 @@ export default function PersonalAndClubData({ lang, userInfo }) {
               type="text"
               value={userInfo.personalInfo.fullName}
               readOnly
-              className="field-input"
+              className={`field-input ${userInfo.personalInfo.fullName ? "success-mob-input" : ""}`}
             />
           </div>
 
@@ -43,7 +43,7 @@ export default function PersonalAndClubData({ lang, userInfo }) {
               type="text"
               value={userInfo.personalInfo.nationalId}
               readOnly
-              className="field-input"
+              className={`field-input ${userInfo.personalInfo.nationalId ? "success-mob-input" : ""}`}
             />
           </div>
 
@@ -54,7 +54,7 @@ export default function PersonalAndClubData({ lang, userInfo }) {
                 type="text"
                 value={userInfo.personalInfo.dateOfBirth}
                 readOnly
-                className="field-input"
+                className={`field-input ${userInfo.personalInfo.dateOfBirth ? "success-mob-input" : ""}`}
               />
               <Image src={calenderIcon} alt="calendar-icon" className="date-icon" />
             </div>
@@ -66,13 +66,13 @@ export default function PersonalAndClubData({ lang, userInfo }) {
               type="text"
               value={userInfo.personalInfo.nationality}
               readOnly
-              className="field-input"
+              className={`field-input ${userInfo.personalInfo.nationality ? "success-mob-input" : ""}`}
             />
           </div>
 
           <div className="form-field">
             <label className="field-label">{t(lang, "Phone_Number")}</label>
-            <div className="input-of-mobile-num">
+            <div className="input-of-mobile-num success-mob-input">
               <div className="country-select">
                 <div className="country-code-display">
                   {userInfo.personalInfo.mobileCountryCode}
@@ -94,7 +94,7 @@ export default function PersonalAndClubData({ lang, userInfo }) {
               type="text"
               value={userInfo.personalInfo.city}
               readOnly
-              className="field-input"
+              className={`field-input ${userInfo.personalInfo.city ? "success-mob-input" : ""}`}
             />
           </div>
 
@@ -104,10 +104,10 @@ export default function PersonalAndClubData({ lang, userInfo }) {
               type="text"
               value={userInfo.personalInfo.fullAddress}
               readOnly
-              className="field-input"
+              className={`field-input ${userInfo.personalInfo.fullAddress ? "success-mob-input" : ""}`}
             />
           </div>
-
+          {/* 
           {userInfo.typeText && (
             <div className="form-field">
               <label className="field-label">{t(lang, "service_type_label")}</label>
@@ -115,7 +115,7 @@ export default function PersonalAndClubData({ lang, userInfo }) {
                 type="text"
                 value={userInfo.typeText}
                 readOnly
-                className="field-input"
+                className={`field-input ${userInfo.typeText ? "success-mob-input" : ""}`}
               />
             </div>
           )}
@@ -127,10 +127,10 @@ export default function PersonalAndClubData({ lang, userInfo }) {
                 type="text"
                 value={userInfo.licenseTypeText}
                 readOnly
-                className="field-input"
+                className={`field-input ${userInfo.licenseTypeText ? "success-mob-input" : ""}`}
               />
             </div>
-          )}
+          )} */}
         </div>
       </div>
 
@@ -145,12 +145,12 @@ export default function PersonalAndClubData({ lang, userInfo }) {
 
         <div className="form-grid">
           <div className="form-field full-width">
-            <label className="field-label">{t(lang, "club_affiliated")}</label>
+            <label className="field-label">{t(lang, "club_name")}</label>
             <Input
               type="text"
               value={userInfo.clubInfo.clubName}
               readOnly
-              className="field-input"
+              className={`field-input ${userInfo.clubInfo.clubName ? "success-mob-input" : ""}`}
             />
           </div>
         </div>

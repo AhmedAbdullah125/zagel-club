@@ -13,7 +13,7 @@ import { useGetPlayers } from "../Requests/useGetPlaters";
 import Loading from "@/src/app/loading";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-
+import eye from "@/src/assets/images/eye.svg";
 
 export default function PlayersWrapper() {
     const [lang, setLang] = useState('ar');
@@ -166,7 +166,7 @@ export default function PlayersWrapper() {
                                                     <td>{player.city}</td>
                                                     <td>
                                                         <Link className="view-button" href={`/player/${player.id}`}>
-                                                            <Eye className="view-icon" />
+                                                            <Image src={eye} width={16} height={16} alt="eye" />
                                                         </Link>
                                                     </td>
                                                 </tr>

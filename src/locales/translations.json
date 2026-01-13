@@ -538,9 +538,11 @@
     "seconds": "ثانية",
     "no_orders_found": "لا توجد طلبات حالياً",
     "no_auctions_found": "لا توجد مزادات حالياً",
-    "no_data_found": "لم يتم العثور على بيانات"
+    "no_data_found": "لم يتم العثور على بيانات",
+    "open_notification": "عرض"
   },
   "en": {
+    "open_notification": "View",
     "current_password_required": "Current password required",
     "password_min_8": "Password must be at least 8 characters long",
     "password_must_contain_letters_numbers": "Password must contain letters and numbers",

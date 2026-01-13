@@ -23,7 +23,7 @@ export async function loginRequest(data, setLoading, lang, setStep, router) {
     const url = `${API_BASE_URL}/auth/signin`;
     const formData = new FormData();
     formData.append('userType', "club");
-    formData.append('countryCode', data.country);
+    formData.append('countryCode', data.country.split(" ")[0]);
     formData.append('phone', data.phone);
     formData.append('password', data.password);
     formData.append('deviceId', getDeviceId());

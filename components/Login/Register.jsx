@@ -11,18 +11,17 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { t } from "@/lib/i18n"
-import { useGetCities } from "../Requests/useGetCities"
-import { useCallback } from "react"
-import { useDropzone } from "react-dropzone"
-import { useGetRegions } from "../Requests/useGetRegions"
-import { toast } from "sonner"
 import { DropUpload } from "../players/DropUpload"
 export default function Register({ step, formData, setFormData, lang, setStep }) {
-    const [selectedCity, setSelectedCity] = useState(formData.city || null)
+    // const [selectedCity, setSelectedCity] = useState(formData.city || null)
     const { data: cities, isLoading: citiesLoading } = useGetCities(lang)
-    const { data: regions, isLoading: regionsLoading } = useGetRegions(lang, selectedCity, toast)
+    const citiesWithRegions = (cities ?? []).filter(
+        (city) => Array.isArray(city.regions) && city.regions.length > 0
+    );
+    console.log(citiesWithRegions);
+    // const { data: regions, isLoading: regionsLoading } = useGetRegions(lang, selectedCity, toast)
     const [loading, setLoading] = useState(false)
-    const [nationalIdPreview, setNationalIdPreview] = useState(null)
+    const [selectedCityRegions, setSelectedCityRegions] = useState([])
     const [clubLogoPreview, setClubLogoPreview] = useState(null)
     const registerSchema = z.object({
         name: z.string().min(1, { message: t(lang, "club_name_required") }).min(2, { message: t(lang, "club_name_min_length") }),
@@ -64,20 +63,6 @@ export default function Register({ step, formData, setFormData, lang, setStep })
         reader.onloadend = () => setClubLogoPreview(reader.result)
         reader.readAsDataURL(file)
     }
-    const handleFileChange = (e, setPreview) => {
-        const file = e.target.files?.[0]
-        if (file) {
-            if (file.type === 'application/pdf') {
-                setPreview('pdf')
-            } else {
-                const reader = new FileReader()
-                reader.onloadend = () => {
-                    setPreview(reader.result)
-                }
-                reader.readAsDataURL(file)
-            }
-        }
-    }
 
     const form = useForm({
         resolver: zodResolver(registerSchema),
@@ -95,8 +80,6 @@ export default function Register({ step, formData, setFormData, lang, setStep })
         setFormData({ ...formData, ...data })
         setStep(2)
     }
-    console.log(cities);
-
 
     return (
         <>
@@ -146,14 +129,18 @@ export default function Register({ step, formData, setFormData, lang, setStep })
                                                     {t(lang, "city_label")}
                                                 </FormLabel>
                                                 <FormControl>
-                                                    <Select onValueChange={(value) => { setSelectedCity(value); field.onChange(value) }} value={field.value} disabled={cities?.length === 0 || citiesLoading}>
+                                                    <Select onValueChange={(value) => {
+                                                        // setSelectedCity(value);
+                                                        field.onChange(value);
+                                                        setSelectedCityRegions(citiesWithRegions?.filter(city => city.id === value)[0]?.regions);
+                                                    }} value={field.value} disabled={citiesWithRegions?.length === 0 || citiesLoading}>
                                                         <SelectTrigger className={`password-input-wrapper ${form.formState.errors.city ? 'error-password' : field.value ? 'success-password' : ''}`}
                                                             style={{ direction: lang === 'ar' ? 'rtl' : 'ltr' }}
                                                         >
                                                             <SelectValue placeholder={t(lang, "city_label")} />
                                                         </SelectTrigger>
                                                         <SelectContent dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-                                                            {cities?.map((city) => (
+                                                            {citiesWithRegions?.map((city) => (
                                                                 <SelectItem key={city.id} value={city.id}>
                                                                     {city.name}
                                                                 </SelectItem>
@@ -174,14 +161,14 @@ export default function Register({ step, formData, setFormData, lang, setStep })
                                                     {t(lang, "administrative_region")}
                                                 </FormLabel>
                                                 <FormControl>
-                                                    <Select onValueChange={field.onChange} value={field.value} disabled={regions?.length == 0 || cities?.length === 0 || regionsLoading || citiesLoading || !selectedCity}>
+                                                    <Select onValueChange={field.onChange} value={field.value} disabled={selectedCityRegions?.length == 0 || cities?.length === 0 || citiesLoading}>
                                                         <SelectTrigger className={`password-input-wrapper ${form.formState.errors.administrativeRegion ? 'error-password' : field.value ? 'success-password' : ''}`}
                                                             style={{ direction: lang === 'ar' ? 'rtl' : 'ltr' }}
                                                         >
                                                             <SelectValue placeholder={t(lang, "administrative_region")} />
                                                         </SelectTrigger>
                                                         <SelectContent dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-                                                            {regions?.map((region) => (
+                                                            {selectedCityRegions?.map((region) => (
                                                                 <SelectItem key={region.id} value={region.id}>
                                                                     {region.name}
                                                                 </SelectItem>

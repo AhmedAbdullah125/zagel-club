@@ -25,7 +25,7 @@ function UploadSectionsBase({ lang, form }: Props) {
     const setSinglePreviewFromFiles = useCallback((files: File[], setPreview: (v: any) => void) => {
         const file = files?.[0];
         if (!file) return setPreview(null);
-        if (file.type === "application/pdf") return setPreview("pdf");
+        if (file.type === "application/pdf") return setPreview({ type: "pdf", name: file.name });
         const reader = new FileReader();
         reader.onloadend = () => setPreview(reader.result);
         reader.readAsDataURL(file);
@@ -173,10 +173,10 @@ function UploadSectionsBase({ lang, form }: Props) {
                                 >
                                     {fitnessCertificatePreview && (
                                         <div className="file-preview">
-                                            {fitnessCertificatePreview === "pdf" ? (
+                                            {fitnessCertificatePreview?.type === "pdf" ? (
                                                 <div className="pdf-indicator">
                                                     <Image src={pdf} alt="Document Icon" />
-                                                    <p className="pdf-text">PDF {t(lang, "file_selected")}</p>
+                                                    <p className="pdf-text" style={{ fontSize: 12, marginTop: 5 }}>{fitnessCertificatePreview.name}</p>
                                                 </div>
                                             ) : (
                                                 <Image src={fitnessCertificatePreview} alt="Preview" className="preview-image" width={300} height={300} />

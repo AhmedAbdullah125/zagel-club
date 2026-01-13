@@ -77,7 +77,7 @@
 
         &:focus {
             outline: none;
-            border-color: #059669;
+            border-color: $main;
         }
 
         &::placeholder {
@@ -86,7 +86,7 @@
     }
 
     .export-button {
-        background: #059669;
+        background: $main;
         color: white;
         border: none;
         border-radius: 8px;
@@ -129,21 +129,22 @@
 
         thead {
             background: #F3F4F6;
-            border: 1px solid #D2D6DB;
 
             tr {
-                border-bottom: 1px solid #e5e7eb;
 
                 th {
-                    padding: 16px;
+                    height: 52px;
+                    padding: 0 16px;
                     text-align: start;
                     font-weight: 500;
                     color: #6b7280;
                     white-space: nowrap;
+                    border-inline-end: 1px solid #D2D6DB;
+                    border-bottom: 1px solid #D2D6DB;
 
                     &:last-child {
-                        width: 60px;
                         text-align: start;
+                        border-inline-end: none;
                     }
                 }
             }
@@ -165,18 +166,29 @@
                 }
 
                 td {
-                    padding: 20px 16px;
+                    padding: 0px 16px;
+                    height: 52px;
                     color: #1f2937;
                     text-wrap: nowrap;
 
+                    &:last-child {
+                        background-color: $main;
+                        text-align: center;
+                        padding: 0;
+                    }
 
+                }
+
+                //odd $white ,even :#F9FAFB
+                &:nth-child(even) {
+                    background: #f9fafb;
                 }
             }
         }
     }
 
     .view-button {
-        background: #059669;
+        background: $main;
         border: none;
         border-radius: 6px;
         width: 36px;
@@ -186,6 +198,8 @@
         justify-content: center;
         cursor: pointer;
         transition: background 0.3s;
+        width: 100%;
+        height: 100%;
 
         &:hover {
             background: #047857;
@@ -239,8 +253,8 @@
 
         &:hover:not(:disabled) {
             background: #f9fafb;
-            border-color: #059669;
-            color: #059669;
+            border-color: $main;
+            color: $main;
         }
 
         &:disabled {
@@ -249,9 +263,9 @@
         }
 
         &.active {
-            background: #059669;
+            background: $main;
             color: white;
-            border-color: #059669;
+            border-color: $main;
         }
     }
 
@@ -356,7 +370,7 @@
 
         &:focus {
             outline: none;
-            border-color: #059669;
+            border-color: $main;
         }
 
         &::placeholder {
@@ -391,6 +405,7 @@
                     border-inline-end: 1px solid #D2D6DB;
 
                 }
+
 
                 //last th no border
                 th:last-child {
@@ -441,7 +456,7 @@
         width: 20px;
         height: 20px;
         cursor: pointer;
-        accent-color: #059669;
+        accent-color: $main;
 
         &:hover {
             transform: scale(1.1);
@@ -483,8 +498,8 @@
 
         &:hover:not(:disabled) {
             background: #f9fafb;
-            border-color: #059669;
-            color: #059669;
+            border-color: $main;
+            color: $main;
         }
 
         &:disabled {
@@ -493,9 +508,9 @@
         }
 
         &.active {
-            background: #059669;
+            background: $main;
             color: white;
-            border-color: #059669;
+            border-color: $main;
         }
     }
 
@@ -517,7 +532,7 @@
 
         &:focus {
             outline: none;
-            border-color: #059669;
+            border-color: $main;
         }
 
         &::-webkit-inner-spin-button,
@@ -540,7 +555,7 @@
     }
 
     .next-btn {
-        background: #059669;
+        background: $main;
         color: white;
         border: none;
         border-radius: 8px;

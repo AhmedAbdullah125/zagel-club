@@ -241,6 +241,10 @@
                     font-weight: 500;
                 }
 
+                .country-code-display {
+                    padding: 0 10px;
+                }
+
                 input,
                 button {
                     border: 1px solid #E0E0E0;
@@ -258,7 +262,7 @@
 
                     &[readOnly],
                     &[disabled] {
-                        background: #F9F9F9;
+                        background: $white;
                         cursor: default;
                     }
                 }
@@ -689,8 +693,8 @@
 
 // Order Pricing Styles
 .order-pricing {
-    background: #F5F5F5;
-    border-radius: 12px;
+    background: #1B83540D;
+    border-radius: 25px;
     padding: 24px;
     margin: 30px 0;
 
@@ -735,7 +739,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 0;
-            border-bottom: 1px solid #E0E0E0;
+            border-bottom: 1px solid #eee;
 
             &:last-child {
                 border-bottom: none;

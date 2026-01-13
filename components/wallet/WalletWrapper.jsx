@@ -10,7 +10,7 @@ import gif from "@/src/assets/images/walletGit.gif";
 import CongatsCard from "../global/CongatsCard";
 import ChargeWalletModal from "./ChargeWalletModal";
 import { useGetWallet } from "../Requests/useGetWallet";
-import rial from "@/src/assets/images/whiteriall.svg";
+import rial from "@/src/assets/images/SARwhite.svg";
 import { walletTransactions } from "../Requests/walletTransactions";
 
 export default function WalletWrapper() {
@@ -31,7 +31,6 @@ export default function WalletWrapper() {
 
     const handleOpenModal = (type) => {
         setModalType(type);
-
         setIsModalOpen(true);
     };
 
