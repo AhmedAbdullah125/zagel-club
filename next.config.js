@@ -10,12 +10,12 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "thecarrierpigeon.com",
+        hostname: "Zagel.com",
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "www.thecarrierpigeon.com",
+        hostname: "www.Zagel.com",
         pathname: "/**",
       },
     ],

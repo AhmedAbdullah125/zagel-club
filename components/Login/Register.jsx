@@ -3,7 +3,6 @@ import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import uploadFile from '@/src/assets/images/license/uploadFile.svg'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Image from "next/image"
 import loginImage from "@/src/assets/images/registeration/login.jpg"
