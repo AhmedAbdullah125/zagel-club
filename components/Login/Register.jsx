@@ -18,7 +18,6 @@ export default function Register({ step, formData, setFormData, lang, setStep })
     const citiesWithRegions = (cities ?? []).filter(
         (city) => Array.isArray(city.regions) && city.regions.length > 0
     );
-    console.log(citiesWithRegions);
     // const { data: regions, isLoading: regionsLoading } = useGetRegions(lang, selectedCity, toast)
     const [loading, setLoading] = useState(false)
     const [selectedCityRegions, setSelectedCityRegions] = useState([])

@@ -7683,7 +7683,8 @@ select:focus-visible {
   height: 60px;
   border: 1px solid #E5E7EB;
   border-radius: 12px;
-  padding: 0 54px 0 20px;
+  padding: 0 20px;
+  padding-inline-start: 55px;
   font-size: 18px;
   width: 100%;
 }
@@ -7695,7 +7696,7 @@ select:focus-visible {
 }
 .payment-modal-content .payment-form-groups .payment-form-group .input-with-icon .input-icon {
   position: absolute;
-  right: 20px;
+  inset-inline-start: 20px;
   color: #9CA3AF;
   display: flex;
   align-items: center;
@@ -7719,16 +7720,6 @@ select:focus-visible {
 .payment-modal-content .payment-submit-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-[dir=rtl] .payment-modal-content .payment-form-group .input-with-icon .payment-input,
-.rtl .payment-modal-content .payment-form-group .input-with-icon .payment-input {
-  padding: 0 20px 0 54px;
-}
-[dir=rtl] .payment-modal-content .payment-form-group .input-with-icon .input-icon,
-.rtl .payment-modal-content .payment-form-group .input-with-icon .input-icon {
-  right: auto;
-  left: 20px;
 }
 
 .logout-confirm-btn {

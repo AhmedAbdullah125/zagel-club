@@ -11,9 +11,7 @@ import pdf from '@/src/assets/images/pdf.svg';
 import FancyboxWrapper from "../ui/FancyboxWrapper";
 
 export default function PersonalAndClubData({ lang, userInfo }) {
-
   if (!userInfo) return null;
-
   return (
     <div className="personal-club-content" style={{ direction: lang == "ar" ? "rtl" : "ltr" }}>
 
@@ -92,9 +90,9 @@ export default function PersonalAndClubData({ lang, userInfo }) {
             <label className="field-label">{t(lang, "city")}</label>
             <Input
               type="text"
-              value={userInfo.personalInfo.city}
+              value={userInfo.personalInfo.city.name}
               readOnly
-              className={`field-input ${userInfo.personalInfo.city ? "success-mob-input" : ""}`}
+              className={`field-input ${userInfo.personalInfo.city.name ? "success-mob-input" : ""}`}
             />
           </div>
 

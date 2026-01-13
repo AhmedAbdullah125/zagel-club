@@ -18,16 +18,14 @@ export default function OrderWrapper({ id }) {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showSuccessCard, setShowSuccessCard] = useState(false);
   const { data: order, isLoading } = useGetOrder(lang, id);
-  const heroTitle = order?.status == "finished" ? t(lang, "finished_orders") : order?.status == "pending" ? t(lang, "pending_orders") : order?.status == "accepted" ? t(lang, "accepted_orders") : order?.status == "current" ? t(lang, "current_orders") : order?.status == "cancelled" ? t(lang, "cancelled_orders") : t(lang, "my_orders");
+  const heroTitle = order?.status == "finished" ? t(lang, "finished_orders") : order?.status == "pending" ? t(lang, "current_orders") : order?.status == "accepted" ? t(lang, "accepted_orders") : order?.status == "current" ? t(lang, "current_orders") : order?.status == "cancelled" ? t(lang, "cancelled_orders") : t(lang, "my_orders");
 
-  console.log(order);
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setLang(localStorage.getItem('lang'));
     }
   }, []);
 
-  // Add this useEffect after the existing useEffect
   useEffect(() => {
     if (showSuccessCard) {
       const timer = setTimeout(() => {
