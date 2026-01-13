@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { t } from "@/lib/i18n"
 import { DropUpload } from "../players/DropUpload"
+import { useGetCities } from "../Requests/useGetCities"
 export default function Register({ step, formData, setFormData, lang, setStep }) {
     // const [selectedCity, setSelectedCity] = useState(formData.city || null)
     const { data: cities, isLoading: citiesLoading } = useGetCities(lang)
