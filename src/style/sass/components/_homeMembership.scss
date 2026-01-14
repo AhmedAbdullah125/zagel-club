@@ -19,6 +19,7 @@
     @media screen and (max-width: 992px) {
         flex-direction: column-reverse;
         gap: 40px;
+        padding: 20px 0;
     }
 
     .r-side {
@@ -32,6 +33,10 @@
             font-weight: 600;
             color: #212529;
             margin-bottom: 16px;
+
+            @media screen and (max-width: 992px) {
+                font-size: 21px;
+            }
         }
 
         >p {
@@ -55,7 +60,7 @@
         }
 
         @media screen and (max-width:500px) {
-            height: 400px;
+            display: none;
         }
 
         .img-overlay-cont {

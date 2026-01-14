@@ -2321,6 +2321,7 @@ html {
   .membership-content {
     flex-direction: column-reverse;
     gap: 40px;
+    padding: 20px 0;
   }
 }
 .membership-content .r-side {
@@ -2334,6 +2335,11 @@ html {
   font-weight: 600;
   color: #212529;
   margin-bottom: 16px;
+}
+@media screen and (max-width: 992px) {
+  .membership-content .r-side h2 {
+    font-size: 21px;
+  }
 }
 .membership-content .r-side > p {
   font-size: 16px;
@@ -2356,7 +2362,7 @@ html {
 }
 @media screen and (max-width: 500px) {
   .membership-content .l-side {
-    height: 400px;
+    display: none;
   }
 }
 .membership-content .l-side .img-overlay-cont {
