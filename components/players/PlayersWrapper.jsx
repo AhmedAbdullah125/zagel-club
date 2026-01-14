@@ -3,14 +3,13 @@ import React, { useEffect, useState } from "react";
 import { t } from "@/lib/i18n";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Eye, Download, Share } from "lucide-react";
+import { Share } from "lucide-react";
 import Image from "next/image";
 import files from "@/src/assets/images/files.svg";
 import magnifier from "@/src/assets/images/magnifier.svg";
 import Link from "next/link";
 import CongatsCard from "../global/CongatsCard";
 import { useGetPlayers } from "../Requests/useGetPlaters";
-import Loading from "@/src/app/loading";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import eye from "@/src/assets/images/eye.svg";
@@ -116,34 +115,36 @@ export default function PlayersWrapper() {
 
     return (
         <div className="players-wrapper" style={{ direction: lang === "ar" ? "rtl" : "ltr" }}>
-            {
-                isLoading ? <Loading /> :
-                    <div className="container">
-                        <div className="players-inner">
-                            <div className="players-header">
-                                <div className="players-actions">
-                                    <h1 className="players-title">{t(lang, "registered_players_list")}</h1>
-                                    <div className="search-input-wrapper">
-                                        <Input
-                                            type="text"
-                                            placeholder={t(lang, "search_list")}
-                                            value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="players-search-input"
-                                        />
-                                        <Image src={magnifier} alt="magnifier" />
-                                    </div>
-                                </div>
-                                <Button onClick={handleExport} className="export-button">
-                                    {
-                                        loading ? <span className="loader-btn"></span> :
-                                            <Share className="export-icon" />
-                                    }
-                                    <span>{t(lang, "export_to_excel")}</span>
-                                </Button>
-                            </div>
 
-                            <div className="players-table-container">
+            <div className="container">
+                <div className="players-inner">
+                    <div className="players-header">
+                        <div className="players-actions">
+                            <h1 className="players-title">{t(lang, "registered_players_list")}</h1>
+                            <div className="search-input-wrapper">
+                                <Input
+                                    type="text"
+                                    placeholder={t(lang, "search_list")}
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="players-search-input"
+                                />
+                                <Image src={magnifier} alt="magnifier" />
+                            </div>
+                        </div>
+                        <Button onClick={handleExport} className="export-button">
+                            {
+                                loading ? <span className="loader-btn"></span> :
+                                    <Share className="export-icon" />
+                            }
+                            <span>{t(lang, "export_to_excel")}</span>
+                        </Button>
+                    </div>
+
+                    <div className="players-table-container">
+                        {
+                            isLoading ? <p className="no-orders"><span className="loader-btn"></span></p> :
+
                                 <table className="players-table">
                                     <thead>
                                         <tr>
@@ -179,58 +180,60 @@ export default function PlayersWrapper() {
                                             </tr>
                                         )}
                                     </tbody>
+
                                 </table>
-                            </div>
-
-                            {totalPages > 1 && (
-                                <div className="players-pagination">
-                                    <div className="pagination-info">
-                                        {t(lang, "showing")} {players.length} {t(lang, "of")} {totalPages} {t(lang, "pages")}
-                                    </div>
-                                    <div className="pagination-controls">
-                                        <button
-                                            className="pagination-arrow"
-                                            onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
-                                            disabled={currentPage === totalPages}
-                                        >
-                                            {lang === "ar" ? "‹" : "›"}
-                                        </button>
-
-                                        {getPageNumbers().map(pageNum => (
-                                            <button
-                                                key={pageNum}
-                                                className={`pagination-number ${currentPage === pageNum ? 'active' : ''}`}
-                                                onClick={() => setPage(pageNum)}
-                                            >
-                                                {pageNum}
-                                            </button>
-                                        ))}
-
-                                        {totalPages > 3 && currentPage < totalPages - 1 && (
-                                            <>
-                                                <span className="pagination-dots">...</span>
-                                                <button
-                                                    className="pagination-number"
-                                                    onClick={() => setPage(totalPages)}
-                                                >
-                                                    {totalPages}
-                                                </button>
-                                            </>
-                                        )}
-
-                                        <button
-                                            className="pagination-arrow"
-                                            onClick={() => setPage(prev => Math.max(prev - 1, 1))}
-                                            disabled={currentPage === 1}
-                                        >
-                                            {lang === "ar" ? "›" : "‹"}
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                        }
                     </div>
-            }
+
+                    {totalPages > 1 && (
+                        <div className="players-pagination">
+                            <div className="pagination-info">
+                                {t(lang, "showing")} {players.length} {t(lang, "of")} {totalPages} {t(lang, "pages")}
+                            </div>
+                            <div className="pagination-controls">
+                                <button
+                                    className="pagination-arrow"
+                                    onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    {lang === "ar" ? "‹" : "›"}
+                                </button>
+
+                                {getPageNumbers().map(pageNum => (
+                                    <button
+                                        key={pageNum}
+                                        className={`pagination-number ${currentPage === pageNum ? 'active' : ''}`}
+                                        onClick={() => setPage(pageNum)}
+                                    >
+                                        {pageNum}
+                                    </button>
+                                ))}
+
+                                {totalPages > 3 && currentPage < totalPages - 1 && (
+                                    <>
+                                        <span className="pagination-dots">...</span>
+                                        <button
+                                            className="pagination-number"
+                                            onClick={() => setPage(totalPages)}
+                                        >
+                                            {totalPages}
+                                        </button>
+                                    </>
+                                )}
+
+                                <button
+                                    className="pagination-arrow"
+                                    onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                                    disabled={currentPage === 1}
+                                >
+                                    {lang === "ar" ? "›" : "‹"}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+
             {
                 Success && <CongatsCard title={t(lang, "congratulations")} description={t(lang, "export_success")} />
             }

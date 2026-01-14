@@ -1,11 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import logo from "@/src/assets/images/logo.svg";
+import logo from "@/src/assets/images/logo.png";
 import Link from "next/link";
-import instagram from "@/src/assets/images/instagram.svg";
-import linkedIn from "@/src/assets/images/linkedIn.svg";
-import x from "@/src/assets/images/x.svg";
 import { t } from "@/lib/i18n";
 
 export default function Footer() {

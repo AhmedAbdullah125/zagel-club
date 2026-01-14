@@ -4,7 +4,7 @@ import Login from "./Login";
 import Verify from "./Verify";
 
 import langImage from "@/src/assets/images/lang2.svg";
-import logo from "@/src/assets/images/logo.svg";
+import logo from "@/src/assets/images/logo.png";
 import Image from "next/image";
 export default function LoginWrapper() {
 

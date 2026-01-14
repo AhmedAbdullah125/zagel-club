@@ -6,7 +6,7 @@ import RegisterSecStep from "./RegisterSecStep";
 import RegisterThirdStep from "./RegisterThirdStep";
 import Image from "next/image";
 import langImage from "@/src/assets/images/lang2.svg";
-import logo from "@/src/assets/images/logo.svg";
+import logo from "@/src/assets/images/logo.png";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 export default function RegisterWrapper() {
