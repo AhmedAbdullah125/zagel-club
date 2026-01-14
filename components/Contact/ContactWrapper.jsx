@@ -73,7 +73,8 @@ function CountryCodeCombobox({
     const items = useMemo(() => {
         return countries.map((iso2) => {
             const calling = getCountryCallingCode(iso2);
-            const v = `+${calling}`; // ✅ same format you used in ContactWrapper
+            const v = `+${calling} ${iso2}`; // ✅ same format you used in ContactWrapper
+
             return {
                 iso2,
                 calling,
@@ -83,6 +84,7 @@ function CountryCodeCombobox({
             };
         });
     }, [countries]);
+    console.log(value);
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -96,6 +98,7 @@ function CountryCodeCombobox({
                         {value ? (
                             <>
                                 {/* try to show selected flag if we can infer it */}
+                                <span className={`fi fi-${items.find((item) => item.calling === value.split("+")[1])?.iso2.toLowerCase()}`} />
                                 <span className="opacity-80">{value}</span>
                             </>
                         ) : (
@@ -114,14 +117,10 @@ function CountryCodeCombobox({
 
                     <CommandGroup className="max-h-60 overflow-auto">
                         {items.map((c) => (
-                            <CommandItem
-                                key={c.iso2}
-                                value={c.searchValue}
-                                onSelect={() => {
-                                    onChange(c.value);
-                                    setOpen(false);
-                                }}
-                            >
+                            <CommandItem key={c.iso2} value={c.searchValue} onSelect={() => {
+                                onChange(c.value);
+                                setOpen(false);
+                            }}>
                                 <span className={`fi fi-${c.iso2.toLowerCase()}`} />
                                 <span className="mx-2">+{c.calling}</span>
 

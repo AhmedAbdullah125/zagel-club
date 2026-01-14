@@ -197,6 +197,10 @@ select {
         height: 24px;
         background-color: rgba(0, 0, 0, 0.1);
     }
+
+    svg {
+        display: none;
+    }
 }
 
 .country-select-trigger {
