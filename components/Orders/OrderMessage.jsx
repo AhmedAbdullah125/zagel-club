@@ -5,12 +5,12 @@ import PaymentModal from "./PaymentModal";
 import CongatsCard from "../global/CongatsCard";
 import { t } from "@/lib/i18n";
 import Rating from "./Rating";
+import { receiveRequest } from "../Requests/receiveRequest";
 
 export default function OrderMessage({ orderInfo, cost, lang }) {
     const [isComplaintModalOpen, setIsComplaintModalOpen] = useState(false);
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [showComplaintSuccess, setShowComplaintSuccess] = useState(false);
-
     const handleComplaintClick = () => {
         setIsComplaintModalOpen(true);
     };
@@ -18,7 +18,9 @@ export default function OrderMessage({ orderInfo, cost, lang }) {
     const handleCloseComplaintModal = () => {
         setIsComplaintModalOpen(false);
     };
-
+    const handleReceiveRequest = () => {
+        receiveRequest(orderInfo.id, setLoading, lang);
+    }
     const handleComplaintSuccess = () => {
         setShowComplaintSuccess(true);
 
@@ -41,7 +43,7 @@ export default function OrderMessage({ orderInfo, cost, lang }) {
         });
     }
     if (orderInfo.isServiceReceivedBtn) {
-        actions.push({ text: t(lang, "service_received"), type: "primary" });
+        actions.push({ text: t(lang, "service_received"), type: "primary", onClick: handleReceiveRequest });
     }
     if (orderInfo.showComplaintBtn) {
         actions.push({ text: t(lang, "submit_complaint_btn"), type: "danger", onClick: handleComplaintClick });

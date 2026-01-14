@@ -59,7 +59,7 @@ export default function Login({ formData, setFormData, step, setStep, lang }) {
     const [countrySearch, setCountrySearch] = useState("");
 
     const filteredCountries = useMemo(() => {
-        if (!countrySearch.trim()) return countries;
+        if (countrySearch.length < 2) { return countries; }
 
         const searchLower = countrySearch.toLowerCase();
 
@@ -72,6 +72,8 @@ export default function Login({ formData, setFormData, step, setStep, lang }) {
         setFormData(data)
         loginRequest(data, setLoading, lang, setStep, router)
     }
+    console.log("hello");
+
     return (
         <div className="login-page">
 

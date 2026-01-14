@@ -91,7 +91,7 @@ export default function RegisterSecStep({ step, formData, setFormData, lang, set
                                                     <div className={`password-input-wrapper ${form.formState.errors.email ? 'error-password' : form.formState.isDirty && field.value ? 'success-password' : ''}`}>
                                                         <Input
                                                             {...field}
-                                                            type="text"
+                                                            type="email"
                                                             placeholder={t(lang, "email_placeholder")}
                                                             className="password-input name-input"
                                                         />

@@ -10,11 +10,8 @@ import loginImage from "@/src/assets/images/registeration/forgetuser.jpg"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import flag from "@/src/assets/images/flag.svg"
 import { t } from "@/lib/i18n"
 import { getCountries, getCountryCallingCode } from "react-phone-number-input";
-import { loginRequest } from "../Requests/loginRequest"
-import { useRouter } from "next/navigation"
 import "flag-icons/css/flag-icons.min.css";
 import { sendCode } from "../Requests/sendCode"
 

@@ -27,7 +27,7 @@ function PlayerInfoFieldsBase({ lang, form, cities, nationalities }) {
 
     // ✅ Filter countries by search (ISO2 or calling code)
     const filteredCountries = useMemo(() => {
-        if (!countrySearch.trim()) return countries;
+        if (countrySearch.length < 2) { return countries; }
         const searchLower = countrySearch.toLowerCase();
 
         return countries.filter((iso2) => {
