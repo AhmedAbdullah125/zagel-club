@@ -65,7 +65,7 @@ export default function RegisterWrapper() {
                         </button>
 
                     </div>
-                    <Image src={logo} alt="login" width={100} height={100} />
+                    <Image src={logo} alt="login" width={1000} height={1000} />
                 </div>
                 {
                     step === 1 ? <Register formData={formData} setFormData={setFormData} step={step} setStep={setStep} lang={lang} /> :

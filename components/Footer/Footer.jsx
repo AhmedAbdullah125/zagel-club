@@ -45,10 +45,10 @@ export default function Footer() {
                     </div>
                     <div className="footer-logos">
                         <div className="footer-logo-box">
-                            <Image src={logo} alt="شعار السعودية" width={80} height={40} />
+                            <Image src={logo} alt="شعار السعودية" width={1000} height={1000} />
                         </div>
                         <div className="footer-logo-box">
-                            <Image src={logo} alt="شعار السعودية" width={80} height={40} />
+                            <Image src={logo} alt="شعار السعودية" width={1000} height={1000} />
                         </div>
                     </div>
                 </div>

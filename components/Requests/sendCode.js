@@ -4,7 +4,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '@/lib/apiConfig';
 import { toast } from 'sonner';
 import Cookies from 'js-cookie';
-export async function sendCode(data, setLoading, lang) {
+export async function sendCode(data, setLoading, lang, nextStep) {
     setLoading(true)
 
     const url = `${API_BASE_URL}/auth/send-activation-code`;
@@ -30,6 +30,7 @@ export async function sendCode(data, setLoading, lang) {
                 },
             });
             setLoading(false)
+            nextStep();
         } else {
             toast(message, {
                 style: {

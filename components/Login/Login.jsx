@@ -11,7 +11,6 @@ import loginImage from "@/src/assets/images/registeration/login.jpg"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import flag from "@/src/assets/images/flag.svg"
 import Link from "next/link"
 import { t } from "@/lib/i18n"
 import "flag-icons/css/flag-icons.min.css";

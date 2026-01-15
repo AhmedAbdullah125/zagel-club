@@ -129,12 +129,13 @@ export default function ForgetPassword({ formData, setFormData, step, setStep, l
         },
         mode: "onChange",
     });
+    const nextStep = () => {
+        setStep(2);
 
+    }
     const onSubmit = (data) => {
-        sendCode(data, setLoading, lang).then(() => {
-            setFormData({ ...formData, ...data });
-            setStep(2);
-        });
+        setFormData({ ...formData, ...data });
+        sendCode(data, setLoading, lang, nextStep)
     };
 
     return (
@@ -211,7 +212,7 @@ export default function ForgetPassword({ formData, setFormData, step, setStep, l
                                 <Button
                                     type="submit"
                                     className="submit-btn"
-                                    disabled={!!form.formState.errors.phone || !!form.formState.errors.country || !form.formState.isDirty || loading}
+                                    disabled={!!form.formState.errors.phone || !!form.formState.errors.country || loading}
                                 >
                                     {loading ? <span className="loader-btn"></span> : <span>{t(lang, "send_verification_code")}</span>}
                                 </Button>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '@/lib/apiConfig';
 import { toast } from 'sonner';
 import Cookies from 'js-cookie';
-export async function verifyRequest(data, setLoading, lang, setStep, link, router) {
+export async function verifyRequest(data, setLoading, lang, setStep, step, link, router) {
     setLoading(true)
     const generateDeviceId = () => {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -42,7 +42,7 @@ export async function verifyRequest(data, setLoading, lang, setStep, link, route
         if (response.data.key === "success") {
             setLoading(false)
             if (link === "/reset-password") {
-                setStep("reset-password");
+                setStep(step + 1);
             } else {
                 toast(message, {
                     style: {

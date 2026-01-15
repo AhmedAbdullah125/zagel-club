@@ -111,6 +111,7 @@
   .footer-logos {
     display: flex;
     gap: 12px;
+    flex-direction: column;
 
     @media screen and (max-width: 640px) {
       text-align: center;
@@ -129,8 +130,8 @@
       font-size: 11px;
 
       img {
-        width: 40px;
-        height: auto;
+        height: 40px;
+        width: auto;
       }
     }
   }
@@ -150,12 +151,12 @@
     }
   }
 
-  .dashboard-links{
+  .dashboard-links {
     display: flex;
     gap: 12px;
     margin-bottom: 16px;
 
-    a{
+    a {
       color: #ffffff;
       text-decoration: underline;
     }

@@ -8,7 +8,7 @@ import logo from "@/src/assets/images/logo.png";
 import Image from "next/image";
 export default function LoginWrapper() {
 
-    const [step, setStep] = useState("login");
+    const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         phone: "",
         code: "",
@@ -46,10 +46,10 @@ export default function LoginWrapper() {
                         <Image src={langImage} alt="lang" className={"langImage"} />
                         <span className={"langText"}>{lang === 'ar' ? 'English' : 'العربية'}</span>
                     </button>
-                    <Image src={logo} alt="login" width={100} height={100} />
+                    <Image src={logo} alt="login" width={1000} height={1000} />
                 </div>
                 {
-                    step === "login" ? <Login formData={formData} setFormData={setFormData} step={step} setStep={setStep} lang={lang} /> :
+                    step === 1 ? <Login formData={formData} setFormData={setFormData} step={step} setStep={setStep} lang={lang} /> :
                         <Verify formData={formData} setFormData={setFormData} step={step} setStep={setStep} lang={lang} link="/" />
                 }
             </div>

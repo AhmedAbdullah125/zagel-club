@@ -1393,6 +1393,27 @@ html {
   transition: background-color 0.2s ease-in-out;
 }
 
+/* Overlay that darkens the page when dropdown is open */
+.header-dropdown-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  /* like your screenshot */
+  z-index: 40;
+}
+
+/* Ensure dropdown is ABOVE overlay */
+.header-dropdown-content {
+  z-index: 50 !important;
+}
+
+/* Optional: blur effect (uncomment if you want) */
+.header-dropdown-overlay {
+  background: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
+}
+
 .logoutBtn-in-drop-header:hover {
   background-color: #b91c1c;
   /* red-700 */
@@ -1434,7 +1455,7 @@ html {
   gap: 25px;
 }
 .header .navInner .logo {
-  height: 48px;
+  height: 70px;
   -o-object-fit: contain;
      object-fit: contain;
   width: auto;
@@ -3314,6 +3335,7 @@ html {
 .footer .footer-logos {
   display: flex;
   gap: 12px;
+  flex-direction: column;
 }
 @media screen and (max-width: 640px) {
   .footer .footer-logos {
@@ -3333,8 +3355,8 @@ html {
   font-size: 11px;
 }
 .footer .footer-logos .footer-logo-box img {
-  width: 40px;
-  height: auto;
+  height: 40px;
+  width: auto;
 }
 .footer .footer-copy {
   font-size: 14px;
@@ -5038,11 +5060,6 @@ select:focus-visible {
   margin: 0;
   font-weight: 600;
   text-align: center;
-  margin-bottom: 32px;
-}
-.license-summery-container .summery-section {
-  background: #F9FAFB;
-  border-radius: 12px;
   margin-bottom: 32px;
 }
 .license-summery-container .section-header-summery {

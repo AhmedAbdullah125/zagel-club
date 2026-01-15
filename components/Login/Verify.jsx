@@ -40,7 +40,7 @@ export default function Verify({ formData, setFormData, step, setStep, lang, lin
     const onSubmit = (data) => {
         const neededData = { ...formData, ...data }
         setFormData(neededData)
-        verifyRequest(neededData, setLoading, lang, setStep, link, router)
+        verifyRequest(neededData, setLoading, lang, setStep, step, link, router)
 
     };
 
@@ -55,11 +55,16 @@ export default function Verify({ formData, setFormData, step, setStep, lang, lin
 
         return () => clearInterval(intervalId);
     }, [resendCooldown]);
+    const nextStep = () => {
+        setResendCooldown(30);
+
+    }
     const handleResendOTP = () => {
         if (resendCooldown > 0) return;
-        setResendCooldown(30);
-        sendCode(formData, setLoading, lang)
+        sendCode(formData, setLoading, lang, nextStep)
     };
+    console.log(formData);
+
     return (
         <div className="login-container">
             <div className="login-card">
@@ -68,7 +73,7 @@ export default function Verify({ formData, setFormData, step, setStep, lang, lin
                     <div className="login-form-section">
                         <div className="login-header">
                             <h1 className="login-title">{t(lang, "verify")}</h1>
-                            <p className="login-subtitle">{t(lang, "verify_subtitle_part1")} <span dir="ltr">{formData?.country + formData?.phone}</span> {t(lang, "verify_subtitle_part2")}</p>
+                            <p className="login-subtitle">{t(lang, "verify_subtitle_part1")} <span dir="ltr">{formData?.country?.split(" ")[0] + formData?.phone}</span> {t(lang, "verify_subtitle_part2")}</p>
                         </div>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>

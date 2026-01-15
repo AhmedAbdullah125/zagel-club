@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { cn } from "@/lib/utils";
 import { sendCode } from "../Requests/sendCode";
@@ -20,6 +20,9 @@ export default function EditPhoneNumberOTP({ lang, countryCode, phone, nextStep 
     const otpSchema = z.object({ code: z.string().length(4, { message: t(lang, "verify_code_length") }).regex(/^[0-9]+$/, { message: t(lang, "verify_code_numbers_only") }), });
     const form = useForm({ resolver: zodResolver(otpSchema), defaultValues: { code: "" }, });
     // Auto-send activation code on component mount
+    const newNextStep = () => {
+        setLoading(false)
+    }
     useEffect(() => {
         if (phone && countryCode && !hasCodeBeenSent.current) {
             hasCodeBeenSent.current = true;
@@ -27,7 +30,7 @@ export default function EditPhoneNumberOTP({ lang, countryCode, phone, nextStep 
                 phone: phone,
                 country: countryCode
             };
-            sendCode(data, setLoading, lang);
+            sendCode(data, setLoading, lang, newNextStep);
         }
     }, []);
 
@@ -41,15 +44,17 @@ export default function EditPhoneNumberOTP({ lang, countryCode, phone, nextStep 
     const onSubmit = (data) => {
         verifyRequestCustom(data, countryCode, phone, setLoading, lang, nextStep);
     };
-
+    const handleUpdateCounter = () => {
+        setTimer(39);
+    }
     const handleResend = () => {
         if (phone && countryCode) {
             const data = {
                 phone: phone,
                 country: countryCode
             };
-            sendCode(data, setLoading, lang);
-            setTimer(39);
+            sendCode(data, setLoading, lang, handleUpdateCounter);
+
         }
     };
 

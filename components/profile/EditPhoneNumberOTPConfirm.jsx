@@ -28,15 +28,16 @@ export default function EditPhoneNumberOTPConfirm({ lang, countryCode, phone, ne
     const onSubmit = (data) => {
         verifyRequestCustom(data, countryCode, phone, setLoading, lang, nextStep);
     };
-
+    const handleUpdateCounter = () => {
+        setTimer(39);
+    }
     const handleResend = () => {
         if (phone && countryCode) {
             const data = {
                 phone: phone,
                 country: countryCode
             };
-            sendCode(data, setLoading, lang);
-            setTimer(39);
+            sendCode(data, setLoading, lang, handleUpdateCounter);
         }
     };
 

@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -74,7 +74,10 @@ export default function Register({ step, formData, setFormData, lang, setStep })
 
         },
     })
-
+    useEffect(() => {
+        setSelectedCityRegions(cities?.filter(city => city.id === formData?.city)[0]?.regions)
+        form.setValue("administrativeRegion", formData?.administrativeRegion || "")
+    }, [cities])
     const onSubmit = (data) => {
         setFormData({ ...formData, ...data })
         setStep(2)

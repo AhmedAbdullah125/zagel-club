@@ -37,7 +37,7 @@ export async function loginRequest(data, setLoading, lang, setStep, router) {
         if (response.data.key === "success" || "needActive") {
             setLoading(false)
             if (response.data.key === "needActive") {
-                setStep("verify")
+                setStep(2)
                 toast(message, {
                     style: {
                         background: "#1B8354",

@@ -98,8 +98,8 @@ function CountryCodeCombobox({
                         {value ? (
                             <>
                                 {/* try to show selected flag if we can infer it */}
-                                <span className={`fi fi-${items.find((item) => item.calling === value.split("+")[1])?.iso2.toLowerCase()}`} />
-                                <span className="opacity-80">{value}</span>
+                                <span className={`fi fi-${items.find((item) => item.calling === value.split("+")[1].split(" ")[0])?.iso2.toLowerCase()}`} />
+                                <span className="opacity-80">{value.split(" ")[0]}</span>
                             </>
                         ) : (
                             <span className="opacity-70">{placeholder}</span>

@@ -44,7 +44,7 @@ export function mapNotificationToUI(n: IncomingNotification) {
         case NotificationTypeEnum.SERVICE_REQUEST:
             return {
                 label: "Service request",
-                route: refId ? `/order/${refId}` : "/services",
+                route: refId ? `/order/${refId}` : "/orders",
                 tone: "info" as const,
             };
 

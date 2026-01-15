@@ -11,6 +11,27 @@
     transition: background-color 0.2s ease-in-out;
 }
 
+/* Overlay that darkens the page when dropdown is open */
+.header-dropdown-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    /* like your screenshot */
+    z-index: 40;
+}
+
+/* Ensure dropdown is ABOVE overlay */
+.header-dropdown-content {
+    z-index: 50 !important;
+}
+
+/* Optional: blur effect (uncomment if you want) */
+
+.header-dropdown-overlay {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+}
+
 .logoutBtn-in-drop-header:hover {
     background-color: #b91c1c;
     /* red-700 */
@@ -49,7 +70,6 @@
 
     }
 
-
     .navInner {
         display: flex;
         align-items: center;
@@ -57,7 +77,7 @@
         gap: 25px;
 
         .logo {
-            height: 48px;
+            height: 70px;
             object-fit: contain;
             width: auto;
         }
