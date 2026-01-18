@@ -3354,6 +3354,13 @@ html {
   gap: 6px;
   font-size: 11px;
 }
+@media screen and (max-width: 640px) {
+  .footer .footer-logos .footer-logo-box {
+    text-align: center;
+    width: 100%;
+    justify-content: center;
+  }
+}
 .footer .footer-logos .footer-logo-box img {
   height: 40px;
   width: auto;

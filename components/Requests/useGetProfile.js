@@ -63,7 +63,7 @@ export const useGetProfile = (lang) => {
   const query = useQuery({
     queryKey: ["profile", lang],
     queryFn: () => fetchProfile(lang),
-    staleTime: 1000 * 30,
+    staleTime: 1000 * 5,
     gcTime: 1000 * 60,
 
     // ✅ STOP the 3 retries when unauthorized
