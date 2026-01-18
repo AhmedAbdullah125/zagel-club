@@ -46,7 +46,7 @@ const makeContactSchema = (lang) =>
             .transform((v) => v.trim().replace(/\s+/g, " "))
             .refine((v) => {
                 const parts = v.split(" ");
-                return parts.length === 2 && parts.every((p) => p.length >= 1);
+                return parts.length >= 2 && parts.every((p) => p.length >= 1);
             }, { message: t(lang, "name_must_be_two_words") }),
 
         message: z

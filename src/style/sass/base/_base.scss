@@ -61,6 +61,34 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'ExpoArabic';
+  src: url('../webfonts/ExpoArabic/ExpoArabic-Medium.woff2') format('woff2'),
+    url('../webfonts/ExpoArabic/ExpoArabic-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ExpoArabic';
+  src: url('../webfonts/ExpoArabic/ExpoArabic-Book.woff2') format('woff2'),
+    url('../webfonts/ExpoArabic/ExpoArabic-Book.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ExpoArabic';
+  src: url('../webfonts/ExpoArabic/ExpoArabic-Light.woff2') format('woff2'),
+    url('../webfonts/ExpoArabic/ExpoArabic-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 body {
   font-family: "IBMPlexSansArabic";
   box-sizing: border-box;
@@ -68,9 +96,12 @@ body {
   font-weight: 400;
   background-color: $white;
 }
+
 ::selection {
-  background-color: $main; /* Sets the background color to yellow-orange */
-  color: $white; /* Sets the text color to black */
+  background-color: $main;
+  /* Sets the background color to yellow-orange */
+  color: $white;
+  /* Sets the text color to black */
 }
 
 /* For older versions of Firefox (version 61 and earlier) */
@@ -78,6 +109,7 @@ body {
   background-color: $main;
   color: $white;
 }
+
 .overflow {
   overflow: hidden;
 }
@@ -334,9 +366,12 @@ html {
 
 /* Hide scrollbar for .disabled-scroll */
 .disabled-scroll {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  overflow: hidden; /* Prevent scrolling */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  overflow: hidden;
+  /* Prevent scrolling */
 }
 
 /* Hide scrollbar for Chrome, Safari, and Edge */
@@ -346,25 +381,29 @@ html {
 
 /* Ensure .sub-ticket-cont-container inside .disabled-scroll has a scrollbar */
 .sub-ticket-cont-container {
-  overflow: auto; /* Ensure it can scroll */
-  scrollbar-width: thin; /* Firefox - makes scrollbar visible */
+  overflow: auto;
+  /* Ensure it can scroll */
+  scrollbar-width: thin;
+
+  /* Firefox - makes scrollbar visible */
   ::-webkit-scrollbar-track {
-      background: $main;
-    }
-    
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: $hover;
-    }
-    
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-      background: $hover;
-    }
+    background: $main;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $hover;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: $hover;
+  }
 }
 
 /* Visible scrollbar for Chrome, Safari, and Edge */
 .sub-ticket-cont-container::-webkit-scrollbar {
-  width: 4px; /* Adjust scrollbar width */
+  width: 4px;
+  /* Adjust scrollbar width */
   background-color: $main;
 }
